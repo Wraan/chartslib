@@ -3,10 +3,10 @@ package com.graphs.lib.graph.element;
 import processing.core.PApplet;
 
 public class Line implements Drawable{
-    private int thickness;
     private Point start;
     private Point end;
-    private Color color;
+    private Color color = new Color(0,0,0);
+    private int thickness = 1;
     private PApplet parent;
 
     public Line(PApplet parent, Point start, Point end, int thickness, Color color) {
@@ -20,15 +20,12 @@ public class Line implements Drawable{
         this.thickness = thickness;
         this.start = start;
         this.end = end;
-        this.color = new Color(0,0,0);
         this.parent = parent;
     }
 
     public Line(PApplet parent, Point start, Point end) {
-        this.thickness = 1;
         this.start = start;
         this.end = end;
-        this.color = new Color(0,0,0);
         this.parent = parent;
     }
 
