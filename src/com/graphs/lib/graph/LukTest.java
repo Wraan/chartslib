@@ -15,8 +15,7 @@ public class LukTest extends Graph {
 
     @Override
     public void draw(){
-        Arc arc1 = new Arc(new Point(100,100),100, PConstants.PI,2*PConstants.PI,3,this,
-                new Color(0,255,0),new Color(0,0,0),1);
+        Arc arc1 = new Arc(this, new Point(100,100),100, PConstants.PI,2*PConstants.PI, new Color(0,255,0),3, new Color(0,0,0),1);
         arc1.draw();
 
     }
