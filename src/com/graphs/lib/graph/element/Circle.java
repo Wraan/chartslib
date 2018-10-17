@@ -6,28 +6,54 @@ public class Circle implements Drawable{
     private Point middle;
     private int radius;
     private PApplet parent;
-    private int rgb;
+    private Color color = new Color(0,0,0);
+    private Color outColor = new Color(0,0,0);
+    private int thickness = 1;
 
     public Circle(PApplet parent, Point middle, int radius) {
         this.middle = middle;
         this.radius = radius;
         this.parent = parent;
-        this.rgb = 120;
     }
 
-    public Circle(PApplet parent, Point middle, int radius, int rgb) {
+    public Circle(PApplet parent, Point middle, int radius, Color color) {
         this.middle = middle;
         this.radius = radius;
         this.parent = parent;
-        this.rgb = rgb;
+        this.color = color;
     }
 
-    public int getRgb() {
-        return rgb;
+    public Circle(PApplet parent, Point middle, int radius, Color color, int thickness, Color outColor) {
+        this.middle = middle;
+        this.radius = radius;
+        this.parent = parent;
+        this.color = color;
+        this.thickness = thickness;
+        this.outColor = outColor;
     }
 
-    public void setRgb(int rgb) {
-        this.rgb = rgb;
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getOutColor() {
+        return outColor;
+    }
+
+    public void setOutColor(Color outColor) {
+        this.outColor = outColor;
+    }
+
+    public int getThickness() {
+        return thickness;
+    }
+
+    public void setThickness(int thickness) {
+        this.thickness = thickness;
     }
 
     public Point getMiddle() {
@@ -47,7 +73,9 @@ public class Circle implements Drawable{
     }
 
     public void draw(){
-        parent.fill(rgb);
+        parent.fill(color.getR(), color.getG(), color.getB());
+        parent.stroke(outColor.getR(), outColor.getG(), outColor.getB());
+        parent.strokeWeight(thickness);
         parent.ellipse(middle.getX(), middle.getY(), 2*radius, 2*radius);
     }
 }
