@@ -7,29 +7,57 @@ public class Ellipse implements Drawable{
     private int radiusX;
     private int radiusY;
     private PApplet parent;
-    private int rgb;
-
-    public int getRgb() {
-        return rgb;
-    }
-
-    public void setRgb(int rgb) {
-        this.rgb = rgb;
-    }
+    private Color color = new Color(0,0,0);
+    private Color outColor = new Color(0,0,0);
+    private int thickness = 1;
 
     public Ellipse(PApplet parent, Point middle, int radiusX, int radiusY) {
         this.middle = middle;
         this.radiusX = radiusX;
         this.radiusY = radiusY;
         this.parent = parent;
-        this.rgb = 120;
     }
-    public Ellipse(PApplet parent, Point middle, int radiusX, int radiusY, int rgb) {
+
+    public Ellipse(PApplet parent, Point middle, int radiusX, int radiusY, Color color) {
         this.middle = middle;
         this.radiusX = radiusX;
         this.radiusY = radiusY;
         this.parent = parent;
-        this.rgb = rgb;
+        this.color = color;
+    }
+
+    public Ellipse(PApplet parent, Point middle, int radiusX, int radiusY, Color color, int thickness, Color outColor) {
+        this.middle = middle;
+        this.radiusX = radiusX;
+        this.radiusY = radiusY;
+        this.parent = parent;
+        this.color = color;
+        this.thickness = thickness;
+        this.outColor = outColor;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getOutColor() {
+        return outColor;
+    }
+
+    public void setOutColor(Color outColor) {
+        this.outColor = outColor;
+    }
+
+    public int getThickness() {
+        return thickness;
+    }
+
+    public void setThickness(int thickness) {
+        this.thickness = thickness;
     }
 
     public int getRadiusX() {
@@ -57,7 +85,9 @@ public class Ellipse implements Drawable{
     }
 
     public void draw(){
-        parent.fill(rgb);
+        parent.fill(color.getR(), color.getG(), color.getB());
+        parent.stroke(outColor.getR(), outColor.getG(), outColor.getB());
+        parent.strokeWeight(thickness);
         parent.ellipse(middle.getX(), middle.getY(), 2*radiusX, 2*radiusY);
     }
 }
