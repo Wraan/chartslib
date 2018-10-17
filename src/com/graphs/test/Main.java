@@ -1,6 +1,6 @@
 package com.graphs.test;
 
-import com.graphs.lib.PieChart;
+import com.graphs.lib.graph.PieChart;
 
 public class Main {
     public static void main(String[] args) {
