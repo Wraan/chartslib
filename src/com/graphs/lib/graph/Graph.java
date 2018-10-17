@@ -1,4 +1,4 @@
-package com.graphs.lib;
+package com.graphs.lib.graph;
 
 import processing.core.PApplet;
 
@@ -23,8 +23,5 @@ abstract class Graph extends PApplet {
     public void setup() {
         surface.setResizable(false);
     }
-    public void draw() {
-        fill(240);
-        ellipse((float)(0.4*width), (float)(0.55*height), (float)(0.7*height), (float)(0.7*height));
-    }
+    public abstract void draw();
 }
