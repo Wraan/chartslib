@@ -1,4 +1,4 @@
-package com.graphs.lib;
+package com.graphs.lib.element;
 
 import processing.core.PApplet;
 
