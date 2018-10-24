@@ -15,7 +15,7 @@ public class Arc implements Drawable{
     private Color outColor;
     private int thickness;
 
-    public Arc(Point center, int radius, float start, float stop, int mode, PApplet parent, Color color, Color outColor, int thickness) {
+    public Arc(PApplet parent,Point center, int radius, float start, float stop, int mode, Color color, Color outColor, int thickness) {
         this.center = center;
         this.radius = radius;
         this.start = start;
