@@ -5,7 +5,7 @@ import com.graphs.lib.graph.PieChart;
 
 public class Main {
     public static void main(String[] args) {
-        LukTest pie = new LukTest(1280, 720);
+        PieChart pie = new PieChart(1280, 720);
         pie.run();
     }
 }
