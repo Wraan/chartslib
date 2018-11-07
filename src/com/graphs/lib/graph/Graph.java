@@ -5,8 +5,8 @@ import processing.core.PApplet;
 abstract class Graph extends PApplet {
 
     protected Graph() {
-        this.width = 600;
-        this.height = 800;
+        this.width = 800;
+        this.height = 600;
     }
     protected Graph(int width, int height) {
         this.width = width;
