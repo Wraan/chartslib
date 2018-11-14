@@ -4,18 +4,17 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 
 public class Arc implements Drawable{
-
     private Point center;
     private int radius;
     private float start;
     private float stop;
-    private int mode;
+    private int mode = 3;
     private PApplet parent;
-    private Color color;
-    private Color outColor;
-    private int thickness;
+    private Color color = new Color(0,0,0);
+    private Color outColor = new Color(0,0,0);
+    private int thickness = 1;
 
-    public Arc(Point center, int radius, float start, float stop, int mode, PApplet parent, Color color, Color outColor, int thickness) {
+    public Arc(PApplet parent,Point center, int radius, float start, float stop, Color color, Color outColor, int mode, int thickness) {
         this.center = center;
         this.radius = radius;
         this.start = start;
@@ -25,6 +24,30 @@ public class Arc implements Drawable{
         this.color = color;
         this.outColor = outColor;
         this.thickness = thickness;
+    }
+    public Arc(Point center, int radius, float start, float stop, PApplet parent) {
+        this.center = center;
+        this.radius = radius;
+        this.start = start;
+        this.stop = stop;
+        this.parent = parent;
+    }
+    public Arc(Point center, int radius, float start, float stop, PApplet parent, Color color, int mode) {
+        this.center = center;
+        this.radius = radius;
+        this.start = start;
+        this.stop = stop;
+        this.parent = parent;
+        this.color = color;
+        this.mode = mode;
+    }
+    public Arc(Point center, int radius, float start, float stop, PApplet parent, Color color) {
+        this.center = center;
+        this.radius = radius;
+        this.start = start;
+        this.stop = stop;
+        this.parent = parent;
+        this.color = color;
     }
 
     public Point getCenter() {
