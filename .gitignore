@@ -101,7 +101,7 @@ fabric.properties
 *.tar.gz
 *.rar
 
-# Test class #
+# Test class
 src/com/graphs/test/*
 src/com/graphs/test/
 src/com/graphs/test
