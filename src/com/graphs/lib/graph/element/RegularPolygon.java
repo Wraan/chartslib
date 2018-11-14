@@ -2,8 +2,6 @@ package com.graphs.lib.graph.element;
 
 import processing.core.PApplet;
 
-import java.util.List;
-
 public class RegularPolygon implements Drawable {
     private PApplet parent;
     private Point middle;
@@ -13,6 +11,7 @@ public class RegularPolygon implements Drawable {
     private int thickness = 1;
     private int n;
     private float rotation;
+    private boolean isFill = true;
 
     public RegularPolygon(PApplet parent, Point middle, int radius, int n){
         this.parent = parent;
@@ -92,7 +91,10 @@ public class RegularPolygon implements Drawable {
 
     @Override
     public void draw() {
-        parent.fill(color.getR(), color.getG(), color.getB());
+        if(getIsFill())
+            parent.fill(color.getR(), color.getG(), color.getB());
+        else
+            parent.noFill();
         parent.stroke(outColor.getR(), outColor.getG(), outColor.getB());
         parent.strokeWeight(thickness);
 
@@ -104,5 +106,13 @@ public class RegularPolygon implements Drawable {
             parent.vertex(sx, sy);
         }
         parent.endShape(parent.CLOSE);
+    }
+
+    public boolean getIsFill() {
+        return isFill;
+    }
+
+    public void setIsFill(boolean isFill) {
+        this.isFill = isFill;
     }
 }

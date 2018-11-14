@@ -9,6 +9,7 @@ public class Circle implements Drawable{
     private Color color = new Color(0,0,0);
     private Color outColor = new Color(0,0,0);
     private int thickness = 1;
+    private boolean isFill = true;
 
     public Circle(PApplet parent, Point middle, int radius) {
         this.middle = middle;
@@ -73,9 +74,20 @@ public class Circle implements Drawable{
     }
 
     public void draw(){
-        parent.fill(color.getR(), color.getG(), color.getB());
+        if(getIsFill())
+            parent.fill(color.getR(), color.getG(), color.getB());
+        else
+            parent.noFill();
         parent.stroke(outColor.getR(), outColor.getG(), outColor.getB());
         parent.strokeWeight(thickness);
         parent.ellipse(middle.getX(), middle.getY(), 2*radius, 2*radius);
+    }
+
+    public boolean getIsFill() {
+        return isFill;
+    }
+
+    public void setIsFill(boolean isFill) {
+        this.isFill = isFill;
     }
 }
