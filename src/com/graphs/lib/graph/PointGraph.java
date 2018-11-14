@@ -8,8 +8,8 @@ import java.util.List;
 
 public class PointGraph extends Graph {
     private StepType stepType = StepType.STEP_DISTANCE;
-    private int horizontalSeparatorsAmount = 10;
-    private int verticalSeparatorsAmount = 10;
+    private int horizontalSeparatorsAmount = 20;
+    private int verticalSeparatorsAmount = 20;
     private double vertStepDistance = 1;
     private double horStepDistance = 1;
 
@@ -22,6 +22,8 @@ public class PointGraph extends Graph {
     private double horizonalRatio;
 
     private double x,y;
+
+    private int fontSize = 12;
 
     private List<Point> upPoints = new ArrayList<>(Arrays.asList(
             new Point(10, 5),
@@ -41,6 +43,106 @@ public class PointGraph extends Graph {
         getHighestAndLowestNumbers();
         getVerticalAndHorizontalRatios();
         drawEmptyChart();
+        drawSeparatorsWithLabels();
+        noLoop();
+    }
+
+    private void drawSeparatorsWithLabels() {
+        drawVerticalSeparatorsWithLabels();
+        drawHorizontalSeparatorsWithLabels();
+    }
+
+    private void drawHorizontalSeparatorsWithLabels() {
+        Line line;
+        Text text;
+        if(stepType == StepType.STEP_AMMOUNT) {
+            double step = (highestH - lowestH) / horizontalSeparatorsAmount;
+            for (int i = 0; i <= horizontalSeparatorsAmount; i++) {
+                line = new Line(this, new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), y - 0.005 * height),
+                        new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), y + 0.005 * height));
+                line.draw();
+                text = new Text(this, Double.toString(lowestH+i*step),
+                        new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), y + 0.025 * height));
+                text.setHorizontalAlign("CENTER");
+                text.setVerticalAlign("CENTER");
+                text.setFontSize(fontSize);
+                text.draw();
+            }
+        }
+        else{
+            //left
+            for(int i = 1; x - (i * horStepDistance * horizonalRatio) >= 0.1 * width; i++){
+                line = new Line(this, new Point(x - (i * horStepDistance * horizonalRatio), y-0.005*height),
+                        new Point(x - (i * horStepDistance * horizonalRatio), y+0.005*height));
+                line.draw();
+                text = new Text(this, Double.toString(-i*horStepDistance),
+                        new Point(x - (i * horStepDistance * horizonalRatio), y + 0.025 * height));
+                text.setHorizontalAlign("CENTER");
+                text.setVerticalAlign("CENTER");
+                text.setFontSize(fontSize);
+                text.draw();
+            }
+            //right
+            for(int i = 0; x + (i * horStepDistance * horizonalRatio) <= 0.8 * width; i++){
+                line = new Line(this, new Point(x + (i * horStepDistance * horizonalRatio), y-0.005*height),
+                        new Point(x + (i * horStepDistance * horizonalRatio), y+0.005*height));
+                line.draw();
+                text = new Text(this, Double.toString(i*horStepDistance),
+                        new Point(x + (i * horStepDistance * horizonalRatio), y + 0.025 * height));
+                text.setHorizontalAlign("CENTER");
+                text.setVerticalAlign("CENTER");
+                text.setFontSize(fontSize);
+                text.draw();
+            }
+        }
+    }
+
+    private void drawVerticalSeparatorsWithLabels() {
+        Line line;
+        Text text;
+        if(stepType == StepType.STEP_AMMOUNT){
+            double step = (highestV - lowestV) / horizontalSeparatorsAmount;
+            for(int i = 0; i <= verticalSeparatorsAmount; i++){
+                line = new Line(this, new Point(x-0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)),
+                        new Point(x+0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)));
+                line.draw();
+                text = new Text(this, Double.toString(highestV-i*step),
+                        new Point(x-0.008*width, 0.195*height + (0.7*height * i / verticalSeparatorsAmount))
+                        );
+                text.setHorizontalAlign("RIGHT");
+                text.setVerticalAlign("CENTER");
+                text.setFontSize(fontSize);
+                text.draw();
+            }
+        }
+        else{
+            //up
+            for(int i = 1; y + (i * vertStepDistance * verticalRatio) <= 0.9 * height; i++){
+                line = new Line(this, new Point(x-0.005*width, y + (i * vertStepDistance * verticalRatio)),
+                        new Point(x+0.005*width, y + (i * vertStepDistance * verticalRatio)));
+                line.draw();
+                text = new Text(this, Double.toString(-i*vertStepDistance),
+                        new Point(x-0.008*width, y + (i * vertStepDistance * verticalRatio)- 0.003*height)
+                );
+                text.setHorizontalAlign("RIGHT");
+                text.setVerticalAlign("CENTER");
+                text.setFontSize(fontSize);
+                text.draw();
+            }
+            //down
+            for(int i = 1; y - (i * vertStepDistance * verticalRatio) >= 0.2 * height; i++) {
+                line = new Line(this, new Point(x - 0.005 * width, y - (i * vertStepDistance * verticalRatio)),
+                        new Point(x + 0.005 * width, y - (i * vertStepDistance * verticalRatio)));
+                line.draw();
+                text = new Text(this, Double.toString(i*vertStepDistance),
+                        new Point(x-0.008*width, y - (i * vertStepDistance * verticalRatio) - 0.003*height)
+                );
+                text.setHorizontalAlign("RIGHT");
+                text.setVerticalAlign("CENTER");
+                text.setFontSize(fontSize);
+                text.draw();
+            }
+        }
     }
 
     private void getVerticalAndHorizontalRatios() {
@@ -49,43 +151,40 @@ public class PointGraph extends Graph {
     }
 
     private void getHighestAndLowestNumbers() {
-        lowestH = getLowestY(upPoints);
-        highestH = getHighestY(upPoints);
-        lowestV = getLowestX(upPoints);
-        highestV = getHighestX(upPoints);
+        lowestV = getLowestY(upPoints);
+        highestV = getHighestY(upPoints);
+        lowestH = getLowestX(upPoints);
+        highestH = getHighestX(upPoints);
     }
 
     private void drawEmptyChart() {
         drawVerticalGraphLine();
         drawHorizontalGraphLine();
-        drawHorizontalSeparators();
     }
 
     private void drawHorizontalGraphLine() {
-        if(highestH == 0 && lowestH == 0)
+        if(highestV == 0 && lowestV == 0)
             y = 0.55*height;
-        else if(highestH > 0 && lowestH > 0)
+        else if(highestV > 0 && lowestV > 0)
             y = 0.9*height;
-        else if(highestH < 0 && lowestH < 0)
+        else if(highestV < 0 && lowestV < 0)
             y = 0.2*height;
         else{
-            if (highestH < 0) highestH = -highestH;
-            y = 0.2*height + (verticalRatio * highestH);
+            y = 0.2*height + (verticalRatio * highestV);
         }
         Line line = new Line(this, new Point(0.08*width, y),
                 new Point(0.82*width, y));
         line.draw();
     }
     private void drawVerticalGraphLine(){
-        if(highestV == 0 && lowestV == 0)
+        if(highestH == 0 && lowestH == 0)
             x = 0.45*width;
-        else if(highestV > 0 && lowestV > 0)
+        else if(highestH > 0 && lowestH > 0)
             x = 0.1*width;
-        else if(highestV < 0 && lowestV < 0)
+        else if(highestH < 0 && lowestH < 0)
             x = 0.8*width;
         else {
-            if (lowestV < 0) lowestV = -lowestV;
-            x = 0.1 * width + (horizonalRatio * lowestV);
+            x = 0.1 * width + (horizonalRatio * -lowestH);
         }
         Line line = new Line(this, new Point(x, 0.18*height),
                 new Point(x, 0.92*height));
@@ -124,44 +223,7 @@ public class PointGraph extends Graph {
         }
         return y;
     }
-    private void drawHorizontalSeparators(){
-        //TODO: clean this to look better
-        Line line;
-        if(stepType == StepType.STEP_AMMOUNT){
-            for(int i = 1; i <= horizontalSeparatorsAmount; i++){
-                line = new Line(this, new Point(0.1*width + (0.7*width * i / horizontalSeparatorsAmount), y-0.005*height),
-                        new Point(0.1*width + (0.7*width * i / horizontalSeparatorsAmount), y+0.005*height));
-                line.draw();
-            }
-            for(int i = 0; i < verticalSeparatorsAmount; i++){
-                line = new Line(this, new Point(x-0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)),
-                        new Point(x+0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)));
-                line.draw();
-            }
-        }
-        else{
-            for(int i = 1; x - (i * horStepDistance * horizonalRatio) >= 0.1 * width; i++){
-                line = new Line(this, new Point(x - (i * horStepDistance * horizonalRatio), y-0.005*height),
-                        new Point(x - (i * horStepDistance * horizonalRatio), y+0.005*height));
-                line.draw();
-            }
-            for(int i = 1; x + (i * horStepDistance * horizonalRatio) <= 0.8 * width; i++){
-                line = new Line(this, new Point(x + (i * horStepDistance * horizonalRatio), y-0.005*height),
-                        new Point(x + (i * horStepDistance * horizonalRatio), y+0.005*height));
-                line.draw();
-            }
-            for(int i = 1; y + (i * vertStepDistance * verticalRatio) <= 0.9 * height; i++){
-                line = new Line(this, new Point(x-0.005*width, y + (i * vertStepDistance * verticalRatio)),
-                        new Point(x+0.005*width, y + (i * vertStepDistance * verticalRatio)));
-                line.draw();
-            }
-            for(int i = 1; y - (i * vertStepDistance * verticalRatio) >= 0.2 * height; i++) {
-                line = new Line(this, new Point(x - 0.005 * width, y - (i * vertStepDistance * verticalRatio)),
-                        new Point(x + 0.005 * width, y - (i * vertStepDistance * verticalRatio)));
-                line.draw();
-            }
-        }
-    }
+
     public void setStepType(StepType stepType) {
         this.stepType = stepType;
     }
