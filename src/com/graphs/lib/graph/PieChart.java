@@ -62,7 +62,7 @@ public class PieChart extends Graph {
             randomNum1 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum2 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum3 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
-            arcs.add(new Arc(this,new Point((int)(0.35*width),(int)(0.5*height)),(int)(0.6 * minimum),sum * 2 * PConstants.PI,(float)(sum+ratios.get(i))*PConstants.PI*2,0,new Color(randomNum1,randomNum2,randomNum3),new Color(0,0,0),1));
+            arcs.add(new Arc(this,new Point((int)(0.35*width),(int)(0.5*height)),(int)(0.6 * minimum),sum * 2 * PConstants.PI,(float)(sum+ratios.get(i))*PConstants.PI*2,new Color(randomNum1,randomNum2,randomNum3),new Color(0,0,0),0,1));
             sum+=ratios.get(i);
         }
         return arcs;

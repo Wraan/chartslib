@@ -23,7 +23,7 @@ public class PointGraph extends Graph {
 
     private double x,y;
 
-    List<Point> upPoints = new ArrayList<>(Arrays.asList(
+    private List<Point> upPoints = new ArrayList<>(Arrays.asList(
             new Point(10, 5),
             new Point(0, -5)
     ));
