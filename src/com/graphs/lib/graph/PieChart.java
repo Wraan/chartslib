@@ -111,7 +111,7 @@ public class PieChart extends Graph {
             randomNum2 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum3 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             legendRectangle.add( new Rectangle(this,new Point(0.67*width,(sum*height)),new Point(0.67*width + min(width,height)*0.03 ,sum*height + min(width,height)*0.03),new Color(randomNum1,randomNum2,randomNum3)));
-            legendText.add(new Text(this,"kappa",new Point(0.67*width + min(width,height)*0.04,(sum*height)),new Point(0.98*width,sum*height + min(width,height)*0.03),0.025f*min(width,height),new Color(0,0,0)));
+            legendText.add(new Text(this,values.get(i).getLabel(),new Point(0.67*width + min(width,height)*0.04,(sum*height)),new Point(0.98*width,sum*height + min(width,height)*0.03),0.025f*min(width,height),new Color(0,0,0)));
             sum += ratio;
         }
     }
