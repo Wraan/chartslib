@@ -11,7 +11,7 @@ public class PieChart extends Graph {
 
     private List<GraphData<Double>> values = new ArrayList<>();
     private List<GraphData<Double>> ratios = new ArrayList<>();
-    private List<Arc> arcs;
+    private List<Arc> arcs = new ArrayList<>();
     private List<Rectangle> legendRectangle = new ArrayList<>();
     private List<Text> legendText = new ArrayList<>();
     private Boolean isLegendEnabled = false;
@@ -22,7 +22,6 @@ public class PieChart extends Graph {
 
     public PieChart(List<Double> values){
         createValuesList(values);
-
     }
 
     public PieChart(int width, int height,List<String> labels, List<Double> values) throws Exception {
@@ -71,7 +70,7 @@ public class PieChart extends Graph {
         }
     }
     private void createArcs(){
-        //To do specific colors
+        //Todo specific colors
         List<Arc> createdArcs = new ArrayList<>();
         float sum = 0;
         int randomNum1,randomNum2,randomNum3;
@@ -79,11 +78,11 @@ public class PieChart extends Graph {
         Point center;
         int radius;
         if(isLegendEnabled){
-            center = new Point((int)(0.35*width),(int)(0.5*height));
+            center = new Point(0.35*width,0.5*height);
             radius = (int)(0.6 * minimum);
         }
         else{
-            center = new Point((int)(0.5*width),(int)(0.5*height));
+            center = new Point(0.5*width,0.5*height);
             radius = (int)(0.80 * minimum);
         }
 
@@ -111,8 +110,8 @@ public class PieChart extends Graph {
             randomNum1 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum2 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum3 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
-            legendRectangle.add( new Rectangle(this,new Point((int)(0.67*width),(int)(sum*height)),new Point((int)(0.67*width + min(width,height)*0.03 ),(int)(sum*height + min(width,height)*0.03)),new Color(randomNum1,randomNum2,randomNum3)));
-            legendText.add(new Text(this,"kappa",new Point((int)(0.67*width + min(width,height)*0.04),(int)(sum*height)),new Point((int)(0.98*width),(int)(sum*height + min(width,height)*0.03)),0.025f*min(width,height),new Color(0,0,0)));
+            legendRectangle.add( new Rectangle(this,new Point(0.67*width,(sum*height)),new Point(0.67*width + min(width,height)*0.03 ,sum*height + min(width,height)*0.03),new Color(randomNum1,randomNum2,randomNum3)));
+            legendText.add(new Text(this,"kappa",new Point(0.67*width + min(width,height)*0.04,(sum*height)),new Point(0.98*width,sum*height + min(width,height)*0.03),0.025f*min(width,height),new Color(0,0,0)));
             sum += ratio;
         }
     }
@@ -135,8 +134,8 @@ public class PieChart extends Graph {
         drawTitle();
     }
     private void drawTitle(){
-            Text text =new Text(this,title,new Point((int)(0.1*width),(int)(0.02*height)),new Point((int)(0.9*width),(int)(0.1 * height)),0.05f*min(width,height),new Color(0,0,0));
-            //To do Set align
+            Text text =new Text(this,title,new Point(0.1*width,0.02*height),new Point(0.9*width,0.1 * height),0.05f*min(width,height),new Color(0,0,0));
+            //Todo: Set align
             text.draw();
     }
     public void enableLegend(){
