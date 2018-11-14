@@ -11,11 +11,11 @@ public class Text implements Drawable {
     private Point rightDown;
     private PApplet parent;
 
-    Text(PApplet parent, String text, Rectangle area) {
+    public Text(PApplet parent, String text, Rectangle area) {
         this(parent, text, area.getLeftUp(), area.getRightDown());
     }
 
-    Text(PApplet parent, String text, Point leftUp, Point rightDown)
+    public Text(PApplet parent, String text, Point leftUp, Point rightDown)
     {
         this.parent = parent;
         this.setText(text);
@@ -24,8 +24,17 @@ public class Text implements Drawable {
         this.setFontSize(8);
         this.setFontColor(new Color(255,255,255));
     }
+    public Text(PApplet parent, String text, Point leftUp, Point rightDown, float fontSize,Color color)
+    {
+        this.parent = parent;
+        this.setText(text);
+        this.setLeftUp(leftUp);
+        this.setRightDown(rightDown);
+        this.setFontSize(fontSize);
+        this.setFontColor(color);
+    }
 
-    Text(PApplet parent, String text, Point leftUp)
+    public Text(PApplet parent, String text, Point leftUp)
     {
         this(parent, text, leftUp, null);
     }
