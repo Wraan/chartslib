@@ -33,8 +33,6 @@ public class Text implements Drawable {
             this.alignV = 3; //center
     }
 
-
-
     public Text(PApplet parent, String text, Rectangle area) {
         this(parent, text, area.getLeftUp(), area.getRightDown());
     }
@@ -48,14 +46,20 @@ public class Text implements Drawable {
         this.setFontSize(8);
         this.setFontColor(new Color(0,0,0));
     }
+    public Text(PApplet parent, String text, Point leftUp, Point rightDown, float fontSize,Color color)
+    {
+        this.parent = parent;
+        this.setText(text);
+        this.setLeftUp(leftUp);
+        this.setRightDown(rightDown);
+        this.setFontSize(fontSize);
+        this.setFontColor(color);
+    }
 
     public Text(PApplet parent, String text, Point leftUp)
     {
         this(parent, text, leftUp, null);
     }
-
-
-
 
     @Override
     public void draw() {
