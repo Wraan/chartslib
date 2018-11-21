@@ -20,40 +20,10 @@ public class PieChart extends Graph {
     public PieChart(){
     }
 
-    public PieChart(List<Double> values){
-        createValuesList(values);
-    }
-
-    public PieChart(int width, int height,List<String> labels, List<Double> values) throws Exception {
+    public PieChart(int width, int height) {
         super(width, height);
-        if(width< 300)
-            throw new Exception("Window width must be at least 300");
-        if(labels.size() != values.size())
-            throw new Exception("Number of labels is different than number of values");
-        createValuesList(labels,values);
     }
 
-    public PieChart(List<String> labels, List<Double> values) throws Exception {
-        if(labels.size() != values.size())
-            throw new Exception("Number of labels is different than number of values");
-        createValuesList(labels,values);
-    }
-
-    public PieChart(int width, int height, List<Double> values) throws Exception {
-        super(width, height);
-        if(width< 300)
-            throw new Exception("Window width must be at least 300");
-        createValuesList(values);
-    }
-
-    private void createValuesList(List<String> labels, List<Double> values){
-        for(int i = 0; i<values.size(); i++)
-            this.values.add(new GraphData<>(labels.get(i), values.get(i)));
-    }
-    private void createValuesList(List<Double> values){
-        for(int i = 0; i<values.size(); i++)
-            this.values.add(new GraphData<>("Null", values.get(i)));
-    }
     private void countRatiosOfSeries(){
         List<Double> ratios= new ArrayList<>();
         double sum = 0;
@@ -124,6 +94,9 @@ public class PieChart extends Graph {
         }
     }
     private void createChart(){
+        // Todo appropriate colors
+        if(values.size() == 0)
+            insertData(new GraphData<>("Null",1.0));
         countRatiosOfSeries();
         createArcs();
         drawArcs();
@@ -137,6 +110,13 @@ public class PieChart extends Graph {
             Text text =new Text(this,title,new Point(0.1*width,0.02*height),new Point(0.9*width,0.1 * height),0.05f*min(width,height),new Color(0,0,0));
             //Todo: Set align
             text.draw();
+    }
+
+    public void insertData(List<GraphData<Double>> data){
+        this.values = data;
+    }
+    public void insertData(GraphData<Double> data){
+        this.values.add(data);
     }
     public void enableLegend(){
         isLegendEnabled = true;
