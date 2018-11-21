@@ -7,73 +7,91 @@ import com.graphs.lib.graph.element.*;
 import java.util.ArrayList;
 
 public class RadarChart extends Graph {
-    private String[]                    labels;
-    private ArrayList<double[]>         data;
-    private ArrayList<String>           seriesName;
-    private Contour                     contour;
-    private String                      title;
-    private double                      step;
-    private Color                       contourColor;
-    private double                      radius;
-
+    private String[]                                labels = null;
+    private ArrayList<GraphData<double[]>>          data = null;
+    private Contour                                 contour = Contour.Circle;
+    private String                                  title = "";
+    private double                                  step = 0.0;
+    private Color                                   contourColor = new Color(0, 0, 0);
+    private float                                   radius;
+    private float                                   radiusStep;
+    private Point                                   graphCenter = new Point(width/3+10, height/2 + 30);
     public RadarChart(int width, int height) {
         super(width, height);
-        this.labels = null;
-        data = new ArrayList<double[]>();
-        double[] test = new double[3];
-        for(int i = 0; i <test.length; i++)
-            test[i] = (double)i;
-        data.add(test);
-        setSeriesName(new ArrayList<String>());
-        this.setContour(Contour.Circle);
-        setTitle("");
-        step = 0.0;
     }
 
-    //TODO add custom exception
-    public void addSeries(double[] series, String seriesName) throws Exception {
-        if(labels.length != series.length) {
-            throw new Exception("TODO");
+    //TODO add custom exception of incorrect series length
+    public void addSeries(GraphData<double[]> series)  {
+        if(data == null) {
+            data = new ArrayList<GraphData<double[]>>();
+            data.add(series);
+        } else {
+            if(data.get(0).getData().length != series.getData().length) {
+                //TODO: throw new Exception("");
+            }
+            else {
+                data.add(series);
+            }
         }
-        data.add(series);
-
     }
 
-    public void addSeries(double[] series) throws Exception {
-        this.addSeries(series, "series"+(data.size()+1));
+    public void addSeries(double[] series, String label) {
+        GraphData<double[]> newSeries = new GraphData<>(label, series);
+        this.addSeries(newSeries);
     }
+
+
+    @Override
+    public void draw() {
+        drawTitle();
+        drawEmptyChart();
+        drawContour();
+        drawData();
+        drawLabels();
+        noLoop();
+    }
+
 
     private void drawEmptyChart() {
-        int x = width/3;
-        int y = height/2;
-        Point center = new Point(x, y);
-        radius = (double)(min(x,y)*0.8f);
-        for (float a = 0; a < TWO_PI; a += TWO_PI/data.get(0).length) {
-            double sx = x + cos(a - HALF_PI) * (radius + 25);
-            double sy = y + sin(a - HALF_PI) * (radius + 25);
-            Line line = new Line(this, center, new Point((int)sx, (int)sy));
+        radius = (min(graphCenter.getX(),graphCenter.getY())*0.6f);
+        for (float a = 0; a < TWO_PI; a += TWO_PI/data.get(0).getData().length) {
+            Point point = polarCoordinatesInGraph(a - HALF_PI, radius + 10);
+            Line line = new Line(this, graphCenter, point);
             line.setThickness(3);
             line.draw();
         }
     }
 
-    private void drawLegend() {
-        //TODO drawLegend
-        Rectangle textArea = new Rectangle(this, new Point((int)(width*0.8),(int)(height*0.8)), new Point(width-10, height-10));
-        textArea.setThickness(3);
-        //Text legendTitle = new Text()
+    private void drawTitle() {
+        Rectangle textArea = new Rectangle(this, new Point(0, 0), new Point(width, height));
+        Text text = new Text(this, title, textArea);
+        text.setFontSize(30);
+        //TODO add centering
+        text.draw();
     }
 
-    private void drawSeries() {
-        //TODO drawSeries
+    private void drawSeries(GraphData<double[]> series) {
+        float a = 0.0f;
+        Point[] points = new Point[series.getData().length];
+        for(int i = 0; i < points.length; i++, a += TWO_PI/series.getData().length) {
+            points[i] = polarCoordinatesInGraph(a - HALF_PI, radiusStep * (float)series.getData()[i]);
+        }
+        Polygon polygon = new Polygon(this, points);
+        polygon.setIsFill(false);
+        polygon.setOutColor(new Color(255, 0, 255));
+        polygon.draw();
     }
 
     private void drawLabels() {
-        //TODO drawLabels
+        //TODO drawLabels function
+        for (int i = 0; i < labels.length; i++) {
+            Point point = polarCoordinatesInGraph(i * radiusStep, radius);
+            point.setX(point.getX() - graphCenter.getX());
+            point.setY(point.getY() - graphCenter.getY());
+        }
     }
-
     private void drawContour()   {
-        //TODO Contour, Exception
+        //TODO more Contour, Exception
         if(step == 0.0) {
             step = calculateStep();
         }
@@ -86,9 +104,15 @@ public class RadarChart extends Graph {
 
     }
 
+    private void drawData() {
+        for(GraphData<double[]> series: data) {
+            drawSeries(series);
+        }
+    }
+
 
     private double calculateStep() {
-        //TODO calcualteStep
+        //TODO calcualteStep function
         double maxValue = getMaxValueOfSeries();
         if(maxValue > 9) {
             int i = 1;
@@ -110,20 +134,24 @@ public class RadarChart extends Graph {
         int y = height/2;
         double maxValue = getMaxValueOfSeries();
         int ratio = (int)(radius/((maxValue/step)+1));
+        radiusStep = (float)step * ratio;
         for(double i = step; i <= maxValue + step; i+= step) {
             Circle circle = new Circle(this, new Point(x, y), (int)(i * ratio));
+            circle.setOutColor(contourColor);
             circle.setIsFill(false);
             circle.draw();
         }
     }
 
     private void drawPolygonContour() {
-        int x = width/3;
-        int y = height/2;
+        float x = graphCenter.getX();
+        float y = graphCenter.getY();
         double maxValue = getMaxValueOfSeries();
         int ratio = (int)(radius/((maxValue/step)+1));
+        radiusStep = (float)step * ratio;
         for(double i = step; i <= maxValue + step; i+= step) {
-            RegularPolygon poly = new RegularPolygon(this, new Point(x, y), (int)(i * ratio), data.get(0).length);
+            RegularPolygon poly = new RegularPolygon(this, new Point(x, y), (int)(i * ratio), data.get(0).getData().length);
+            poly.setOutColor(contourColor);
             poly.setIsFill(false);
             poly.draw();
         }
@@ -137,18 +165,12 @@ public class RadarChart extends Graph {
 
     private double getMaxValueOfSeries() {
         double maxValue = 0.0;
-        for(double[] series: data) {
-            for(double v : series) {
+        for(GraphData<double[]> series: data) {
+            for(double v : series.getData()) {
                 maxValue = v > maxValue ? v : maxValue;
             }
         }
         return maxValue;
-    }
-
-    @Override
-    public void draw() {
-        drawEmptyChart();
-        drawContour();
     }
 
     public Contour getContour() {
@@ -167,12 +189,19 @@ public class RadarChart extends Graph {
         this.title = title;
     }
 
-    public ArrayList<String> getSeriesName() {
-        return seriesName;
+    public String[] getLabels() {
+        return labels;
     }
 
-    public void setSeriesName(ArrayList<String> seriesName) {
-        this.seriesName = seriesName;
+    public void setLabels(String[] labels) {
+        //TODO add exception of incorrect labels length
+        this.labels = labels;
+    }
+
+    private Point polarCoordinatesInGraph(float angle, float radius) {
+        double x = graphCenter.getX() + cos(angle) * radius;
+        double y = graphCenter.getY() + sin(angle) * radius;
+        return new Point(x, y);
     }
 
     public enum Contour{
