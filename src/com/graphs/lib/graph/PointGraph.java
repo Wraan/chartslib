@@ -1,5 +1,6 @@
 package com.graphs.lib.graph;
 
+import com.graphs.lib.graph.data.PointData;
 import com.graphs.lib.graph.element.*;
 
 import java.util.ArrayList;
@@ -21,14 +22,22 @@ public class PointGraph extends Graph {
     private double verticalRatio;
     private double horizonalRatio;
 
-    private double x,y;
+    private double xAxis, yAxis;
 
+    private String title = "no title";
+
+    private int pointSize = 5;
     private int fontSize = 12;
+    private Color pointColor = new Color(127,34,52);
 
-    private List<Point> upPoints = new ArrayList<>(Arrays.asList(
-            new Point(10, 5),
-            new Point(0, -5)
+    private PointData points = new PointData("label", Arrays.asList(
+            new Point(-10, 5),
+            new Point(0, -5),
+            new Point(-3,7),
+            new Point(0,-2),
+            new Point(1,2)
     ));
+    private List<PointData> graphData = new ArrayList<>(Arrays.asList(points));
 
     public PointGraph(int width, int height){
         super(width, height);
@@ -44,7 +53,29 @@ public class PointGraph extends Graph {
         getVerticalAndHorizontalRatios();
         drawEmptyChart();
         drawSeparatorsWithLabels();
+        drawTitle();
+        insertPointsOnChart();
+
         noLoop();
+    }
+
+    private void drawTitle() {
+        Text title = new Text(this, this.title, new Point(0,0), new Point(width, 0.19*height));
+        title.setVerticalAlign("TOP");
+        title.setHorizontalAlign("CENTER");
+        title.setFontSize(40);
+        title.draw();
+    }
+
+    private void insertPointsOnChart() {
+        for(PointData data : graphData)
+            data.getData().forEach(p->{
+            Point middle = new Point(0.1*width + (p.getX()-lowestH)*horizonalRatio, 0.2*height+(highestV-p.getY())*verticalRatio);
+            //TODO: color and size depending on graphData settings
+            Circle circle = new Circle(this, middle, pointSize, pointColor, 3, pointColor);
+            pixelDensity(displayDensity());
+            circle.draw();
+        });
     }
 
     private void drawSeparatorsWithLabels() {
@@ -58,11 +89,11 @@ public class PointGraph extends Graph {
         if(stepType == StepType.STEP_AMMOUNT) {
             double step = (highestH - lowestH) / horizontalSeparatorsAmount;
             for (int i = 0; i <= horizontalSeparatorsAmount; i++) {
-                line = new Line(this, new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), y - 0.005 * height),
-                        new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), y + 0.005 * height));
+                line = new Line(this, new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), yAxis - 0.005 * height),
+                        new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), yAxis + 0.005 * height));
                 line.draw();
                 text = new Text(this, Double.toString(lowestH+i*step),
-                        new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), y + 0.025 * height));
+                        new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), yAxis + 0.025 * height));
                 text.setHorizontalAlign("CENTER");
                 text.setVerticalAlign("CENTER");
                 text.setFontSize(fontSize);
@@ -71,24 +102,24 @@ public class PointGraph extends Graph {
         }
         else{
             //left
-            for(int i = 1; x - (i * horStepDistance * horizonalRatio) >= 0.1 * width; i++){
-                line = new Line(this, new Point(x - (i * horStepDistance * horizonalRatio), y-0.005*height),
-                        new Point(x - (i * horStepDistance * horizonalRatio), y+0.005*height));
+            for(int i = 1; xAxis - (i * horStepDistance * horizonalRatio) >= 0.1 * width; i++){
+                line = new Line(this, new Point(xAxis - (i * horStepDistance * horizonalRatio), yAxis -0.005*height),
+                        new Point(xAxis - (i * horStepDistance * horizonalRatio), yAxis +0.005*height));
                 line.draw();
                 text = new Text(this, Double.toString(-i*horStepDistance),
-                        new Point(x - (i * horStepDistance * horizonalRatio), y + 0.025 * height));
+                        new Point(xAxis - (i * horStepDistance * horizonalRatio), yAxis + 0.025 * height));
                 text.setHorizontalAlign("CENTER");
                 text.setVerticalAlign("CENTER");
                 text.setFontSize(fontSize);
                 text.draw();
             }
             //right
-            for(int i = 0; x + (i * horStepDistance * horizonalRatio) <= 0.8 * width; i++){
-                line = new Line(this, new Point(x + (i * horStepDistance * horizonalRatio), y-0.005*height),
-                        new Point(x + (i * horStepDistance * horizonalRatio), y+0.005*height));
+            for(int i = 0; xAxis + (i * horStepDistance * horizonalRatio) <= 0.8 * width; i++){
+                line = new Line(this, new Point(xAxis + (i * horStepDistance * horizonalRatio), yAxis -0.005*height),
+                        new Point(xAxis + (i * horStepDistance * horizonalRatio), yAxis +0.005*height));
                 line.draw();
                 text = new Text(this, Double.toString(i*horStepDistance),
-                        new Point(x + (i * horStepDistance * horizonalRatio), y + 0.025 * height));
+                        new Point(xAxis + (i * horStepDistance * horizonalRatio), yAxis + 0.025 * height));
                 text.setHorizontalAlign("CENTER");
                 text.setVerticalAlign("CENTER");
                 text.setFontSize(fontSize);
@@ -103,11 +134,11 @@ public class PointGraph extends Graph {
         if(stepType == StepType.STEP_AMMOUNT){
             double step = (highestV - lowestV) / horizontalSeparatorsAmount;
             for(int i = 0; i <= verticalSeparatorsAmount; i++){
-                line = new Line(this, new Point(x-0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)),
-                        new Point(x+0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)));
+                line = new Line(this, new Point(xAxis -0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)),
+                        new Point(xAxis +0.005*width, 0.2*height + (0.7*height * i / verticalSeparatorsAmount)));
                 line.draw();
                 text = new Text(this, Double.toString(highestV-i*step),
-                        new Point(x-0.008*width, 0.195*height + (0.7*height * i / verticalSeparatorsAmount))
+                        new Point(xAxis -0.008*width, 0.195*height + (0.7*height * i / verticalSeparatorsAmount))
                         );
                 text.setHorizontalAlign("RIGHT");
                 text.setVerticalAlign("CENTER");
@@ -117,12 +148,12 @@ public class PointGraph extends Graph {
         }
         else{
             //up
-            for(int i = 1; y + (i * vertStepDistance * verticalRatio) <= 0.9 * height; i++){
-                line = new Line(this, new Point(x-0.005*width, y + (i * vertStepDistance * verticalRatio)),
-                        new Point(x+0.005*width, y + (i * vertStepDistance * verticalRatio)));
+            for(int i = 1; yAxis + (i * vertStepDistance * verticalRatio) <= 0.9 * height; i++){
+                line = new Line(this, new Point(xAxis -0.005*width, yAxis + (i * vertStepDistance * verticalRatio)),
+                        new Point(xAxis +0.005*width, yAxis + (i * vertStepDistance * verticalRatio)));
                 line.draw();
                 text = new Text(this, Double.toString(-i*vertStepDistance),
-                        new Point(x-0.008*width, y + (i * vertStepDistance * verticalRatio)- 0.003*height)
+                        new Point(xAxis -0.008*width, yAxis + (i * vertStepDistance * verticalRatio)- 0.003*height)
                 );
                 text.setHorizontalAlign("RIGHT");
                 text.setVerticalAlign("CENTER");
@@ -130,12 +161,12 @@ public class PointGraph extends Graph {
                 text.draw();
             }
             //down
-            for(int i = 1; y - (i * vertStepDistance * verticalRatio) >= 0.2 * height; i++) {
-                line = new Line(this, new Point(x - 0.005 * width, y - (i * vertStepDistance * verticalRatio)),
-                        new Point(x + 0.005 * width, y - (i * vertStepDistance * verticalRatio)));
+            for(int i = 1; yAxis - (i * vertStepDistance * verticalRatio) >= 0.2 * height; i++) {
+                line = new Line(this, new Point(xAxis - 0.005 * width, yAxis - (i * vertStepDistance * verticalRatio)),
+                        new Point(xAxis + 0.005 * width, yAxis - (i * vertStepDistance * verticalRatio)));
                 line.draw();
                 text = new Text(this, Double.toString(i*vertStepDistance),
-                        new Point(x-0.008*width, y - (i * vertStepDistance * verticalRatio) - 0.003*height)
+                        new Point(xAxis -0.008*width, yAxis - (i * vertStepDistance * verticalRatio) - 0.003*height)
                 );
                 text.setHorizontalAlign("RIGHT");
                 text.setVerticalAlign("CENTER");
@@ -151,10 +182,10 @@ public class PointGraph extends Graph {
     }
 
     private void getHighestAndLowestNumbers() {
-        lowestV = getLowestY(upPoints);
-        highestV = getHighestY(upPoints);
-        lowestH = getLowestX(upPoints);
-        highestH = getHighestX(upPoints);
+        lowestV = getLowestY();
+        highestV = getHighestY();
+        lowestH = getLowestX();
+        highestH = getHighestX();
     }
 
     private void drawEmptyChart() {
@@ -164,62 +195,70 @@ public class PointGraph extends Graph {
 
     private void drawHorizontalGraphLine() {
         if(highestV == 0 && lowestV == 0)
-            y = 0.55*height;
+            yAxis = 0.55*height;
         else if(highestV > 0 && lowestV > 0)
-            y = 0.9*height;
+            yAxis = 0.9*height;
         else if(highestV < 0 && lowestV < 0)
-            y = 0.2*height;
+            yAxis = 0.2*height;
         else{
-            y = 0.2*height + (verticalRatio * highestV);
+            yAxis = 0.2*height + (verticalRatio * highestV);
         }
-        Line line = new Line(this, new Point(0.08*width, y),
-                new Point(0.82*width, y));
+        Line line = new Line(this, new Point(0.08*width, yAxis),
+                new Point(0.82*width, yAxis));
         line.draw();
     }
     private void drawVerticalGraphLine(){
         if(highestH == 0 && lowestH == 0)
-            x = 0.45*width;
+            xAxis = 0.45*width;
         else if(highestH > 0 && lowestH > 0)
-            x = 0.1*width;
+            xAxis = 0.1*width;
         else if(highestH < 0 && lowestH < 0)
-            x = 0.8*width;
+            xAxis = 0.8*width;
         else {
-            x = 0.1 * width + (horizonalRatio * -lowestH);
+            xAxis = 0.1 * width + (horizonalRatio * -lowestH);
         }
-        Line line = new Line(this, new Point(x, 0.18*height),
-                new Point(x, 0.92*height));
+        Line line = new Line(this, new Point(xAxis, 0.18*height),
+                new Point(xAxis, 0.92*height));
         line.draw();
     }
 
-    private double getLowestX(List<Point> points) {
-        double x = points.get(0).getX();
-        for(Point point: points){
-            if(x > point.getX())
-                x = point.getX();
+    private double getLowestX() {
+        double x = graphData.get(0).getData().get(0).getX();
+        for (PointData data : graphData) {
+            for (Point point : data.getData()) {
+                if (x > point.getX())
+                    x = point.getX();
+            }
         }
         return x;
     }
-    private double getHighestX(List<Point> points) {
-        double x = points.get(0).getX();
-        for(Point point: points){
-            if(x < point.getX())
-                x = point.getX();
+    private double getHighestX() {
+        double x = graphData.get(0).getData().get(0).getX();
+        for (PointData data : graphData) {
+            for (Point point : data.getData()) {
+                if (x < point.getX())
+                    x = point.getX();
+            }
         }
         return x;
     }
-    private double getLowestY(List<Point> points) {
-        double y = points.get(0).getY();
-        for(Point point: points){
-            if(y > point.getY())
-                y = point.getY();
+    private double getLowestY() {
+        double y = graphData.get(0).getData().get(0).getY();
+        for (PointData data : graphData) {
+            for (Point point : data.getData()) {
+                if (y > point.getY())
+                    y = point.getY();
+            }
         }
         return y;
     }
-    private double getHighestY(List<Point> points) {
-        double y = points.get(0).getY();
-        for(Point point: points){
-            if(y < point.getY())
-                y = point.getY();
+    private double getHighestY() {
+        double y = graphData.get(0).getData().get(0).getY();
+        for (PointData data : graphData) {
+            for (Point point : data.getData()) {
+                if (y < point.getY())
+                    y = point.getY();
+            }
         }
         return y;
     }
@@ -243,4 +282,11 @@ public class PointGraph extends Graph {
         this.horStepDistance = horStepDistance;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
