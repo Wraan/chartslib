@@ -3,6 +3,8 @@ package com.graphs.lib.graph.element;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import java.util.Arrays;
+
 public class Text implements Drawable {
 
     private String text;
@@ -15,22 +17,18 @@ public class Text implements Drawable {
     private int alignV = 3; //center
     private int alignH = 37; //left
 
-    public void setHorizontalAlign(String CAPITAL_Align) {
-        if(CAPITAL_Align.equals("CENTER"))
-            this.alignH = 3;
-        else if(CAPITAL_Align.equals("RIGHT"))
-            this.alignH = 39;
+    public void setHorizontalAlign(Align align) {
+        if (Arrays.asList(Align.CENTER, Align.LEFT, Align.RIGHT).contains(align))
+            this.alignH = align.getValue();
         else
-            this.alignH = 37; //left
+            this.alignH = Align.CENTER.getValue();
     }
 
-    public void setVerticalAlign(String CAPITAL_Align) {
-        if(CAPITAL_Align.equals("BOTTOM"))
-            this.alignV = 102;
-        else if(CAPITAL_Align.equals("TOP"))
-            this.alignV = 101;
+    public void setVerticalAlign(Align align) {
+        if (Arrays.asList(Align.CENTER, Align.TOP, Align.BOTTOM).contains(align))
+            this.alignV = align.getValue();
         else
-            this.alignV = 3; //center
+            this.alignV = Align.CENTER.getValue();
     }
 
     public Text(PApplet parent, String text, Rectangle area) {
@@ -70,8 +68,8 @@ public class Text implements Drawable {
             parent.text(text, getLeftUp().getX(), getLeftUp().getY(), getRightDown().getX()-getLeftUp().getX(), getRightDown().getY()-getLeftUp().getY());
         else
             parent.text(text, getLeftUp().getX(), getLeftUp().getY());
-        parent.textSize(8);
-        parent.fill(255,255,255);
+        //parent.textSize(8);
+        //parent.fill(255,255,255);
     }
 
     public void setText(String text) {
@@ -100,5 +98,16 @@ public class Text implements Drawable {
 
     public void setRightDown(Point rightDown) {
         this.rightDown = rightDown;
+    }
+
+    public enum Align{
+        CENTER(3), TOP(101),BOTTOM(102),LEFT(37),RIGHT(39);
+
+        private final int value;
+        Align(int value){ this.value = value;}
+
+        public int getValue() {
+            return value;
+        }
     }
 }

@@ -62,14 +62,6 @@ public class RadarChart extends Graph {
         }
     }
 
-    private void drawTitle() {
-        Rectangle textArea = new Rectangle(this, new Point(0, 0), new Point(width, 40));
-        Text text = new Text(this, title, textArea);
-        text.setFontSize(30);
-        text.setHorizontalAlign("CENTER");
-        text.draw();
-    }
-
     private void drawSeries(RadarData series) {
         float a = 0.0f;
         Point[] points = new Point[series.getData().length];
