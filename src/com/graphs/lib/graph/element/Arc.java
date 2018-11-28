@@ -5,7 +5,7 @@ import processing.core.PConstants;
 
 public class Arc implements Drawable{
     private Point center;
-    private double radius;
+    private float radius;
     private float start;
     private float stop;
     private int mode = 3;
@@ -16,7 +16,7 @@ public class Arc implements Drawable{
 
     public Arc(PApplet parent,Point center, double radius, float start, float stop, Color color, Color outColor, int mode, int thickness) {
         this.center = center;
-        this.radius = radius;
+        this.radius = (float)radius;
         this.start = start;
         this.stop = stop;
         this.mode = mode;
@@ -27,14 +27,14 @@ public class Arc implements Drawable{
     }
     public Arc(Point center, double radius, float start, float stop, PApplet parent) {
         this.center = center;
-        this.radius = radius;
+        this.radius = (float)radius;
         this.start = start;
         this.stop = stop;
         this.parent = parent;
     }
     public Arc(Point center, double radius, float start, float stop, PApplet parent, Color color, int mode) {
         this.center = center;
-        this.radius = radius;
+        this.radius = (float)radius;
         this.start = start;
         this.stop = stop;
         this.parent = parent;
