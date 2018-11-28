@@ -16,9 +16,6 @@ public class Polygon implements Drawable {
         this.parent = parent;
     }
 
-
-
-
     @Override
     public void draw() {
         if(getIsFill())
