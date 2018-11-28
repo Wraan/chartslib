@@ -55,6 +55,7 @@ public class PointGraph extends Graph {
         drawSeparatorsWithLabels();
         drawTitle();
         insertPointsOnChart();
+        drawLegend();
 
         noLoop();
     }
@@ -193,6 +194,12 @@ public class PointGraph extends Graph {
         drawHorizontalGraphLine();
     }
 
+    private void drawLegend() {
+        LegendArea legend = new LegendArea(this, new Point(0.8*width, 0.1*height));
+        legend.draw();
+
+    }
+
     private void drawHorizontalGraphLine() {
         if(highestV == 0 && lowestV == 0)
             yAxis = 0.55*height;
@@ -289,4 +296,5 @@ public class PointGraph extends Graph {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

@@ -24,4 +24,6 @@ abstract class Graph extends PApplet {
         surface.setResizable(false);
     }
     public abstract void draw();
+
+    protected void costam(){}
 }

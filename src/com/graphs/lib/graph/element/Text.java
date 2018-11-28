@@ -70,8 +70,8 @@ public class Text implements Drawable {
             parent.text(text, getLeftUp().getX(), getLeftUp().getY(), getRightDown().getX()-getLeftUp().getX(), getRightDown().getY()-getLeftUp().getY());
         else
             parent.text(text, getLeftUp().getX(), getLeftUp().getY());
-        parent.textSize(8);
-        parent.fill(255,255,255);
+        //parent.textSize(8);
+        //parent.fill(255,255,255);
     }
 
     public void setText(String text) {
