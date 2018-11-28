@@ -1,6 +1,7 @@
 package com.graphs.lib.graph;
 
 
+import com.graphs.lib.graph.data.RadarData;
 import com.graphs.lib.graph.element.*;
 
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public class RadarChart extends Graph {
     private String[]                                labels = null;
-    private ArrayList<GraphData<double[]>>          data = null;
+    private ArrayList<RadarData>                    data = null;
     private Contour                                 contour = Contour.Circle;
     private String                                  title = "";
     private double                                  step = 0.0;
@@ -21,9 +22,9 @@ public class RadarChart extends Graph {
     }
 
     //TODO add custom exception of incorrect series length
-    public void addSeries(GraphData<double[]> series)  {
+    public void addSeries(RadarData series)  {
         if(data == null) {
-            data = new ArrayList<GraphData<double[]>>();
+            data = new ArrayList<RadarData>();
             data.add(series);
         } else {
             if(data.get(0).getData().length != series.getData().length) {
@@ -36,7 +37,7 @@ public class RadarChart extends Graph {
     }
 
     public void addSeries(double[] series, String label) {
-        GraphData<double[]> newSeries = new GraphData<>(label, series);
+        RadarData newSeries = new RadarData(series, label);
         this.addSeries(newSeries);
     }
 
@@ -62,14 +63,14 @@ public class RadarChart extends Graph {
     }
 
     private void drawTitle() {
-        Rectangle textArea = new Rectangle(this, new Point(0, 0), new Point(width, height));
+        Rectangle textArea = new Rectangle(this, new Point(0, 0), new Point(width, 40));
         Text text = new Text(this, title, textArea);
         text.setFontSize(30);
-        //TODO add centering
+        text.setHorizontalAlign("CENTER");
         text.draw();
     }
 
-    private void drawSeries(GraphData<double[]> series) {
+    private void drawSeries(RadarData series) {
         float a = 0.0f;
         Point[] points = new Point[series.getData().length];
         for(int i = 0; i < points.length; i++, a += TWO_PI/series.getData().length) {
@@ -78,6 +79,7 @@ public class RadarChart extends Graph {
         Polygon polygon = new Polygon(this, points);
         polygon.setIsFill(false);
         polygon.setOutColor(new Color(255, 0, 255));
+        polygon.setThickness(2);
         polygon.draw();
     }
 
@@ -87,37 +89,46 @@ public class RadarChart extends Graph {
         for (int i = 0; i < labels.length; i++, angle += TWO_PI / labels.length) {
             Point point = polarCoordinatesInGraph(angle, radius + 15);
             float newAngel = angle + HALF_PI;
-            int textWidth = 60;
+            int textWidth = labels[i].length()*14;
             int textHeight = 25;
-//            println(i + " " + angle + " " + newAngel);
-            println(labels[i]);
-            if(labels[i].equals("I"))
-                println(angle);
+            Rectangle rect = null;
+            Text text = null;
+
             if(newAngel  <= PI / 4 || newAngel >= PI * 7 / 4) {
                 //TOP
                 //text align center
                 //position (x-textWidth/2, y-textHeight/2, x + textWidth/2, y+textHeight/2)
-                Rectangle rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY() - textHeight), new Point(point.getX() + textWidth/2, point.getY()));
-                rect.draw();
+                rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY() - textHeight), new Point(point.getX() + textWidth/2, point.getY()));
+                text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
+                text.setHorizontalAlign("CENTER");
+                text.setVerticalAlign("CENTER");
             } else if(newAngel <= PI * 3 / 4) {
                 //RIGHT
                 //text align left
                 //box (x, y-textHeight/2, x + textWidth, y+textHeight/2)
-                Rectangle rect = new Rectangle(this, new Point(point.getX(), point.getY()-textHeight/2), new Point(point.getX() + textWidth, point.getY() + textHeight/2));
-                rect.draw();
+                rect = new Rectangle(this, new Point(point.getX(), point.getY()-textHeight/2), new Point(point.getX() + textWidth, point.getY() + textHeight/2));
+                text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
+                text.setHorizontalAlign("LEFT");
+                text.setVerticalAlign("CENTER");
             } else if(newAngel <= PI * 5 / 4) {
                 //BOTTOM
                 //text align center
                 //position (x-textWidth/2, y - textHeight/2, x + textWidth/2, y + textHeight/2)
-                Rectangle rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY()), new Point(point.getX() + textWidth/2, point.getY() + textHeight));
-                rect.draw();
+                rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY()), new Point(point.getX() + textWidth/2, point.getY() + textHeight));
+                text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
+                text.setHorizontalAlign("CENTER");
+                text.setVerticalAlign("CENTER");
             } else if(newAngel <= PI * 7 / 4) {
                 //LEFT
                 //text align right
                 //position (x-textWidth/2, y - textHeight/2, x, y + textHeight/2)
-                Rectangle rect = new Rectangle(this, new Point(point.getX() - textWidth, point.getY()-textHeight/2), new Point(point.getX(),point.getY() + textHeight/2));
-                rect.draw();
+                rect = new Rectangle(this, new Point(point.getX() - textWidth, point.getY()-textHeight/2), new Point(point.getX(),point.getY() + textHeight/2));
+                text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
+                text.setHorizontalAlign("RIGHT");
+                text.setVerticalAlign("CENTER");
             }
+            text.setFontSize(14);
+            text.draw();
         }
     }
 
@@ -141,7 +152,7 @@ public class RadarChart extends Graph {
     }
 
     private void drawData() {
-        for(GraphData<double[]> series: data) {
+        for(RadarData series: data) {
             drawSeries(series);
         }
     }
@@ -198,7 +209,7 @@ public class RadarChart extends Graph {
 
     private double getMaxValueOfSeries() {
         double maxValue = 0.0;
-        for(GraphData<double[]> series: data) {
+        for(RadarData series: data) {
             for(double v : series.getData()) {
                 maxValue = v > maxValue ? v : maxValue;
             }

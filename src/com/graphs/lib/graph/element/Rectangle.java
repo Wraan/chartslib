@@ -75,7 +75,6 @@ public class Rectangle implements Drawable {
     @Override
     public void draw() {
         parent.fill(color.getR(), color.getG(), color.getB());
-        parent.noFill();
         parent.stroke(outColor.getR(), outColor.getG(), outColor.getB());
         parent.strokeWeight(thickness);
         parent.rect(leftUp.getX(), leftUp.getY(), rightDown.getX()-leftUp.getX(), rightDown.getY()-leftUp.getY());
