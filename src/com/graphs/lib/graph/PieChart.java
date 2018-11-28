@@ -15,7 +15,6 @@ public class PieChart extends Graph {
     private List<Rectangle> legendRectangle = new ArrayList<>();
     private List<Text> legendText = new ArrayList<>();
     protected Boolean isLegendEnabled = false;
-    protected String title = "";
 
     PieChart(){
     }
@@ -105,11 +104,7 @@ public class PieChart extends Graph {
         createArcs(radius,ratios);
         drawTitle();
     }
-    protected void drawTitle(){
-            Text text =new Text(this,title,new Point(0.1*width,0.02*height),new Point(0.9*width,0.1 * height),0.05f*min(width,height),new Color(0,0,0));
-            //Todo: Set align
-            text.draw();
-    }
+
 
     public void insertData(List<PieData> data){
         this.values = data;
@@ -124,10 +119,6 @@ public class PieChart extends Graph {
     public void disableLegend(){
         isLegendEnabled = false;
     }
-    public void setTitle(String title){
-        this.title = title;
-    }
-
 
     @Override
     public void draw(){
