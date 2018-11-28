@@ -40,7 +40,6 @@ public class RadarChart extends Graph {
         this.addSeries(newSeries);
     }
 
-
     @Override
     public void draw() {
         drawTitle();
@@ -48,9 +47,9 @@ public class RadarChart extends Graph {
         drawContour();
         drawData();
         drawLabels();
+        drawLegends();
         noLoop();
     }
-
 
     private void drawEmptyChart() {
         radius = (min(graphCenter.getX(),graphCenter.getY())*0.6f);
@@ -83,13 +82,50 @@ public class RadarChart extends Graph {
     }
 
     private void drawLabels() {
-        //TODO drawLabels function
-        for (int i = 0; i < labels.length; i++) {
-            Point point = polarCoordinatesInGraph(i * radiusStep, radius);
-            point.setX(point.getX() - graphCenter.getX());
-            point.setY(point.getY() - graphCenter.getY());
+        //TODO add text aligned
+        float angle = - HALF_PI;
+        for (int i = 0; i < labels.length; i++, angle += TWO_PI / labels.length) {
+            Point point = polarCoordinatesInGraph(angle, radius + 15);
+            float newAngel = angle + HALF_PI;
+            int textWidth = 60;
+            int textHeight = 25;
+//            println(i + " " + angle + " " + newAngel);
+            println(labels[i]);
+            if(labels[i].equals("I"))
+                println(angle);
+            if(newAngel  <= PI / 4 || newAngel >= PI * 7 / 4) {
+                //TOP
+                //text align center
+                //position (x-textWidth/2, y-textHeight/2, x + textWidth/2, y+textHeight/2)
+                Rectangle rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY() - textHeight), new Point(point.getX() + textWidth/2, point.getY()));
+                rect.draw();
+            } else if(newAngel <= PI * 3 / 4) {
+                //RIGHT
+                //text align left
+                //box (x, y-textHeight/2, x + textWidth, y+textHeight/2)
+                Rectangle rect = new Rectangle(this, new Point(point.getX(), point.getY()-textHeight/2), new Point(point.getX() + textWidth, point.getY() + textHeight/2));
+                rect.draw();
+            } else if(newAngel <= PI * 5 / 4) {
+                //BOTTOM
+                //text align center
+                //position (x-textWidth/2, y - textHeight/2, x + textWidth/2, y + textHeight/2)
+                Rectangle rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY()), new Point(point.getX() + textWidth/2, point.getY() + textHeight));
+                rect.draw();
+            } else if(newAngel <= PI * 7 / 4) {
+                //LEFT
+                //text align right
+                //position (x-textWidth/2, y - textHeight/2, x, y + textHeight/2)
+                Rectangle rect = new Rectangle(this, new Point(point.getX() - textWidth, point.getY()-textHeight/2), new Point(point.getX(),point.getY() + textHeight/2));
+                rect.draw();
+            }
         }
     }
+
+    private void drawLegends() {
+        //TODO drawLegends function
+
+    }
+
     private void drawContour()   {
         //TODO more Contour, Exception
         if(step == 0.0) {
@@ -110,7 +146,6 @@ public class RadarChart extends Graph {
         }
     }
 
-
     private double calculateStep() {
         //TODO calcualteStep function
         double maxValue = getMaxValueOfSeries();
@@ -127,7 +162,6 @@ public class RadarChart extends Graph {
         } else
             return 1;
     }
-
 
     private void drawCircleContour() {
         int x = width/3;
@@ -156,7 +190,6 @@ public class RadarChart extends Graph {
             poly.draw();
         }
     }
-
 
     private void setStroke(Color color)
     {
