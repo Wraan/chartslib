@@ -24,6 +24,7 @@ public class PointGraph extends Graph {
 
     private double xAxis, yAxis;
 
+
     private String title = "no title";
 
     private int pointSize = 5;
@@ -197,7 +198,6 @@ public class PointGraph extends Graph {
     private void drawLegend() {
         LegendArea legend = new LegendArea(this, new Point(0.8*width, 0.1*height));
         legend.draw();
-
     }
 
     private void drawHorizontalGraphLine() {
