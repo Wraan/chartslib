@@ -5,7 +5,7 @@ import processing.core.PConstants;
 
 public class Arc implements Drawable{
     private Point center;
-    private int radius;
+    private double radius;
     private float start;
     private float stop;
     private int mode = 3;
@@ -14,7 +14,7 @@ public class Arc implements Drawable{
     private Color outColor = new Color(0,0,0);
     private int thickness = 1;
 
-    public Arc(PApplet parent,Point center, int radius, float start, float stop, Color color, Color outColor, int mode, int thickness) {
+    public Arc(PApplet parent,Point center, double radius, float start, float stop, Color color, Color outColor, int mode, int thickness) {
         this.center = center;
         this.radius = radius;
         this.start = start;
@@ -25,14 +25,14 @@ public class Arc implements Drawable{
         this.outColor = outColor;
         this.thickness = thickness;
     }
-    public Arc(Point center, int radius, float start, float stop, PApplet parent) {
+    public Arc(Point center, double radius, float start, float stop, PApplet parent) {
         this.center = center;
         this.radius = radius;
         this.start = start;
         this.stop = stop;
         this.parent = parent;
     }
-    public Arc(Point center, int radius, float start, float stop, PApplet parent, Color color, int mode) {
+    public Arc(Point center, double radius, float start, float stop, PApplet parent, Color color, int mode) {
         this.center = center;
         this.radius = radius;
         this.start = start;
@@ -103,6 +103,6 @@ public class Arc implements Drawable{
         parent.fill(color.getR(),color.getG(),color.getB());
         parent.stroke(outColor.getR(),outColor.getG(),outColor.getB());
         parent.strokeWeight(thickness);
-        parent.arc(center.getX(),center.getY(),radius,radius,start,stop,mode);
+        parent.arc(center.getX(),center.getY(),(float)radius,(float)radius,start,stop,mode);
     }
 }

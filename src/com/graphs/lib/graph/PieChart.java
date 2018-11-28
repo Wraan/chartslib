@@ -1,5 +1,6 @@
 package com.graphs.lib.graph;
 
+import com.graphs.lib.graph.data.PieData;
 import com.graphs.lib.graph.element.*;
 import processing.core.PConstants;
 
@@ -9,69 +10,62 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PieChart extends Graph {
 
-    private List<GraphData<Double>> values = new ArrayList<>();
-    private List<GraphData<Double>> ratios = new ArrayList<>();
-    private List<Arc> arcs = new ArrayList<>();
+    private List<PieData> values = new ArrayList<>();
+    private List<PieData> ratios = new ArrayList<>();
     private List<Rectangle> legendRectangle = new ArrayList<>();
     private List<Text> legendText = new ArrayList<>();
-    private Boolean isLegendEnabled = false;
-    private String title = "";
+    protected Boolean isLegendEnabled = false;
+    protected String title = "";
 
-    public PieChart(){
+    PieChart(){
     }
 
-    public PieChart(int width, int height) {
+    public PieChart(int width, int height) throws Exception {
         super(width, height);
+        if(width < 300) throw new Exception("Window width must be at least 300");
     }
 
-    private void countRatiosOfSeries(){
-        List<Double> ratios= new ArrayList<>();
+    protected List<PieData> countRatiosOfSeries(List<PieData> values){
+        List<Double> ratios = new ArrayList<>();
+        List<PieData> chartRatios = new ArrayList<>();
         double sum = 0;
 
-        for (GraphData<Double> element : values) {
+        for (PieData element : values) {
             sum += element.getData();
         }
-        for (GraphData<Double> element : values) {
+        for (PieData element : values) {
             ratios.add(element.getData()/sum);
         }
 
         for(int i = 0; i<values.size(); i++){
-            this.ratios.add(new GraphData<>(values.get(i).getLabel(),ratios.get(i)));
+            chartRatios.add(new PieData(values.get(i).getLabel(),ratios.get(i)));
         }
+        return chartRatios;
     }
-    private void createArcs(){
+    protected void createArcs(double radius,List<PieData> ratios){
         //Todo specific colors
-        List<Arc> createdArcs = new ArrayList<>();
+        List<Arc> arcs = new ArrayList<>();
         float sum = 0;
         int randomNum1,randomNum2,randomNum3;
-        int minimum = min(width,height);
         Point center;
-        int radius;
-        if(isLegendEnabled){
+        if(isLegendEnabled)
             center = new Point(0.35*width,0.5*height);
-            radius = (int)(0.6 * minimum);
-        }
-        else{
+        else
             center = new Point(0.5*width,0.5*height);
-            radius = (int)(0.80 * minimum);
-        }
 
         for(int i = 0; i < ratios.size();i++){
             randomNum1 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum2 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
             randomNum3 = ThreadLocalRandom.current().nextInt(0, 255 + 1);
-            createdArcs.add(new Arc(this,center,radius,
+            arcs.add(new Arc(this,center,radius,
                     sum * 2 * PConstants.PI,(float)((sum + ratios.get(i).getData()) * PConstants.PI*2),new Color(randomNum1,randomNum2,randomNum3),new Color(0,0,0),0,1));
             sum+=ratios.get(i).getData();
         }
-        this.arcs = createdArcs;
-    }
-    private void drawArcs(){
         for (Arc arc: arcs) {
             arc.draw();
         }
     }
-    private void createLegend(){
+    protected void createLegend(){
         //To do colors matching chart
         double ratio = 0.9 / values.size();
         double sum = 0.1;
@@ -85,7 +79,7 @@ public class PieChart extends Graph {
             sum += ratio;
         }
     }
-    private void drawLegend(){
+    protected void drawLegend(){
         for (Rectangle r: legendRectangle) {
             r.draw();
         }
@@ -95,28 +89,33 @@ public class PieChart extends Graph {
     }
     private void createChart(){
         // Todo appropriate colors
+        int minimum = min(width,height);
+        int radius;
         if(values.size() == 0)
-            insertData(new GraphData<>("Null",1.0));
-        countRatiosOfSeries();
-        createArcs();
-        drawArcs();
+            insertData("Null",2.0);
+        this.ratios = countRatiosOfSeries(this.values);
         if(isLegendEnabled){
+            radius = (int)(0.6 * minimum);
             createLegend();
             drawLegend();
         }
+        else
+            radius = (int)(0.80 * minimum);
+        createArcs(radius,ratios);
         drawTitle();
     }
-    private void drawTitle(){
+    protected void drawTitle(){
             Text text =new Text(this,title,new Point(0.1*width,0.02*height),new Point(0.9*width,0.1 * height),0.05f*min(width,height),new Color(0,0,0));
             //Todo: Set align
             text.draw();
     }
 
-    public void insertData(List<GraphData<Double>> data){
+    public void insertData(List<PieData> data){
         this.values = data;
     }
-    public void insertData(GraphData<Double> data){
-        this.values.add(data);
+    public void insertData(String label,double data){
+        PieData pieData = new PieData(label,data);
+        this.values.add(pieData);
     }
     public void enableLegend(){
         isLegendEnabled = true;
