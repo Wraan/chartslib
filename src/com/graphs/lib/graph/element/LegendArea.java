@@ -57,8 +57,8 @@ public class LegendArea implements Drawable {
             Text text = new Text(parent, items.get(i).getLabel(), new Rectangle(parent,
                     new Point(startPoint.getX() + 0.2*legendWidth + colorSignSize, startPoint.getY() + (i * step) - fontSize/2),
                     new Point(parent.width, startPoint.getY() + (i * step) + step*0.9)));
-            text.setHorizontalAlign("LEFT");
-            text.setVerticalAlign("TOP");
+            text.setHorizontalAlign(Text.Align.LEFT);
+            text.setVerticalAlign(Text.Align.TOP);
             text.setFontSize(fontSize);
             text.draw();
         }

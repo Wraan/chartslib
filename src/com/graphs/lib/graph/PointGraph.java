@@ -62,8 +62,8 @@ public class PointGraph extends Graph {
 
     private void drawTitle() {
         Text title = new Text(this, this.title, new Point(0,0), new Point(width, 0.19*height));
-        title.setVerticalAlign("TOP");
-        title.setHorizontalAlign("CENTER");
+        title.setVerticalAlign(Text.Align.TOP);
+        title.setHorizontalAlign(Text.Align.CENTER);
         title.setFontSize(40);
         title.draw();
     }
@@ -95,8 +95,8 @@ public class PointGraph extends Graph {
                 line.draw();
                 text = new Text(this, Double.toString(lowestH+i*step),
                         new Point(0.1 * width + (0.7 * width * i / horizontalSeparatorsAmount), yAxis + 0.025 * height));
-                text.setHorizontalAlign("CENTER");
-                text.setVerticalAlign("CENTER");
+                text.setHorizontalAlign(Text.Align.CENTER);
+                text.setVerticalAlign(Text.Align.CENTER);
                 text.setFontSize(fontSize);
                 text.draw();
             }
@@ -109,8 +109,8 @@ public class PointGraph extends Graph {
                 line.draw();
                 text = new Text(this, Double.toString(-i*horStepDistance),
                         new Point(xAxis - (i * horStepDistance * horizonalRatio), yAxis + 0.025 * height));
-                text.setHorizontalAlign("CENTER");
-                text.setVerticalAlign("CENTER");
+                text.setHorizontalAlign(Text.Align.CENTER);
+                text.setVerticalAlign(Text.Align.CENTER);
                 text.setFontSize(fontSize);
                 text.draw();
             }
@@ -121,8 +121,8 @@ public class PointGraph extends Graph {
                 line.draw();
                 text = new Text(this, Double.toString(i*horStepDistance),
                         new Point(xAxis + (i * horStepDistance * horizonalRatio), yAxis + 0.025 * height));
-                text.setHorizontalAlign("CENTER");
-                text.setVerticalAlign("CENTER");
+                text.setHorizontalAlign(Text.Align.CENTER);
+                text.setVerticalAlign(Text.Align.CENTER);
                 text.setFontSize(fontSize);
                 text.draw();
             }
@@ -141,8 +141,8 @@ public class PointGraph extends Graph {
                 text = new Text(this, Double.toString(highestV-i*step),
                         new Point(xAxis -0.008*width, 0.195*height + (0.7*height * i / verticalSeparatorsAmount))
                         );
-                text.setHorizontalAlign("RIGHT");
-                text.setVerticalAlign("CENTER");
+                text.setHorizontalAlign(Text.Align.RIGHT);
+                text.setVerticalAlign(Text.Align.CENTER);
                 text.setFontSize(fontSize);
                 text.draw();
             }
@@ -156,8 +156,8 @@ public class PointGraph extends Graph {
                 text = new Text(this, Double.toString(-i*vertStepDistance),
                         new Point(xAxis -0.008*width, yAxis + (i * vertStepDistance * verticalRatio)- 0.003*height)
                 );
-                text.setHorizontalAlign("RIGHT");
-                text.setVerticalAlign("CENTER");
+                text.setHorizontalAlign(Text.Align.RIGHT);
+                text.setVerticalAlign(Text.Align.CENTER);
                 text.setFontSize(fontSize);
                 text.draw();
             }
@@ -169,8 +169,8 @@ public class PointGraph extends Graph {
                 text = new Text(this, Double.toString(i*vertStepDistance),
                         new Point(xAxis -0.008*width, yAxis - (i * vertStepDistance * verticalRatio) - 0.003*height)
                 );
-                text.setHorizontalAlign("RIGHT");
-                text.setVerticalAlign("CENTER");
+                text.setHorizontalAlign(Text.Align.RIGHT);
+                text.setVerticalAlign(Text.Align.CENTER);
                 text.setFontSize(fontSize);
                 text.draw();
             }
