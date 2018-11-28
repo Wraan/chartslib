@@ -4,11 +4,11 @@ import processing.core.PApplet;
 
 abstract class Graph extends PApplet {
 
-    protected Graph() {
+    Graph() {
         this.width = 800;
         this.height = 600;
     }
-    protected Graph(int width, int height) {
+    Graph(int width, int height) {
         this.width = width;
         this.height = height;
     }
@@ -24,4 +24,6 @@ abstract class Graph extends PApplet {
         surface.setResizable(false);
     }
     public abstract void draw();
+
+    protected void costam(){}
 }
