@@ -93,6 +93,7 @@ public class PieChart extends Graph {
             createdArcs.add(new Arc(this,center,radius,
                     sum * 2 * PConstants.PI,(float)((sum + ratios.get(i).getData()) * PConstants.PI*2),new Color(randomNum1,randomNum2,randomNum3),new Color(0,0,0),0,1));
             sum+=ratios.get(i).getData();
+
         }
         this.arcs = createdArcs;
     }
