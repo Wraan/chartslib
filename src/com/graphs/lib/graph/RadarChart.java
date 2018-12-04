@@ -92,32 +92,32 @@ public class RadarChart extends Graph {
                 //position (x-textWidth/2, y-textHeight/2, x + textWidth/2, y+textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY() - textHeight), new Point(point.getX() + textWidth/2, point.getY()));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-                text.setHorizontalAlign("CENTER");
-                text.setVerticalAlign("CENTER");
+                //text.setHorizontalAlign("CENTER");
+                //text.setVerticalAlign("CENTER");
             } else if(newAngel <= PI * 3 / 4) {
                 //RIGHT
                 //text align left
                 //box (x, y-textHeight/2, x + textWidth, y+textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX(), point.getY()-textHeight/2), new Point(point.getX() + textWidth, point.getY() + textHeight/2));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-                text.setHorizontalAlign("LEFT");
-                text.setVerticalAlign("CENTER");
+                //text.setHorizontalAlign("LEFT");
+                //text.setVerticalAlign("CENTER");
             } else if(newAngel <= PI * 5 / 4) {
                 //BOTTOM
                 //text align center
                 //position (x-textWidth/2, y - textHeight/2, x + textWidth/2, y + textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY()), new Point(point.getX() + textWidth/2, point.getY() + textHeight));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-                text.setHorizontalAlign("CENTER");
-                text.setVerticalAlign("CENTER");
+               //text.setHorizontalAlign("CENTER");
+               //text.setVerticalAlign("CENTER");
             } else if(newAngel <= PI * 7 / 4) {
                 //LEFT
                 //text align right
                 //position (x-textWidth/2, y - textHeight/2, x, y + textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX() - textWidth, point.getY()-textHeight/2), new Point(point.getX(),point.getY() + textHeight/2));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-                text.setHorizontalAlign("RIGHT");
-                text.setVerticalAlign("CENTER");
+                //text.setHorizontalAlign("RIGHT");
+                //text.setVerticalAlign("CENTER");
             }
             text.setFontSize(14);
             text.draw();

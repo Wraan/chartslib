@@ -61,13 +61,13 @@ public class PointGraph extends Graph {
         noLoop();
     }
 
-    private void drawTitle() {
+    /*private void drawTitle() {
         Text title = new Text(this, this.title, new Point(0,0), new Point(width, 0.19*height));
         title.setVerticalAlign(Text.Align.TOP);
         title.setHorizontalAlign(Text.Align.CENTER);
         title.setFontSize(40);
         title.draw();
-    }
+    }*/
 
     private void insertPointsOnChart() {
         for(PointData data : graphData)
