@@ -55,7 +55,7 @@ public class GraphTitle implements Drawable {
 
     public void draw(){
         Text text = new Text(parent, title, new Point(0,0),new Point(parent.width,0.1*parent.height),fontsize,color);
-        text.setHorizontalAlign(align);
+        //text.setHorizontalAlign(align);
         text.draw();
     }
 }
