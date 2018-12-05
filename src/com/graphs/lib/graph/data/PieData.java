@@ -1,8 +1,11 @@
 package com.graphs.lib.graph.data;
 
+import com.graphs.lib.graph.element.Color;
+
 public class PieData {
     private double data;
     private String label;
+    private Color color;
 
     public PieData() {
     }
@@ -12,6 +15,11 @@ public class PieData {
         this.label = label;
     }
 
+    public PieData(String label, double data, Color color){
+        this.data = data;
+        this.label = label;
+        this.color = color;
+    }
 
     public double getData() {
         return data;
@@ -27,5 +35,13 @@ public class PieData {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

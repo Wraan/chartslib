@@ -1,6 +1,9 @@
 package com.graphs.lib.graph.element;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class ColorsPalette {
     public static final Color LightRed = new Color(255, 85, 76);
     public static final Color Red = new Color(255, 12, 0);
@@ -21,6 +24,11 @@ public final class ColorsPalette {
     public static final Color LightBlue = new Color(76, 191, 255);
     public static final Color Blue = new Color(0, 127, 255);
     public static final Color DarkBlue = new Color(0, 29, 127);
+
+    public static final List<Color> colorPallette = Arrays.asList(
+            Red, Blue, Orange,Green,Yellow, Brown, Pink,
+            LightRed, LightBlue, LightGreen, LightYellow, LightBrown, LightPink,
+            DarkRed, DarkBlue, DarkGreen, DarkYellow, DarkBrown, DarkPink);
 
     private ColorsPalette() {}
 }

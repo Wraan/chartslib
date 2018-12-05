@@ -61,6 +61,7 @@ public class PointGraph extends Graph {
         noLoop();
     }
 
+
     /*private void drawTitle() {
         Text title = new Text(this, this.title, new Point(0,0), new Point(width, 0.19*height));
         title.setVerticalAlign(Text.Align.TOP);
