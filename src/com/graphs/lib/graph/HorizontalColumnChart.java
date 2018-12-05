@@ -8,11 +8,10 @@ import java.util.List;
 
 public class HorizontalColumnChart extends ColumnChart
 {
-    private List<Rectangle> columns = new ArrayList<>();
-    private List<Text> columnsType = new ArrayList<>();
-    private int horizontalAxisValues = 5;
-
-    public HorizontalColumnChart(int width, int height) { super(width, height); }
+    public HorizontalColumnChart(int width, int height)
+    {
+        super(width, height);
+    }
 
     public HorizontalColumnChart()
     {
@@ -24,5 +23,23 @@ public class HorizontalColumnChart extends ColumnChart
     public void draw()
     {
         drawEmptyChart();
+        drawVerticalSeparatorsWithLabels();
+        drawHorizontalColumns();
+        drawHorizontalColumnsLabels();
+    }
+
+    private void drawVerticalSeparatorsWithLabels()
+    {
+
+    }
+
+    private void drawHorizontalColumns()
+    {
+
+    }
+
+    private void drawHorizontalColumnsLabels()
+    {
+
     }
 }

@@ -8,11 +8,10 @@ import java.util.List;
 
 public class VerticalColumnChart extends ColumnChart
 {
-    private List<Rectangle> columns = new ArrayList<>();
-    private List<Text> columnsType = new ArrayList<>();
-    private int horizontalAxisValues = 5;
-
-    public VerticalColumnChart(int width, int height) {super(width, height); }
+    public VerticalColumnChart(int width, int height)
+    {
+        super(width, height);
+    }
 
     public VerticalColumnChart()
     {
@@ -22,6 +21,24 @@ public class VerticalColumnChart extends ColumnChart
 
     @Override
     public void draw()
+    {
+        drawEmptyChart();
+        drawHorizontalSeparatorsWithLabels();
+        drawVerticalColumns();
+        drawVerticalColumnsLabels();
+    }
+
+    private void drawHorizontalSeparatorsWithLabels()
+    {
+
+    }
+
+    private void drawVerticalColumns()
+    {
+
+    }
+
+    private void drawVerticalColumnsLabels()
     {
 
     }
