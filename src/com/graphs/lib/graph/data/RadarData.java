@@ -5,21 +5,18 @@ import com.graphs.lib.graph.element.Color;
 public class RadarData {
     private String label;
     private double[] data;
-    private Color seriesColor;
+    private Color color;
 
-    public RadarData(double[] data, String label, Color seriesColor) {
+    public RadarData(double[] data, String label, Color color) {
         this(data, label);
-        this.seriesColor = seriesColor;
+        this.color = color;
     }
 
     public RadarData(double[] data, String label) {
-        this(data);
+        this.data = data;
         this.label = label;
     }
 
-    public RadarData(double[] data) {
-        this.data = data;
-    }
 
     public String getLabel() {
         return label;
@@ -37,7 +34,7 @@ public class RadarData {
         this.data = data;
     }
 
-    public Color getSeriesColor() {return seriesColor; }
+    public Color getColor() {return color; }
 
-    public void setSeriesColor(Color seriesColor) { this.seriesColor = seriesColor; }
+    public void setColor(Color color) { this.color = color; }
 }

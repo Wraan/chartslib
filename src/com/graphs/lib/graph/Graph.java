@@ -9,6 +9,9 @@ import processing.core.PApplet;
 abstract class Graph extends PApplet {
 
     private GraphTitle title;
+    protected Boolean isLegendEnabled = true;
+    protected Boolean isTitileEnabled = true;
+    protected Color backgroundColor = new Color(204, 204, 204);
 
     Graph() {
         this.width = 800;
@@ -31,8 +34,12 @@ abstract class Graph extends PApplet {
     }
     public abstract void draw();
 
-    public void setTitle(String title, float fontsize, String align, Color color){
+    public void setTitle(String title, float fontsize, Text.Align align, Color color){
         this.title = new GraphTitle(this,title,fontsize,align,color);
+    }
+
+    public void setTitle(String title) {
+        this.title = new GraphTitle(this, title);
     }
 
     void drawTitle(){
@@ -40,4 +47,29 @@ abstract class Graph extends PApplet {
         if(title != null)
             title.draw();
     }
+
+    public void enableLegend(){
+        isLegendEnabled = true;
+    }
+
+    public void disableLegend(){
+        isLegendEnabled = false;
+    }
+
+    public void enableTitile(){
+        isTitileEnabled = true;
+    }
+
+    public void disableTitile(){
+        isTitileEnabled = false;
+    }
+
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
 }
