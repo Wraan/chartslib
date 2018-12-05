@@ -10,8 +10,8 @@ public class Arc implements Drawable{
     private float stop;
     private int mode = 3;
     private PApplet parent;
-    private Color color = new Color(0,0,0);
-    private Color outColor = new Color(0,0,0);
+    private Color color = ColorsPalette.Black;
+    private Color outColor = ColorsPalette.Black;
     private int thickness = 1;
 
     public Arc(PApplet parent,Point center, double radius, float start, float stop, Color color, Color outColor, int mode, int thickness) {

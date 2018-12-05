@@ -72,7 +72,7 @@ public class RingChart extends PieChart{
             createArcs(radius,ratios.get(i-1).getData());
             radius -= step;
         }
-        Circle circle = new Circle(this,center, radius/2, new Color(204,204,204));
+        Circle circle = new Circle(this,center, radius/2, ColorsPalette.BackroundColor);
         circle.draw();
         drawTitle();
     }

@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class Line implements Drawable{
     private Point start;
     private Point end;
-    private Color color = new Color(0,0,0);
+    private Color color = ColorsPalette.Black;
     private int thickness = 1;
     private PApplet parent;
 

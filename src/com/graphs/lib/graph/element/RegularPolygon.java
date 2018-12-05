@@ -6,8 +6,8 @@ public class RegularPolygon implements Drawable {
     private PApplet parent;
     private Point middle;
     private int radius;
-    private Color color = new Color(0,0,0);
-    private Color outColor = new Color(0,0,0);
+    private Color color = ColorsPalette.Black;
+    private Color outColor = ColorsPalette.Black;
     private int thickness = 1;
     private int n;
     private float rotation;

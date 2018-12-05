@@ -6,8 +6,8 @@ public class Rectangle implements Drawable {
     private Point leftUp;
     private Point rightDown;
     private PApplet parent;
-    private Color color = new Color(0,0,0);
-    private Color outColor = new Color(0,0,0);
+    private Color color = ColorsPalette.Black;
+    private Color outColor = ColorsPalette.Black;
     private int thickness = 1;
 
     public Rectangle(PApplet parent, Point leftUp, Point rightDown){
