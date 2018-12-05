@@ -54,7 +54,7 @@ public class PieChart extends Graph {
 
         for(int i = 0; i < ratios.size();i++){
             arcs.add(new Arc(this,center,radius,
-                    (sum * 2 * PConstants.PI) - (PConstants.PI/2),(float)(((sum + ratios.get(i).getData()) * PConstants.PI*2)) - (PConstants.PI/2),ratios.get(i).getColor(),new Color(0,0,0),0,1));
+                    (sum * 2 * PConstants.PI) - (PConstants.PI/2),(float)(((sum + ratios.get(i).getData()) * PConstants.PI*2)) - (PConstants.PI/2),ratios.get(i).getColor(),ColorsPalette.Black,0,1));
             sum+=ratios.get(i).getData();
 
         }

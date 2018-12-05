@@ -42,7 +42,7 @@ public class Text implements Drawable {
         this.setLeftUp(leftUp);
         this.setRightDown(rightDown);
         this.setFontSize(8);
-        this.setFontColor(new Color(0,0,0));
+        this.setFontColor(ColorsPalette.Black);
     }
     public Text(PApplet parent, String text, Point leftUp, Point rightDown, float fontSize,Color color)
     {

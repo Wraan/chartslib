@@ -6,8 +6,8 @@ public class Circle implements Drawable{
     private Point middle;
     private float radius;
     private PApplet parent;
-    private Color color = new Color(0,0,0);
-    private Color outColor = new Color(0,0,0);
+    private Color color = ColorsPalette.Black;
+    private Color outColor = ColorsPalette.Black;
     private int thickness = 1;
     private boolean isFill = true;
 

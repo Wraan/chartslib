@@ -7,8 +7,8 @@ public class Ellipse implements Drawable{
     private int radiusX;
     private int radiusY;
     private PApplet parent;
-    private Color color = new Color(0,0,0);
-    private Color outColor = new Color(0,0,0);
+    private Color color = ColorsPalette.Black;
+    private Color outColor = ColorsPalette.Black;
     private int thickness = 1;
 
     public Ellipse(PApplet parent, Point middle, int radiusX, int radiusY) {
