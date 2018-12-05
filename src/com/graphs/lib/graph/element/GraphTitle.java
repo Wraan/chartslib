@@ -5,28 +5,13 @@ import processing.core.PApplet;
 public class GraphTitle implements Drawable {
     private PApplet parent;
     private String title;
-    private float fontsize = 12;
-    private Text.Align hAlign = Text.Align.CENTER;
-    private Text.Align vAlign = Text.Align.TOP;
+    private float fontsize;
+    private Text.Align hAlign;
+    private Text.Align vAlign;
     private Color color;
 
-
-    public GraphTitle(PApplet parent, String title) {
-        this.parent = parent;
-        this.title = title;
-    }
-    public GraphTitle(PApplet parent, String title, float fontsize) {
-        this.parent = parent;
-        this.title = title;
-        this.fontsize = fontsize;
-    }
-    public GraphTitle(PApplet parent, String title, Text.Align hAlign, Text.Align vAlign) {
-        this.parent = parent;
-        this.title = title;
-        this.hAlign = hAlign;
-        this.vAlign = vAlign;
-    }
     public GraphTitle(PApplet parent, String title, float fontsize, Text.Align hAlign, Text.Align vAlign, Color color) {
+
         this.parent = parent;
         this.title = title;
         this.fontsize = fontsize;
@@ -39,6 +24,10 @@ public class GraphTitle implements Drawable {
         text.setHorizontalAlign(hAlign);
         text.setVerticalAlign(vAlign);
         text.draw();
+    }
+
+    public GraphTitle(PApplet parent, String title) {
+        this(parent, title, 30, Text.Align.CENTER, new Color(0,0,0));
     }
 
     public String getTitle() {
