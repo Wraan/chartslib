@@ -31,7 +31,7 @@ abstract class Graph extends PApplet {
     }
     public abstract void draw();
 
-    public void setTitle(String title, float fontsize, String align, Color color){
+    public void setTitle(String title, float fontsize, Text.Align align, Color color){
         this.title = new GraphTitle(this,title,fontsize,align,color);
     }
 
