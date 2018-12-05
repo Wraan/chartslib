@@ -21,6 +21,10 @@ public class GraphTitle implements Drawable {
         this.color = color;
     }
 
+    public GraphTitle(PApplet parent, String title) {
+        this(parent, title, 30, Text.Align.CENTER, new Color(0,0,0));
+    }
+
     public String getTitle() {
         return title;
     }
@@ -55,7 +59,7 @@ public class GraphTitle implements Drawable {
 
     public void draw(){
         Text text = new Text(parent, title, new Point(0,0),new Point(parent.width,0.1*parent.height),fontsize,color);
-        //text.setHorizontalAlign(align);
+        text.setHorizontalAlign(align);
         text.draw();
     }
 }

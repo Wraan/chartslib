@@ -11,12 +11,13 @@ public class RadarChart extends Graph {
     private String[]                                labels = null;
     private ArrayList<RadarData>                    data = null;
     private Contour                                 contour = Contour.Circle;
-    private String                                  title = "";
     private double                                  step = 0.0;
     private Color                                   contourColor = new Color(0, 0, 0);
     private float                                   radius;
     private float                                   radiusStep;
-    private Point                                   graphCenter = new Point(width/3+10, height/2 + 30);
+    private Point                                   graphCenter;
+
+
     public RadarChart(int width, int height) {
         super(width, height);
     }
@@ -43,6 +44,8 @@ public class RadarChart extends Graph {
 
     @Override
     public void draw() {
+        prepareData();
+        calculateProportion();
         drawTitle();
         drawEmptyChart();
         drawContour();
@@ -50,6 +53,28 @@ public class RadarChart extends Graph {
         drawLabels();
         drawLegends();
         noLoop();
+    }
+
+    private void calculateProportion() {
+        graphCenter = new Point(1.0f*width/2, 1.0f*height/2);
+        if(isLegendEnabled) {
+            graphCenter.setX(1.0f*width/3);
+        }
+        if(isTitleEnabled) {
+            graphCenter.setY((height*0.9f)/2 + 0.1f*height);
+        }
+    }
+
+    private void prepareData() {
+        for(int i = 0; i < data.size(); i++) {
+            if(data.get(i).getColor() == null) {
+                //TODO add picking color from ListColor
+                data.get(i).setColor(ColorsPalette.Brown);
+            }
+            if(data.get(i).getLabel() == null) {
+                data.get(i).setLabel("Series " + (i + 1));
+            }
+        }
     }
 
     private void drawEmptyChart() {
@@ -72,6 +97,7 @@ public class RadarChart extends Graph {
         polygon.setIsFill(false);
         polygon.setOutColor(new Color(255, 0, 255));
         polygon.setThickness(2);
+        polygon.setOutColor(series.getColor());
         polygon.draw();
     }
 
@@ -92,40 +118,32 @@ public class RadarChart extends Graph {
                 //position (x-textWidth/2, y-textHeight/2, x + textWidth/2, y+textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY() - textHeight), new Point(point.getX() + textWidth/2, point.getY()));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-
                 text.setHorizontalAlign(Text.Align.CENTER);
                 text.setVerticalAlign(Text.Align.CENTER);
-
             } else if(newAngel <= PI * 3 / 4) {
                 //RIGHT
                 //text align left
                 //box (x, y-textHeight/2, x + textWidth, y+textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX(), point.getY()-textHeight/2), new Point(point.getX() + textWidth, point.getY() + textHeight/2));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-
                 text.setHorizontalAlign(Text.Align.LEFT);
                 text.setVerticalAlign(Text.Align.CENTER);
-
             } else if(newAngel <= PI * 5 / 4) {
                 //BOTTOM
                 //text align center
                 //position (x-textWidth/2, y - textHeight/2, x + textWidth/2, y + textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX() - textWidth/2, point.getY()), new Point(point.getX() + textWidth/2, point.getY() + textHeight));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-
                 text.setHorizontalAlign(Text.Align.CENTER);
                 text.setVerticalAlign(Text.Align.CENTER);
-
             } else if(newAngel <= PI * 7 / 4) {
                 //LEFT
                 //text align right
                 //position (x-textWidth/2, y - textHeight/2, x, y + textHeight/2)
                 rect = new Rectangle(this, new Point(point.getX() - textWidth, point.getY()-textHeight/2), new Point(point.getX(),point.getY() + textHeight/2));
                 text = new Text(this, labels[i], rect.getLeftUp(), rect.getRightDown());
-
                 text.setHorizontalAlign(Text.Align.RIGHT);
                 text.setVerticalAlign(Text.Align.CENTER);
-
             }
             text.setFontSize(14);
             text.draw();
@@ -133,7 +151,13 @@ public class RadarChart extends Graph {
     }
 
     private void drawLegends() {
-        //TODO drawLegends function
+        ArrayList<LegendItem> legendItems = new ArrayList<>();
+        for(RadarData d: data) {
+            LegendItem item = new LegendItem(d.getLabel(), d.getColor());
+            legendItems.add(item);
+        }
+        LegendArea legend = new LegendArea(this, new Point(2*width/3, 0.15*height), legendItems);
+        legend.draw();
 
     }
 
@@ -148,7 +172,6 @@ public class RadarChart extends Graph {
             case Polygon:   drawPolygonContour();           break;
             default:
         }
-
     }
 
     private void drawData() {
@@ -175,8 +198,8 @@ public class RadarChart extends Graph {
     }
 
     private void drawCircleContour() {
-        int x = width/3;
-        int y = height/2;
+        float x = graphCenter.getX();
+        float y = graphCenter.getY();
         double maxValue = getMaxValueOfSeries();
         int ratio = (int)(radius/((maxValue/step)+1));
         radiusStep = (float)step * ratio;
@@ -189,8 +212,8 @@ public class RadarChart extends Graph {
     }
 
     private void drawPolygonContour() {
-        float x = graphCenter.getX();
         float y = graphCenter.getY();
+        float x = graphCenter.getX();
         double maxValue = getMaxValueOfSeries();
         int ratio = (int)(radius/((maxValue/step)+1));
         radiusStep = (float)step * ratio;
@@ -225,14 +248,6 @@ public class RadarChart extends Graph {
         this.contour = contour;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String[] getLabels() {
         return labels;
     }
@@ -251,5 +266,4 @@ public class RadarChart extends Graph {
     public enum Contour{
         Circle, Polygon
     }
-
 }
