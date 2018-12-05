@@ -1,9 +1,6 @@
 package com.graphs.lib.graph;
 
-import com.graphs.lib.graph.element.Color;
-import com.graphs.lib.graph.element.GraphTitle;
-import com.graphs.lib.graph.element.Point;
-import com.graphs.lib.graph.element.Text;
+import com.graphs.lib.graph.element.*;
 import processing.core.PApplet;
 
 abstract class Graph extends PApplet {
@@ -69,10 +66,6 @@ abstract class Graph extends PApplet {
         this.title.sethAlign(hAlign);
     }
 
-    public void setTitle(String title) {
-        this.title = new GraphTitle(this, title);
-    }
-
     void drawTitle(){
         title.draw();
     }
@@ -99,6 +92,13 @@ abstract class Graph extends PApplet {
 
     public Color getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public void saveChart(String fileName, FileExtension fileExtension){
+        if(fileExtension.equals(FileExtension.BMP) || fileExtension.equals(FileExtension.PNG) || fileExtension.equals(FileExtension.JPG)){
+            String file = fileName+"."+fileExtension.getValue();
+            save(file);
+        }
     }
 
 }
