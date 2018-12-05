@@ -6,14 +6,14 @@ public class GraphTitle implements Drawable {
     private PApplet parent;
     private String title;
     private float fontsize;
-    private String align;
+    private Text.Align align;
     private Color color;
 
 
     public GraphTitle() {
     }
 
-    public GraphTitle(PApplet parent, String title, float fontsize, String align, Color color) {
+    public GraphTitle(PApplet parent, String title, float fontsize, Text.Align align, Color color) {
         this.parent = parent;
         this.title = title;
         this.fontsize = fontsize;
@@ -45,11 +45,11 @@ public class GraphTitle implements Drawable {
         this.fontsize = fontsize;
     }
 
-    public String getAlign() {
+    public Text.Align getAlign() {
         return align;
     }
 
-    public void setAlign(String align) {
+    public void setAlign(Text.Align align) {
         this.align = align;
     }
 
