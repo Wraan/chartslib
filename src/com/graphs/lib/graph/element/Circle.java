@@ -87,7 +87,7 @@ public class Circle implements Drawable{
             parent.noFill();
         parent.stroke(outColor.getR(), outColor.getG(), outColor.getB());
         parent.strokeWeight(thickness);
-        parent.ellipse((int)middle.getX(), middle.getY(), 2*radius, 2*radius);
+        parent.ellipse(middle.getX(), middle.getY(), 2*radius, 2*radius);
     }
 
     public boolean getIsFill() {
