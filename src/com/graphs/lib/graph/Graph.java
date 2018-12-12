@@ -2,6 +2,7 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.element.*;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 abstract class Graph extends PApplet {
 
@@ -11,6 +12,8 @@ abstract class Graph extends PApplet {
     protected Boolean isLegendEnabled = true;
     protected Boolean isTitleEnabled = true;
     protected Color backgroundColor = new Color(204, 204, 204);
+
+
 
     Graph() {
         this.width = 800;
@@ -26,11 +29,15 @@ abstract class Graph extends PApplet {
     }
 
     public void settings(){
+
     }
 
     public void setup() {
         surface.setResizable(false);
+        beginRecord(PDF, "filename.pdf");
     }
+
+
     public abstract void draw();
 
     public void setTitle(String title, float fontsize, Text.Align vAlign, Text.Align hAlign, Color color){
@@ -112,9 +119,14 @@ abstract class Graph extends PApplet {
             }
         }
         else if(fileExtension.equals(FileExtension.PDF)){
-
-
+            PGraphics pdf = createGraphics(300, 300, PDF, "output.pdf");
+            pdf.beginDraw();
+            pdf.background(128, 0, 0);
+            pdf.line(50, 50, 250, 250);
+            pdf.dispose();
+            pdf.endDraw();
         }
     }
+
 
 }
