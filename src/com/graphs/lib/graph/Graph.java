@@ -97,7 +97,23 @@ abstract class Graph extends PApplet {
     public void saveChart(String fileName, FileExtension fileExtension){
         if(fileExtension.equals(FileExtension.BMP) || fileExtension.equals(FileExtension.PNG) || fileExtension.equals(FileExtension.JPG)){
             String file = fileName+"."+fileExtension.getValue();
-            save(file);
+            double previousTime = -1;
+            for(double i = 0; i < 10;){
+                if(previousTime == i)
+                    break;
+                try{
+                    Thread.sleep(500);
+                    save(file);
+                    previousTime = i;
+                }
+                catch (Exception e){
+                    i+= 0.5;
+                }
+            }
+        }
+        else if(fileExtension.equals(FileExtension.PDF)){
+
+
         }
     }
 

@@ -27,11 +27,13 @@ public class RingChart extends PieChart{
 
     public void insertData(String title, List<PieData> data) throws Exception {
         if(values.size() == 5)
+            //Todo: Exception that says that ring chart can contain maximum 5 rings
             throw new Exception("Ring chart can contain only 5 series of data");
         if(values.size() == 0)
             for(int i = 0; i<data.size();i++)
                 data.get(i).setColor(ColorsPalette.colorPallette.get(i));
         else if(data.size() != values.get(0).getData().size()){
+            //Todo: Exception that says that number of labels must match the first ring
             throw new Exception("Number of labels must be the same in all rings");
         }
         else{
@@ -39,6 +41,7 @@ public class RingChart extends PieChart{
                 if(data.get(i).getLabel().equals(values.get(0).getData().get(i).getLabel()))
                     data.get(i).setColor(values.get(0).getData().get(i).getColor());
                 else
+                    //Todo: Exception that says that series must have same names and placed in same order
                     throw new Exception("Labels must be the same");
             }
         }
