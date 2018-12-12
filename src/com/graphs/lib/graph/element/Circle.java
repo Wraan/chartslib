@@ -1,6 +1,7 @@
 package com.graphs.lib.graph.element;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class Circle implements Drawable{
     private Point middle;
