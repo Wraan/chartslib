@@ -27,7 +27,7 @@ public class GraphTitle implements Drawable {
     }
 
     public GraphTitle(PApplet parent, String title) {
-        this(parent, title, 30, Text.Align.CENTER, new Color(0,0,0));
+        this(parent, title, 30.0f, Text.Align.CENTER, Text.Align.CENTER, new Color(0,0,0));
     }
 
     public String getTitle() {

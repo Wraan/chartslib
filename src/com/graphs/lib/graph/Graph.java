@@ -69,9 +69,9 @@ abstract class Graph extends PApplet {
         this.title.sethAlign(hAlign);
     }
 
-    public void setTitle(String title) {
-        this.title = new GraphTitle(this, title);
-    }
+//    public void setTitle(String title) {
+//        this.title = new GraphTitle(this, title);
+//    }
 
     void drawTitle(){
         title.draw();

@@ -1,15 +1,19 @@
 package com.graphs.test;
 
-import com.graphs.lib.graph.HorizontalColumnChart;
-import com.graphs.lib.graph.PointGraph;
-import com.graphs.lib.graph.VerticalColumnChart;
+
+import com.graphs.lib.graph.RadarChart;
 
 public class Main {
     public static void main(String[] args) {
-        //PointGraph graph = new PointGraph(1280, 720);
-        VerticalColumnChart graph = new VerticalColumnChart(1280,720);
-        graph.setHorizontalAxisRatio(0.7);
-        graph.setVerticalAxisRatio(0.7);
-        graph.run();
+        RadarChart radar = new RadarChart(800, 600);
+        radar.setContour(RadarChart.Contour.Polygon);
+        double[] data = {1.0, 2.0, 3.0, 10, 11, 1, 1, 1, 1, 1, 1, 5};
+        double[] data2 = {5.0, 4.0, 3.0, 2.0, 1.0, 1, 1, 1, 1, 1, 1, 1};
+        String[] labels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M"};
+        radar.addSeries(data, null);
+        radar.addSeries(data2, "");
+        radar.setTitle("test");
+        radar.setLabels(labels);
+        radar.run();
     }
 }
