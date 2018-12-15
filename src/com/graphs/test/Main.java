@@ -1,6 +1,5 @@
 package com.graphs.test;
 
-
 import com.graphs.lib.graph.RadarChart;
 
 public class Main {

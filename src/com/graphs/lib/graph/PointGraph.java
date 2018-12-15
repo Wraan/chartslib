@@ -8,10 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PointGraph extends Graph {
-    private String title = "no title";
-
-    private int pointSize = 5;
-    private Color pointColor = new Color(127,34,52);
 
     private PointData points = new PointData("label", Arrays.asList(
             new Point(-10, 5),
@@ -20,7 +16,14 @@ public class PointGraph extends Graph {
             new Point(0,-2),
             new Point(1,2)
     ));
-    private List<PointData> graphData = new ArrayList<>(Arrays.asList(points));
+    private PointData points2 = new PointData("label2", Arrays.asList(
+            new Point(-3, 2),
+            new Point(2, 4)
+    ), new Color(32,142,12));
+
+    private List<PointData> graphData = new ArrayList<>(Arrays.asList(points, points2));
+
+    private PointGraphAreaSettings pointGraphAreaSettings = new PointGraphAreaSettings();
 
     public PointGraph(int width, int height){
         super(width, height);
@@ -32,28 +35,80 @@ public class PointGraph extends Graph {
 
     @Override
     public void draw(){
+        Point graphStart;
+        Point graphEnd;
+        if(isTitleEnabled) graphStart = new Point(0,0.1*height);
+        else graphStart = new Point(0,0);
+        if(isLegendEnabled) graphEnd = new Point(0.8*width,height);
+        else graphEnd = new Point(width, height);
+
         checkColors(graphData);
-        drawGraph();
-        setTitle("no title", 25, Text.Align.TOP, Text.Align.CENTER, new Color(0,0,0));
-        drawTitle();
-        drawLegend();
+        drawGraph(graphStart, graphEnd, graphData);
+
+        if(isTitleEnabled)
+            drawTitle();
+        if(isLegendEnabled)
+            drawLegend();
 
         noLoop();
     }
 
     private void checkColors(List<PointData> graphData) {
-        //TODO: Check colors of the graphData if null give them one from default
+        for(PointData pointData: graphData){
+            if(pointData.getColor() == null){
+                pointData.setColor(ColorsPalette.colorPallette.get(graphData.indexOf(pointData)));
+            }
+        }
     }
 
-    private void drawGraph() {
-        graphData = new ArrayList<>(Arrays.asList(points));
-        PointGraphArea pointGraphArea = new PointGraphArea(this, new Point(0, 0.1*height), new Point(0.8*width, height), graphData);
+    private void drawGraph(Point start, Point end, List<PointData> graphData) {
+        PointGraphArea pointGraphArea = new PointGraphArea(this, start, end, graphData, pointGraphAreaSettings);
         pointGraphArea.draw();
     }
 
     private void drawLegend() {
-        LegendArea legend = new LegendArea(this, new Point(0.8*width, 0.1*height));
+        List<LegendItem> legendItems = getLegendItems(graphData);
+        LegendArea legend = new LegendArea(this, new Point(0.8*width, 0.1*height), legendItems);
         legend.draw();
+    }
+
+    private List<LegendItem> getLegendItems(List<PointData> graphData) {
+        List<LegendItem> legendItems = new ArrayList<>();
+        for(PointData pointData : graphData){
+            legendItems.add(new LegendItem(pointData.getLabel(), pointData.getColor()));
+        }
+        return legendItems;
+    }
+
+    public void setStepType(StepType stepType) {
+        pointGraphAreaSettings.setStepType(stepType);
+    }
+    public void setHorizontalSeparatorsAmount(int horizontalSeparatorsAmount) {
+        pointGraphAreaSettings.setHorizontalSeparatorsAmount(horizontalSeparatorsAmount);
+    }
+    public void setVerticalSeparatorsAmount(int verticalSeparatorsAmount) {
+        pointGraphAreaSettings.setVerticalSeparatorsAmount(verticalSeparatorsAmount);
+    }
+    public void setVerticalStepDistance(double vertStepDistance) {
+        pointGraphAreaSettings.setVertStepDistance(vertStepDistance);
+    }
+    public void setHorizontalStepDistance(double horStepDistance) {
+        pointGraphAreaSettings.setHorStepDistance(horStepDistance);
+    }
+    public void setSeparatorFontSize(int separatorFontSize) {
+        pointGraphAreaSettings.setSeparatorFontSize(separatorFontSize);
+    }
+    public void setPointSize(int pointSize) {
+        pointGraphAreaSettings.setPointSize(pointSize);
+    }
+    public void addGraphData(String label, List<Point> points){
+        graphData.add(new PointData(label, points));
+    }
+    public void addGraphData(String label, List<Point> points, Color color){
+        graphData.add(new PointData(label, points, color));
+    }
+    public void addGraphData(PointData pointData){
+        graphData.add(pointData);
     }
 
 }

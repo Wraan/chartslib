@@ -1,14 +1,16 @@
 package com.graphs.lib.graph.data;
 
 import com.graphs.lib.graph.element.Color;
+import com.graphs.lib.graph.element.ColorsPalette;
 import com.graphs.lib.graph.element.Point;
+import com.sun.javafx.scene.control.skin.ColorPalette;
 
 import java.util.List;
 
 public class PointData {
     private List<Point> data;
     private String label;
-    private Color color = new Color(0,0,0);
+    private Color color;
 
     public PointData(String label, List<Point> data) {
         this.data = data;

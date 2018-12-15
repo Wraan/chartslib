@@ -10,8 +10,7 @@ public class GraphTitle implements Drawable {
     private Text.Align vAlign;
     private Color color;
 
-    public GraphTitle(PApplet parent, String title, float fontsize, Text.Align hAlign, Text.Align vAlign, Color color) {
-
+    public GraphTitle(PApplet parent, String title, float fontsize, Text.Align vAlign, Text.Align hAlign, Color color) {
         this.parent = parent;
         this.title = title;
         this.fontsize = fontsize;
