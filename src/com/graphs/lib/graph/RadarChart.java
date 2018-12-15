@@ -16,7 +16,30 @@ public class RadarChart extends Graph {
     private float                                   radius;
     private float                                   radiusStep;
     private Point                                   graphCenter;
+    private StepType                                stepType = StepType.STEP_AMMOUNT;
+    private double                                  maxValueOfSeries = -1;
+    //Constants
 
+    private final int                               maxContourNumber = 10;
+    private int                                     contourNumber = 10;
+    private double                                  radiusRatio;
+    //~Constants
+
+    public double getStep() {
+        return step;
+    }
+
+    public void setStep(double step) {
+        this.step = step;
+    }
+
+    public StepType getStepType() {
+        return stepType;
+    }
+
+    public void setStepType(StepType stepType) {
+        this.stepType = stepType;
+    }
 
     public RadarChart(int width, int height) {
         super(width, height);
@@ -50,6 +73,7 @@ public class RadarChart extends Graph {
         drawEmptyChart();
         drawContour();
         drawData();
+        drawStep();
         drawLabels();
         drawLegends();
         noLoop();
@@ -69,18 +93,25 @@ public class RadarChart extends Graph {
         for(int i = 0; i < data.size(); i++) {
             if(data.get(i).getColor() == null) {
                 //TODO add picking color from ListColor
-                data.get(i).setColor(ColorsPalette.Brown);
+                data.get(i).setColor(ColorsPalette.colorPallette.get(i % ColorsPalette.colorPallette.size()));
             }
             if(data.get(i).getLabel() == null) {
                 data.get(i).setLabel("Series " + (i + 1));
             }
         }
+        maxValueOfSeries = getMaxValueOfSeries();
+        for(RadarData rd: data) {
+            for(int i = 0; i < rd.getData().length; i++)
+            {
+                rd.getData()[i] /= maxValueOfSeries;
+            }
+        }
     }
 
     private void drawEmptyChart() {
-        radius = (min(graphCenter.getX(),graphCenter.getY())*0.6f);
+        radius = (min(graphCenter.getX(),graphCenter.getY()))*0.75f;
         for (float a = 0; a < TWO_PI; a += TWO_PI/data.get(0).getData().length) {
-            Point point = polarCoordinatesInGraph(a - HALF_PI, radius + 10);
+            Point point = polarCoordinatesInGraph(a - HALF_PI, radius);
             Line line = new Line(this, graphCenter, point);
             line.setThickness(3);
             line.draw();
@@ -88,10 +119,11 @@ public class RadarChart extends Graph {
     }
 
     private void drawSeries(RadarData series) {
-        float a = 0.0f;
+
         Point[] points = new Point[series.getData().length];
-        for(int i = 0; i < points.length; i++, a += TWO_PI/series.getData().length) {
-            points[i] = polarCoordinatesInGraph(a - HALF_PI, radiusStep * (float)series.getData()[i]);
+        for(int i = 0; i < points.length; i++) {
+            float a = TWO_PI/series.getData().length * i;
+            points[i] = polarCoordinatesInGraph(a - HALF_PI, (float)(radius * series.getData()[i]));
         }
         Polygon polygon = new Polygon(this, points);
         polygon.setIsFill(false);
@@ -102,10 +134,9 @@ public class RadarChart extends Graph {
     }
 
     private void drawLabels() {
-        //TODO add text aligned
         float angle = - HALF_PI;
         for (int i = 0; i < labels.length; i++, angle += TWO_PI / labels.length) {
-            Point point = polarCoordinatesInGraph(angle, radius + 15);
+            Point point = polarCoordinatesInGraph(angle, radius + 5);
             float newAngel = angle + HALF_PI;
             int textWidth = labels[i].length()*14;
             int textHeight = 25;
@@ -163,14 +194,23 @@ public class RadarChart extends Graph {
 
     private void drawContour()   {
         //TODO more Contour, Exception
-        if(step == 0.0) {
-            step = calculateStep();
-        }
+        calculateStep();
 
         switch(getContour()) {
             case Circle:    drawCircleContour();            break;
             case Polygon:   drawPolygonContour();           break;
             default:
+        }
+
+
+    }
+
+    private void drawStep() {
+        for(int i = 0; i < maxValueOfSeries/step + 1; i++) {
+            Point p = polarCoordinatesInGraph(-HALF_PI, (float)(i * radiusRatio));
+            Text text = new Text(this, Float.toString(round((float)(i*step))), p);
+            text.setFontSize(14);
+            text.draw();
         }
     }
 
@@ -180,31 +220,34 @@ public class RadarChart extends Graph {
         }
     }
 
-    private double calculateStep() {
-        //TODO calcualteStep function
-        double maxValue = getMaxValueOfSeries();
-        if(maxValue > 9) {
-            int i = 1;
-            while (true) {
-                if (maxValue / i > 10) {
-                    i *= 10;
-                } else {
-                    break;
-                }
-            }
-            return maxValue / i;
-        } else
-            return 1;
+    private void calculateStep() {
+//        if(maxValue > maxContourNumber) {
+//            int i = 1;
+//            while (true) {
+//                if (maxValue / i > maxContourNumber) {
+//                    i *= maxContourNumber;
+//                } else {
+//                    break;
+//                }
+//            }
+//            return maxValue / i;
+//        } else
+//            return 1;
+////        return maxValue/5;
+        if(StepType.STEP_AMMOUNT == stepType) {
+            step = maxValueOfSeries / maxContourNumber;
+            contourNumber = maxContourNumber;
+        } else {
+            //TODO throw exception if step<=0
+            //TODO add calculate step
+        }
+
     }
 
     private void drawCircleContour() {
-        float x = graphCenter.getX();
-        float y = graphCenter.getY();
-        double maxValue = getMaxValueOfSeries();
-        int ratio = (int)(radius/((maxValue/step)+1));
-        radiusStep = (float)step * ratio;
-        for(double i = step; i <= maxValue + step; i+= step) {
-            Circle circle = new Circle(this, new Point(x, y), (int)(i * ratio));
+        radiusRatio = radius/contourNumber;
+        for(int i = 1; i < maxValueOfSeries/(step)/(step) + 1; i++) {
+            Circle circle = new Circle(this, graphCenter, (int)(i * radiusRatio));
             circle.setOutColor(contourColor);
             circle.setIsFill(false);
             circle.draw();
@@ -212,13 +255,9 @@ public class RadarChart extends Graph {
     }
 
     private void drawPolygonContour() {
-        float y = graphCenter.getY();
-        float x = graphCenter.getX();
-        double maxValue = getMaxValueOfSeries();
-        int ratio = (int)(radius/((maxValue/step)+1));
-        radiusStep = (float)step * ratio;
-        for(double i = step; i <= maxValue + step; i+= step) {
-            RegularPolygon poly = new RegularPolygon(this, new Point(x, y), (int)(i * ratio), data.get(0).getData().length);
+        radiusRatio = radius/contourNumber;
+        for(int i = 1; i < maxValueOfSeries/(step) + 1; i++) {
+            RegularPolygon poly = new RegularPolygon(this, graphCenter, (int) (i* radiusRatio), data.get(0).getData().length);
             poly.setOutColor(contourColor);
             poly.setIsFill(false);
             poly.draw();
@@ -230,14 +269,18 @@ public class RadarChart extends Graph {
         stroke(color.getR(), color.getG(), color.getB());
     }
 
-    private double getMaxValueOfSeries() {
+    private int getMaxValueOfSeries() {
         double maxValue = 0.0;
         for(RadarData series: data) {
             for(double v : series.getData()) {
                 maxValue = v > maxValue ? v : maxValue;
             }
         }
-        return maxValue;
+        int ceilOfMaxValue = ceil((float)maxValue);
+        if(ceilOfMaxValue == maxValue) {
+            ceilOfMaxValue++;
+        }
+        return ceilOfMaxValue;
     }
 
     public Contour getContour() {
