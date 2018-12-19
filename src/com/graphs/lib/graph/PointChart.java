@@ -4,37 +4,24 @@ import com.graphs.lib.graph.data.PointData;
 import com.graphs.lib.graph.element.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class PointGraph extends Graph {
+public class PointChart extends Graph {
 
-    private PointData points = new PointData("label", Arrays.asList(
-            new Point(-10, 5),
-            new Point(0, -5),
-            new Point(-3,7),
-            new Point(0,-2),
-            new Point(1,2)
-    ));
-    private PointData points2 = new PointData("label2", Arrays.asList(
-            new Point(-3, 2),
-            new Point(2, 4)
-    ), new Color(32,142,12));
+    private List<PointData> graphData = new ArrayList<>();
 
-    private List<PointData> graphData = new ArrayList<>(Arrays.asList(points, points2));
+    private PointChartAreaSettings pointChartAreaSettings = new PointChartAreaSettings();
 
-    private PointGraphAreaSettings pointGraphAreaSettings = new PointGraphAreaSettings();
-
-    public PointGraph(int width, int height){
+    public PointChart(int width, int height){
         super(width, height);
     }
-    public PointGraph(){
+    public PointChart(){
         this.width = 900;
         this.height = 600;
     }
 
     @Override
-    public void draw(){
+    protected void createChart() {
         Point graphStart;
         Point graphEnd;
         if(isTitleEnabled) graphStart = new Point(0,0.1*height);
@@ -43,19 +30,12 @@ public class PointGraph extends Graph {
         else graphEnd = new Point(width, height);
 
         checkColors(graphData);
-        drawGraph(graphStart, graphEnd, graphData);
+        drawGraph(graphStart, graphEnd, graphData, pointChartAreaSettings);
 
         if(isTitleEnabled)
             drawTitle();
         if(isLegendEnabled)
             drawLegend();
-
-        noLoop();
-    }
-
-    @Override
-    protected void createChart() {
-
     }
 
     private void checkColors(List<PointData> graphData) {
@@ -66,9 +46,10 @@ public class PointGraph extends Graph {
         }
     }
 
-    private void drawGraph(Point start, Point end, List<PointData> graphData) {
-        PointGraphArea pointGraphArea = new PointGraphArea(this, start, end, graphData, pointGraphAreaSettings);
-        pointGraphArea.draw();
+    protected void drawGraph(Point start, Point end, List<PointData> graphData,PointChartAreaSettings pointChartAreaSettings) {
+        PointChartArea pointChartArea = new PointChartArea(this, start, end, graphData, pointChartAreaSettings);
+        pointChartArea.setType(PointChartArea.Type.PointChart);
+        pointChartArea.draw();
     }
 
     private void drawLegend() {
@@ -86,25 +67,25 @@ public class PointGraph extends Graph {
     }
 
     public void setStepType(StepType stepType) {
-        pointGraphAreaSettings.setStepType(stepType);
+        pointChartAreaSettings.setStepType(stepType);
     }
     public void setHorizontalSeparatorsAmount(int horizontalSeparatorsAmount) {
-        pointGraphAreaSettings.setHorizontalSeparatorsAmount(horizontalSeparatorsAmount);
+        pointChartAreaSettings.setHorizontalSeparatorsAmount(horizontalSeparatorsAmount);
     }
     public void setVerticalSeparatorsAmount(int verticalSeparatorsAmount) {
-        pointGraphAreaSettings.setVerticalSeparatorsAmount(verticalSeparatorsAmount);
+        pointChartAreaSettings.setVerticalSeparatorsAmount(verticalSeparatorsAmount);
     }
     public void setVerticalStepDistance(double vertStepDistance) {
-        pointGraphAreaSettings.setVertStepDistance(vertStepDistance);
+        pointChartAreaSettings.setVertStepDistance(vertStepDistance);
     }
     public void setHorizontalStepDistance(double horStepDistance) {
-        pointGraphAreaSettings.setHorStepDistance(horStepDistance);
+        pointChartAreaSettings.setHorStepDistance(horStepDistance);
     }
     public void setSeparatorFontSize(int separatorFontSize) {
-        pointGraphAreaSettings.setSeparatorFontSize(separatorFontSize);
+        pointChartAreaSettings.setSeparatorFontSize(separatorFontSize);
     }
     public void setPointSize(int pointSize) {
-        pointGraphAreaSettings.setPointSize(pointSize);
+        pointChartAreaSettings.setPointSize(pointSize);
     }
     public void addGraphData(String label, List<Point> points){
         graphData.add(new PointData(label, points));

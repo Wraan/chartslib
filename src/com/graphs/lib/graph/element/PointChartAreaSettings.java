@@ -1,6 +1,8 @@
 package com.graphs.lib.graph.element;
 
-public class PointGraphAreaSettings {
+import com.graphs.lib.graph.PointChart;
+
+public class PointChartAreaSettings {
     private StepType stepType = StepType.STEP_DISTANCE;
     private int horizontalSeparatorsAmount = 20;
     private int verticalSeparatorsAmount = 20;
@@ -8,6 +10,7 @@ public class PointGraphAreaSettings {
     private double horStepDistance = 1;
     private int separatorFontSize = 12;
     private int pointSize = 8;
+    private int linesThickness = 3;
 
     public StepType getStepType() {
         return stepType;
@@ -63,5 +66,13 @@ public class PointGraphAreaSettings {
 
     public void setPointSize(int pointSize) {
         this.pointSize = pointSize;
+    }
+
+    public int getLinesThickness() {
+        return linesThickness;
+    }
+
+    public void setLinesThickness(int linesThickness) {
+        this.linesThickness = linesThickness;
     }
 }
