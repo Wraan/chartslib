@@ -8,37 +8,43 @@ import java.util.List;
 public class PointGraphArea implements Drawable{
     private PApplet parent;
     private Point start;
-    private Point end;
     private List<PointData> graphData;
 
     private double lowestH;
     private double highestH;
     private double lowestV;
     private double highestV;
-
-    private StepType stepType = StepType.STEP_DISTANCE;
-    private int horizontalSeparatorsAmount = 20;
-    private int verticalSeparatorsAmount = 20;
-    private double vertStepDistance = 1;
-    private double horStepDistance = 1;
-    private int separatorFontSize = 12;
-    private int pointSize = 8;
-
     private double verticalRatio;
     private double horizonalRatio;
-
     private float areaWidth;
     private float areaHeight;
-
     private double xAxis, yAxis;
 
-    public PointGraphArea(PApplet parent, Point start, Point end, List<PointData> graphData){
+    private StepType stepType;
+    private int horizontalSeparatorsAmount;
+    private int verticalSeparatorsAmount;
+    private double vertStepDistance;
+    private double horStepDistance;
+    private int separatorFontSize;
+    private int pointSize;
+
+    public PointGraphArea(PApplet parent, Point start, Point end, List<PointData> graphData, PointGraphAreaSettings pointGraphAreaSettings){
         this.parent = parent;
         this.start = start;
-        this.end = end;
         this.graphData = graphData;
+        applySettings(pointGraphAreaSettings);
         areaHeight = end.getY() - start.getY();
         areaWidth = end.getX() - start.getX();
+    }
+
+    private void applySettings(PointGraphAreaSettings settings) {
+        this.stepType = settings.getStepType();
+        this.horizontalSeparatorsAmount = settings.getHorizontalSeparatorsAmount();
+        this.verticalSeparatorsAmount = settings.getVerticalSeparatorsAmount();
+        this.vertStepDistance = settings.getVertStepDistance();
+        this.horStepDistance = settings.getHorStepDistance();
+        this.separatorFontSize = settings.getSeparatorFontSize();
+        this.pointSize = settings.getPointSize();
     }
 
     @Override

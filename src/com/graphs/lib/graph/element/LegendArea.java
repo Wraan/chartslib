@@ -25,13 +25,7 @@ public class LegendArea implements Drawable {
         this.parent = parent;
         legendWidth = endPoint.getX() - startPoint.getX();
         legendHeight = endPoint.getY() - startPoint.getY();
-        items = new ArrayList<>(Arrays.asList(
-                new LegendItem("label", new Color(5,12,35)),
-                new LegendItem("labellabellabellabellabellabellabellabellabellabel label label label label label", new Color(5,12,35)),
-                new LegendItem("label", new Color(5,12,35)),
-                new LegendItem("label", new Color(5,12,35))
-
-        ));
+        items = new ArrayList<>();
     }
     public LegendArea(PApplet parent, Point start, List<LegendItem> items){
         this.startPoint = start;
