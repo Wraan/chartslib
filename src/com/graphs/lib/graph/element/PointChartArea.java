@@ -5,7 +5,7 @@ import processing.core.PApplet;
 
 import java.util.List;
 
-public class PointGraphArea implements Drawable{
+public class PointChartArea implements Drawable{
     private PApplet parent;
     private Point start;
     private List<PointData> graphData;
@@ -27,17 +27,21 @@ public class PointGraphArea implements Drawable{
     private double horStepDistance;
     private int separatorFontSize;
     private int pointSize;
+    private Type type = Type.PointChart;
 
-    public PointGraphArea(PApplet parent, Point start, Point end, List<PointData> graphData, PointGraphAreaSettings pointGraphAreaSettings){
+    private int linesThickness;
+
+
+    public PointChartArea(PApplet parent, Point start, Point end, List<PointData> graphData, PointChartAreaSettings pointChartAreaSettings){
         this.parent = parent;
         this.start = start;
         this.graphData = graphData;
-        applySettings(pointGraphAreaSettings);
+        applySettings(pointChartAreaSettings);
         areaHeight = end.getY() - start.getY();
         areaWidth = end.getX() - start.getX();
     }
 
-    private void applySettings(PointGraphAreaSettings settings) {
+    private void applySettings(PointChartAreaSettings settings) {
         this.stepType = settings.getStepType();
         this.horizontalSeparatorsAmount = settings.getHorizontalSeparatorsAmount();
         this.verticalSeparatorsAmount = settings.getVerticalSeparatorsAmount();
@@ -45,6 +49,7 @@ public class PointGraphArea implements Drawable{
         this.horStepDistance = settings.getHorStepDistance();
         this.separatorFontSize = settings.getSeparatorFontSize();
         this.pointSize = settings.getPointSize();
+        this.linesThickness = settings.getLinesThickness();
     }
 
     @Override
@@ -54,7 +59,10 @@ public class PointGraphArea implements Drawable{
         drawEmptyChart();
         drawSeparatorsWithLabels();
         insertPointsOnChart();
+        if(type == Type.LineChart)
+            drawLinesBetweenPoints();
     }
+
     private void getHighestAndLowestNumbers() {
         lowestV = getLowestY();
         highestV = getHighestY();
@@ -244,6 +252,22 @@ public class PointGraphArea implements Drawable{
             });
     }
 
+    private void drawLinesBetweenPoints() {
+        for (PointData pointData : graphData){
+            if(pointData.getData().size() < 2) continue;
+            for(int i = 0; i < pointData.getData().size()-1; i++){
+                Point startPoint = pointData.getData().get(i);
+                Point lineStart = new Point(start.getX() + 0.1*areaWidth + (startPoint.getX()-lowestH)*horizonalRatio,
+                        start.getY() + 0.1*areaHeight+(highestV-startPoint.getY())*verticalRatio);
+                Point endPoint = pointData.getData().get(i+1);
+                Point lineEnd = new Point(start.getX() + 0.1*areaWidth + (endPoint.getX()-lowestH)*horizonalRatio,
+                        start.getY() + 0.1*areaHeight+(highestV-endPoint.getY())*verticalRatio);
+                Line line = new Line(parent, lineStart,lineEnd, linesThickness, pointData.getColor());
+                line.draw();
+            }
+        }
+    }
+
     public void setStepType(StepType stepType) {
         this.stepType = stepType;
     }
@@ -270,5 +294,12 @@ public class PointGraphArea implements Drawable{
 
     public void setPointSize(int pointSize) {
         this.pointSize = pointSize;
+    }
+
+    public enum Type{
+        PointChart, LineChart, LayerChart
+    }
+    public void setType(Type type) {
+        this.type = type;
     }
 }

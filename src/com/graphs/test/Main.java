@@ -1,18 +1,30 @@
 package com.graphs.test;
 
-import com.graphs.lib.graph.RadarChart;
+import com.graphs.LineChart;
+import com.graphs.lib.graph.PointChart;
+import com.graphs.lib.graph.element.Color;
+import com.graphs.lib.graph.element.Point;
+
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        RadarChart radar = new RadarChart(800, 600);
-        radar.setContour(RadarChart.Contour.Polygon);
-        double[] data = {1.0, 2.0, 3.0, 10, 11, 1, 1, 1, 1, 1, 1, 5};
-        double[] data2 = {5.0, 4.0, 3.0, 2.0, 1.0, 1, 1, 1, 1, 1, 1, 1};
-        String[] labels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M"};
-        radar.addSeries(data, null);
-        radar.addSeries(data2, "");
-        radar.setTitle("test");
-        radar.setLabels(labels);
-        radar.run();
+        LineChart pointChart = new LineChart(1280, 720);
+        pointChart.addGraphData("data1",Arrays.asList(
+                new Point(-2, 5),
+                new Point(-1, -5),
+                new Point(0,7),
+                new Point(1,-2),
+                new Point(2,2)
+        ));
+        pointChart.addGraphData("data2",Arrays.asList(
+                new Point(3, 7),
+                new Point(0, -2),
+                new Point(1,5),
+                new Point(-4,-2),
+                new Point(3,2)
+        ), new Color(34,12,157));
+        pointChart.setTitle("My new title", 48);
+        pointChart.run();
     }
 }
