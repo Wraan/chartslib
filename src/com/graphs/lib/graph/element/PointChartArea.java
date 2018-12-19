@@ -3,6 +3,7 @@ package com.graphs.lib.graph.element;
 import com.graphs.lib.graph.data.PointData;
 import processing.core.PApplet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PointChartArea implements Drawable{
@@ -54,13 +55,32 @@ public class PointChartArea implements Drawable{
 
     @Override
     public void draw() {
+        if(type == Type.PointChart)
+            drawPointChart();
+        else if(type == Type.LineChart)
+            drawLineChart();
+        else if(type == Type.LayerChart)
+            drawLayerChart();
+    }
+
+    private void drawPointChart() {
         getHighestAndLowestNumbers();
         getVerticalAndHorizontalRatios();
         drawEmptyChart();
         drawSeparatorsWithLabels();
         insertPointsOnChart();
-        if(type == Type.LineChart)
-            drawLinesBetweenPoints();
+    }
+    private void drawLineChart() {
+        drawPointChart();
+        drawLinesBetweenPoints();
+    }
+    private void drawLayerChart() {
+        getHighestAndLowestNumbers();
+        getVerticalAndHorizontalRatios();
+        drawEmptyChart();
+        drawLayers();
+        drawEmptyChart();
+        drawSeparatorsWithLabels();
     }
 
     private void getHighestAndLowestNumbers() {
@@ -265,6 +285,33 @@ public class PointChartArea implements Drawable{
                 Line line = new Line(parent, lineStart,lineEnd, linesThickness, pointData.getColor());
                 line.draw();
             }
+        }
+    }
+
+    private void drawLayers(){
+        for(PointData pointData : graphData){
+            List<Point> sort = new ArrayList<>(pointData.getData());
+            sort.sort((o1,o2) -> {
+                if(o1.getX() - o2.getX() > 0) return 1;
+                else if (o1.getX() - o2.getX() < 0) return -1;
+                return 0;
+            });
+            List<Point> points = new ArrayList<>();
+            for(int i = 0; i < sort.size(); i++){
+                Point point = new Point(start.getX() + 0.1*areaWidth + (sort.get(i).getX()-lowestH)*horizonalRatio,
+                        start.getY() + 0.1*areaHeight+(highestV-sort.get(i).getY())*verticalRatio);
+                points.add(point);
+            }
+            points.add(new Point(start.getX() + 0.1*areaWidth + (sort.get(sort.size()-1).getX()-lowestH)*horizonalRatio,
+                    yAxis));
+            points.add(new Point(start.getX() + 0.1*areaWidth + (sort.get(0).getX()-lowestH)*horizonalRatio,
+                    yAxis));
+            points.add(points.get(0));
+            Point[] pointsArray = points.toArray(new Point[0]);
+            Polygon polygon = new Polygon(parent, pointsArray);
+            polygon.setColor(pointData.getColor());
+            polygon.setOutColor(pointData.getColor());
+            polygon.draw();
         }
     }
 
