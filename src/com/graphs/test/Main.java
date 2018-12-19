@@ -5,12 +5,12 @@ import com.graphs.lib.graph.RadarChart;
 public class Main {
     public static void main(String[] args) {
         RadarChart radar = new RadarChart(800, 600);
-        radar.setContour(RadarChart.Contour.Polygon);
-        double[] data = {1.0, 2.0, 3.0, 10, 11, 1, 1, 1, 1, 1, 1, 5};
-        double[] data2 = {5.0, 4.0, 3.0, 2.0, 1.0, 1, 1, 1, 1, 1, 1, 1};
+        radar.setContour(RadarChart.Contour.Circle);
+        double[] data = {1, 1, 2, 3, 4.000000000009, 5, 6, 7, 8, 10.000009};
+        double[] data2 = {0.00001, 0.00002, 0.00003, 0.00004, 0.00005, 0.00006, 0.00007, 0.00008, 0.00009, 0.00005};
         String[] labels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M"};
         radar.addSeries(data, null);
-        radar.addSeries(data2, "");
+//        radar.addSeries(data2, "");
         radar.setTitle("test");
         radar.setLabels(labels);
         radar.run();
