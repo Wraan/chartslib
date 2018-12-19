@@ -2,7 +2,6 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.element.*;
 import processing.core.PApplet;
-import processing.core.PGraphics;
 
 abstract class Graph extends PApplet {
 
@@ -118,15 +117,7 @@ abstract class Graph extends PApplet {
                 }
             }
         }
-        else if(fileExtension.equals(FileExtension.PDF)){
-            PGraphics pdf = createGraphics(300, 300, PDF, "output.pdf");
-            pdf.beginDraw();
-            pdf.background(128, 0, 0);
-            pdf.line(50, 50, 250, 250);
-            pdf.dispose();
-            pdf.endDraw();
-        }
+        //Todo: Wrong file extension
     }
-
 
 }

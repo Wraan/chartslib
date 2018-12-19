@@ -84,6 +84,7 @@ public class RingChart extends PieChart{
     public void draw(){
         createChart();
         noLoop();
-        endRecord();
+        //endRecord();
+        //exit();
     }
 }
