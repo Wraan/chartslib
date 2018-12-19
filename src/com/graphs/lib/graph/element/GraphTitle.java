@@ -34,6 +34,7 @@ public class GraphTitle implements Drawable {
     }
 
     public void setTitle(String title) {
+        //Todo: exception null
         this.title = title;
     }
 

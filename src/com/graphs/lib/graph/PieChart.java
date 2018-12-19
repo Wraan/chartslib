@@ -67,7 +67,7 @@ public class PieChart extends Graph {
         for(PieData pd : pieData){
             legendItems.add(new LegendItem(pd.getLabel(),pd.getColor()));
         }
-        LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.1*height)),legendItems);
+        LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.15*height)),legendItems);
         legendArea.draw();
     }
     private void createChart(){
@@ -102,7 +102,6 @@ public class PieChart extends Graph {
         PieData pieData = new PieData(label, data, color);
         this.values.add(pieData);
     }
-
     public void enableLegend(){
         isLegendEnabled = true;
     }

@@ -1,9 +1,6 @@
 package com.graphs.lib.graph;
 
-import com.graphs.lib.graph.element.Color;
-import com.graphs.lib.graph.element.GraphTitle;
-import com.graphs.lib.graph.element.Point;
-import com.graphs.lib.graph.element.Text;
+import com.graphs.lib.graph.element.*;
 import processing.core.PApplet;
 
 abstract class Graph extends PApplet {
@@ -14,6 +11,8 @@ abstract class Graph extends PApplet {
     protected Boolean isLegendEnabled = true;
     protected Boolean isTitleEnabled = true;
     protected Color backgroundColor = new Color(204, 204, 204);
+
+
 
     Graph() {
         this.width = 800;
@@ -29,11 +28,15 @@ abstract class Graph extends PApplet {
     }
 
     public void settings(){
+
     }
 
     public void setup() {
         surface.setResizable(false);
+        beginRecord(PDF, "filename.pdf");
     }
+
+
     public abstract void draw();
 
     public void setTitle(String title, float fontsize, Text.Align vAlign, Text.Align hAlign, Color color){
@@ -95,6 +98,26 @@ abstract class Graph extends PApplet {
 
     public Color getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public void saveChart(String fileName, FileExtension fileExtension){
+        if(fileExtension.equals(FileExtension.BMP) || fileExtension.equals(FileExtension.PNG) || fileExtension.equals(FileExtension.JPG)){
+            String file = fileName+"."+fileExtension.getValue();
+            double previousTime = -1;
+            for(double i = 0; i < 10;){
+                if(previousTime == i)
+                    break;
+                try{
+                    Thread.sleep(500);
+                    save(file);
+                    previousTime = i;
+                }
+                catch (Exception e){
+                    i+= 0.5;
+                }
+            }
+        }
+        //Todo: Wrong file extension
     }
 
 }
