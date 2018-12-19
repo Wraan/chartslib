@@ -53,6 +53,11 @@ public class PointGraph extends Graph {
         noLoop();
     }
 
+    @Override
+    protected void createChart() {
+
+    }
+
     private void checkColors(List<PointData> graphData) {
         for(PointData pointData: graphData){
             if(pointData.getColor() == null){

@@ -28,6 +28,11 @@ public class HorizontalColumnChart extends ColumnChart
         drawHorizontalColumnsLabels();
     }
 
+    @Override
+    protected void createChart() {
+
+    }
+
     private void drawVerticalSeparatorsWithLabels()
     {
 

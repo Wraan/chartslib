@@ -83,6 +83,11 @@ public class RadarChart extends Graph {
         noLoop();
     }
 
+    @Override
+    protected void createChart() {
+
+    }
+
     private void calculateProportion() {
         graphCenter = new Point(1.0f*width/2, 1.0f*height/2);
         if(isLegendEnabled) {
