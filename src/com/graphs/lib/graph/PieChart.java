@@ -70,7 +70,9 @@ public class PieChart extends Graph {
         LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.15*height)),legendItems);
         legendArea.draw();
     }
-    private void createChart(){
+
+    @Override
+    protected void createChart(){
         int minimum = min(width,height);
         int radius;
         if(values.size() == 0)
@@ -85,7 +87,6 @@ public class PieChart extends Graph {
         createArcs(radius,ratios);
         drawTitle();
     }
-
 
     public void insertData(List<PieData> data){
         for(int i = 0; i< data.size(); i++){
@@ -107,11 +108,5 @@ public class PieChart extends Graph {
     }
     public void disableLegend(){
         isLegendEnabled = false;
-    }
-
-    @Override
-    public void draw(){
-        createChart();
-        noLoop();
     }
 }

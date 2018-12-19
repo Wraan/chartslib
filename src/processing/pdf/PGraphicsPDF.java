@@ -162,7 +162,7 @@ public class PGraphicsPDF extends PGraphicsJava2D {
     resetMatrix(); // reset model matrix
     vertexCount = 0;
 
-    // Also need to push the matrix since the matrix doesn't reset on each run
+    // Also need to push the matrix since the matrix doesn't reset on each show
     // http://dev.processing.org/bugs/show_bug.cgi?id=1227
     pushMatrix();
   }
@@ -259,7 +259,7 @@ public class PGraphicsPDF extends PGraphicsJava2D {
   // PGraphicsJava2D is not inherited (it calls loadPixels).
   // http://dev.processing.org/bugs/show_bug.cgi?id=1169
   public void endDraw() {
-    // Also need to pop the matrix since the matrix doesn't reset on each run
+    // Also need to pop the matrix since the matrix doesn't reset on each show
     // http://dev.processing.org/bugs/show_bug.cgi?id=1227
     popMatrix();
   }

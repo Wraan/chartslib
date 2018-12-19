@@ -8,9 +8,9 @@ import java.util.List;
 
 public class PointChart extends Graph {
 
-    protected List<PointData> graphData = new ArrayList<>();
+    private List<PointData> graphData = new ArrayList<>();
 
-    protected PointChartAreaSettings pointChartAreaSettings = new PointChartAreaSettings();
+    private PointChartAreaSettings pointChartAreaSettings = new PointChartAreaSettings();
 
     public PointChart(int width, int height){
         super(width, height);
@@ -21,7 +21,7 @@ public class PointChart extends Graph {
     }
 
     @Override
-    public void draw(){
+    protected void createChart() {
         Point graphStart;
         Point graphEnd;
         if(isTitleEnabled) graphStart = new Point(0,0.1*height);
@@ -30,17 +30,15 @@ public class PointChart extends Graph {
         else graphEnd = new Point(width, height);
 
         checkColors(graphData);
-        drawGraph(graphStart, graphEnd, graphData);
+        drawGraph(graphStart, graphEnd, graphData, pointChartAreaSettings);
 
         if(isTitleEnabled)
             drawTitle();
         if(isLegendEnabled)
             drawLegend();
-
-        noLoop();
     }
 
-    protected void checkColors(List<PointData> graphData) {
+    private void checkColors(List<PointData> graphData) {
         for(PointData pointData: graphData){
             if(pointData.getColor() == null){
                 pointData.setColor(ColorsPalette.colorPallette.get(graphData.indexOf(pointData)));
@@ -48,19 +46,19 @@ public class PointChart extends Graph {
         }
     }
 
-    protected void drawGraph(Point start, Point end, List<PointData> graphData) {
+    protected void drawGraph(Point start, Point end, List<PointData> graphData,PointChartAreaSettings pointChartAreaSettings) {
         PointChartArea pointChartArea = new PointChartArea(this, start, end, graphData, pointChartAreaSettings);
         pointChartArea.setType(PointChartArea.Type.PointChart);
         pointChartArea.draw();
     }
 
-    protected void drawLegend() {
+    private void drawLegend() {
         List<LegendItem> legendItems = getLegendItems(graphData);
         LegendArea legend = new LegendArea(this, new Point(0.8*width, 0.1*height), legendItems);
         legend.draw();
     }
 
-    protected List<LegendItem> getLegendItems(List<PointData> graphData) {
+    private List<LegendItem> getLegendItems(List<PointData> graphData) {
         List<LegendItem> legendItems = new ArrayList<>();
         for(PointData pointData : graphData){
             legendItems.add(new LegendItem(pointData.getLabel(), pointData.getColor()));
