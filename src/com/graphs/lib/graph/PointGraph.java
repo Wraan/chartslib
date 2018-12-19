@@ -2,6 +2,7 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.data.PointData;
 import com.graphs.lib.graph.element.*;
+import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public class PointGraph extends Graph {
 
     private PointGraphAreaSettings pointGraphAreaSettings = new PointGraphAreaSettings();
 
-    public PointGraph(int width, int height){
+    public PointGraph(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
     }
     public PointGraph(){

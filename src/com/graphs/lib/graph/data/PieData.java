@@ -9,12 +9,10 @@ public class PieData {
 
     public PieData() {
     }
-
     public PieData(String label, double value) {
         this.data = value;
         this.label = label;
     }
-
     public PieData(String label, double data, Color color){
         this.data = data;
         this.label = label;
@@ -24,23 +22,18 @@ public class PieData {
     public double getData() {
         return data;
     }
-
     public void setData(double value) {
         this.data = value;
     }
-
     public String getLabel() {
         return label;
     }
-
     public void setLabel(String label) {
         this.label = label;
     }
-
     public Color getColor() {
         return color;
     }
-
     public void setColor(Color color) {
         this.color = color;
     }

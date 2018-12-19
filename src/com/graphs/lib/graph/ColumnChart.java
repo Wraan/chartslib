@@ -4,6 +4,7 @@ import com.graphs.lib.graph.element.Line;
 import com.graphs.lib.graph.element.Point;
 import com.graphs.lib.graph.element.Rectangle;
 import com.graphs.lib.graph.element.Text;
+import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,7 @@ abstract class ColumnChart extends Graph
         this.horizontalAxisRatio = horizontalAxisRatio;
     }
 
-    public ColumnChart(int width, int height)
-    {
+    public ColumnChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
     }
 

@@ -2,14 +2,14 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.element.Rectangle;
 import com.graphs.lib.graph.element.Text;
+import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class VerticalColumnChart extends ColumnChart
 {
-    public VerticalColumnChart(int width, int height)
-    {
+    public VerticalColumnChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
     }
 
