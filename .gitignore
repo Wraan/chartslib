@@ -102,6 +102,7 @@ fabric.properties
 *.rar
 
 # Test class
+src/**/test
 src/com/graphs/test/Main.java
 
 
