@@ -11,6 +11,10 @@ abstract class Graph extends PApplet {
     protected Boolean isLegendEnabled = true;
     protected Boolean isTitleEnabled = true;
     protected Color backgroundColor = new Color(204, 204, 204);
+    protected FileExtension fileExtension;
+    protected Boolean isSaveEnabled = false;
+    protected Boolean isSaveWithoutDrawingEnabled = false;
+    protected String fileName = "";
 
 
 
@@ -23,7 +27,7 @@ abstract class Graph extends PApplet {
         this.height = height;
     }
 
-    public void run() {
+    public void show() {
         PApplet.runSketch(new String[] {Graph.class.getName()},this);
     }
 
@@ -33,11 +37,28 @@ abstract class Graph extends PApplet {
 
     public void setup() {
         surface.setResizable(false);
-        beginRecord(PDF, "filename.pdf");
+        if(fileExtension == FileExtension.PDF && isSaveEnabled){
+            String file = this.fileName + ".pdf";
+            beginRecord(PDF, file);
+        }
+
     }
 
+    @Override
+    public void draw(){
+        createChart();
+        noLoop();
+        if(isSaveEnabled && fileExtension != FileExtension.PDF) {
+            String file = fileName + "."+ fileExtension.getValue();
+            save(file);
+        }
+        else if(isSaveEnabled)
+            endRecord();
+        if(isSaveWithoutDrawingEnabled)
+            exit();
 
-    public abstract void draw();
+    }
+    protected abstract void createChart();
 
     public void setTitle(String title, float fontsize, Text.Align vAlign, Text.Align hAlign, Color color){
         setTitle(title);
@@ -101,23 +122,15 @@ abstract class Graph extends PApplet {
     }
 
     public void saveChart(String fileName, FileExtension fileExtension){
-        if(fileExtension.equals(FileExtension.BMP) || fileExtension.equals(FileExtension.PNG) || fileExtension.equals(FileExtension.JPG)){
-            String file = fileName+"."+fileExtension.getValue();
-            double previousTime = -1;
-            for(double i = 0; i < 10;){
-                if(previousTime == i)
-                    break;
-                try{
-                    Thread.sleep(500);
-                    save(file);
-                    previousTime = i;
-                }
-                catch (Exception e){
-                    i+= 0.5;
-                }
-            }
-        }
-        //Todo: Wrong file extension
+        this.fileName = fileName;
+        this.fileExtension = fileExtension;
+        this.isSaveEnabled = true;
     }
 
+    public void saveChartWithoutDrawing(String fileName, FileExtension fileExtension) throws InterruptedException {
+
+        saveChart(fileName,fileExtension);
+        isSaveWithoutDrawingEnabled = true;
+        show();
+    }
 }

@@ -47,7 +47,9 @@ public class RingChart extends PieChart{
         }
         values.add(new RingData(title,data));
     }
-    private void createChart(){
+
+    @Override
+    protected void createChart(){
         int minimum = min(width,height);
         double radius,step;
         Point center;
@@ -80,11 +82,11 @@ public class RingChart extends PieChart{
         drawTitle();
     }
 
-    @Override
-    public void draw(){
-        createChart();
-        noLoop();
-        //endRecord();
-        //exit();
-    }
+//    @Override
+//    public void draw(){
+//        createChart();
+//        noLoop();
+//        //endRecord();
+//        //exit();
+//    }
 }

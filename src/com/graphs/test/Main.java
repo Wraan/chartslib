@@ -13,6 +13,6 @@ public class Main {
         radar.addSeries(data2, "");
         radar.setTitle("test");
         radar.setLabels(labels);
-        radar.run();
+        radar.show();
     }
 }
