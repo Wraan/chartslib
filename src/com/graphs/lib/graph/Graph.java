@@ -21,7 +21,7 @@ abstract class Graph extends PApplet {
         this.height = 600;
     }
     Graph(int width, int height) throws InvalidWindowSizeException {
-        if(width < 800 || height < 800)
+        if(width < 800 || height < 600)
             throw new InvalidWindowSizeException();
         this.width = width;
         this.height = height;
