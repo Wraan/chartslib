@@ -3,6 +3,7 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.data.RadarData;
 import com.graphs.lib.graph.element.*;
+import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
 
 import java.math.BigDecimal;
@@ -44,7 +45,7 @@ public class RadarChart extends Graph {
         }
     }
 
-    public RadarChart(int width, int height) {
+    public RadarChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
     }
 

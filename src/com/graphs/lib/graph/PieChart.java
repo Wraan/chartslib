@@ -2,6 +2,7 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.data.PieData;
 import com.graphs.lib.graph.element.*;
+import com.graphs.lib.graph.exceptions.InvalidDataException;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -12,19 +13,15 @@ public class PieChart extends Graph {
 
     private List<PieData> values = new ArrayList<>();
     private List<PieData> ratios = new ArrayList<>();
-    private List<Rectangle> legendRectangle = new ArrayList<>();
-    private List<Text> legendText = new ArrayList<>();
-    protected Boolean isLegendEnabled = false;
 
-    PieChart(){
+    public PieChart(){
+        super();
     }
-
     public PieChart(int width, int height) throws Exception {
         super(width, height);
-        if(width < 300) throw new Exception("Window width must be at least 300");
     }
 
-    protected List<PieData> countRatiosOfSeries(List<PieData> values){
+    List<PieData> countRatiosOfSeries(List<PieData> values){
         List<Double> ratios = new ArrayList<>();
         List<PieData> chartRatios = new ArrayList<>();
 
@@ -42,8 +39,7 @@ public class PieChart extends Graph {
         }
         return chartRatios;
     }
-    protected void createArcs(double radius,List<PieData> ratios){
-        //Todo specific colors
+    void createArcs(double radius, List<PieData> ratios){
         List<Arc> arcs = new ArrayList<>();
         float sum = 0;
         Point center;
@@ -62,7 +58,7 @@ public class PieChart extends Graph {
             arc.draw();
         }
     }
-    protected void drawLegend(List<PieData> pieData){
+    void drawLegend(List<PieData> pieData){
         List<LegendItem> legendItems = new ArrayList<>();
         for(PieData pd : pieData){
             legendItems.add(new LegendItem(pd.getLabel(),pd.getColor()));
@@ -70,9 +66,8 @@ public class PieChart extends Graph {
         LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.15*height)),legendItems);
         legendArea.draw();
     }
-
     @Override
-    protected void createChart(){
+    protected void createChart() throws InvalidDataException {
         int minimum = min(width,height);
         int radius;
         if(values.size() == 0)
@@ -87,7 +82,6 @@ public class PieChart extends Graph {
         createArcs(radius,ratios);
         drawTitle();
     }
-
     public void insertData(List<PieData> data){
         for(int i = 0; i< data.size(); i++){
             if(data.get(i).getColor() == null)

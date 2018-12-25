@@ -2,6 +2,7 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.data.PointData;
 import com.graphs.lib.graph.element.*;
+import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,10 @@ public class PointChart extends Graph {
 
     private PointChartAreaSettings pointChartAreaSettings = new PointChartAreaSettings();
 
-    public PointChart(int width, int height){
+    public PointChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
     }
+
     public PointChart(){
         this.width = 900;
         this.height = 600;
