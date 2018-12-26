@@ -21,25 +21,21 @@ public class PieChart extends Graph {
         super(width, height);
     }
 
-    List<PieData> countRatiosOfSeries(List<PieData> values){
-        List<Double> ratios = new ArrayList<>();
-        List<PieData> chartRatios = new ArrayList<>();
+    private void countRatiosOfSeries(){
+        List<Double> calculatedRatios = new ArrayList<>();
 
         double sum = 0;
 
-        for (PieData element : values) {
+        for (PieData element : values)
             sum += element.getData();
-        }
-        for (PieData element : values) {
-            ratios.add(element.getData()/sum);
-        }
 
-        for(int i = 0; i<values.size(); i++){
-            chartRatios.add(new PieData(values.get(i).getLabel(),ratios.get(i),values.get(i).getColor()));
-        }
-        return chartRatios;
+        for (PieData element : values)
+            calculatedRatios.add(element.getData()/sum);
+
+        for(int i = 0; i<values.size(); i++)
+            this.ratios.add(new PieData(values.get(i).getLabel(),calculatedRatios.get(i),values.get(i).getColor()));
     }
-    void createArcs(double radius, List<PieData> ratios){
+    private void createArcs(double radius){
         List<Arc> arcs = new ArrayList<>();
         float sum = 0;
         Point center;
@@ -58,28 +54,28 @@ public class PieChart extends Graph {
             arc.draw();
         }
     }
-    void drawLegend(List<PieData> pieData){
+    private void drawLegend(){
         List<LegendItem> legendItems = new ArrayList<>();
-        for(PieData pd : pieData){
+        for(PieData pd : ratios){
             legendItems.add(new LegendItem(pd.getLabel(),pd.getColor()));
         }
         LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.15*height)),legendItems);
         legendArea.draw();
     }
     @Override
-    protected void createChart() throws InvalidDataException {
+    protected void createChart() {
         int minimum = min(width,height);
         int radius;
         if(values.size() == 0)
             insertData("Null",2.0);
-        this.ratios = countRatiosOfSeries(this.values);
+        countRatiosOfSeries();
         if(isLegendEnabled){
             radius = (int)(0.6 * minimum);
-            drawLegend(ratios);
+            drawLegend();
         }
         else
             radius = (int)(0.80 * minimum);
-        createArcs(radius,ratios);
+        createArcs(radius);
         drawTitle();
     }
     public void insertData(List<PieData> data){
@@ -97,10 +93,7 @@ public class PieChart extends Graph {
         PieData pieData = new PieData(label, data, color);
         this.values.add(pieData);
     }
-    public void enableLegend(){
-        isLegendEnabled = true;
-    }
-    public void disableLegend(){
-        isLegendEnabled = false;
+    public void insertData(PieData data){
+        this.values.add(data);
     }
 }
