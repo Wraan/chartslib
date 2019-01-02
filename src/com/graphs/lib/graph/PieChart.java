@@ -7,7 +7,6 @@ import processing.core.PConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PieChart extends Graph {
 
@@ -63,11 +62,12 @@ public class PieChart extends Graph {
         legendArea.draw();
     }
     @Override
-    protected void createChart() {
+    protected void createChart() throws InvalidDataException {
         int minimum = min(width,height);
         int radius;
-        if(values.size() == 0)
-            insertData("Null",2.0);
+        if(values.size() == 0) {
+            throw new InvalidDataException();
+        }
         countRatiosOfSeries();
         if(isLegendEnabled){
             radius = (int)(0.6 * minimum);
@@ -77,13 +77,6 @@ public class PieChart extends Graph {
             radius = (int)(0.80 * minimum);
         createArcs(radius);
         drawTitle();
-    }
-    public void insertData(List<PieData> data){
-        for(int i = 0; i< data.size(); i++){
-            if(data.get(i).getColor() == null)
-                data.get(i).setColor(ColorsPalette.colorPallette.get(i%20));
-        }
-        this.values = data;
     }
     public void insertData(String label, double data){
         PieData pieData = new PieData(label, data, ColorsPalette.colorPallette.get(values.size()%20));
@@ -95,5 +88,12 @@ public class PieChart extends Graph {
     }
     public void insertData(PieData data){
         this.values.add(data);
+    }
+    public void insertData(List<PieData> data){
+        for(int i = 0; i< data.size(); i++){
+            if(data.get(i).getColor() == null)
+                data.get(i).setColor(ColorsPalette.colorPallette.get(i%19));
+        }
+        this.values = data;
     }
 }

@@ -13,8 +13,8 @@ public class PieData {
         this.data = value;
         this.label = label;
     }
-    public PieData(String label, double data, Color color){
-        this.data = data;
+    public PieData(String label, double value, Color color){
+        this.data = value;
         this.label = label;
         this.color = color;
     }

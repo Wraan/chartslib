@@ -2,7 +2,7 @@ package com.graphs.lib.graph.exceptions;
 
 public class InvalidDataException extends Exception{
 
-    String message;
+    private String message;
 
     public InvalidDataException() {
         message = "No data inserted.";

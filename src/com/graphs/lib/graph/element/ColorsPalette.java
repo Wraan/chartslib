@@ -29,7 +29,7 @@ public final class ColorsPalette {
     public static final Color White = new Color(255, 255, 255);
 
     public static final List<Color> colorPallette = Arrays.asList(
-            Red, Blue, Orange,Green,Yellow, Brown, Pink,
+            Red, Blue, Orange, Green, Yellow, Brown, Pink,
             LightRed, LightBlue, LightGreen, LightYellow, LightBrown, LightPink,
             DarkRed, DarkBlue, DarkGreen, DarkYellow, DarkBrown, DarkPink);
 
