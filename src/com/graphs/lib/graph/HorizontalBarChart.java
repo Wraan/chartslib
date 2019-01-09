@@ -9,17 +9,17 @@ import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HorizontalColumnChart extends ColumnChart
+public class HorizontalBarChart extends BarChart
 {
 
     double horizontalStepRatio = 0;
 
-    public HorizontalColumnChart(){
+    public HorizontalBarChart(){
         super();
         setLabelFontSize(0.015f * width);
         setNumericLabelFontSize(0.015f * width);
     }
-    public HorizontalColumnChart(int width, int height) throws InvalidWindowSizeException {
+    public HorizontalBarChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
         setLabelFontSize(0.015f * width);
         setNumericLabelFontSize(0.015f * width);

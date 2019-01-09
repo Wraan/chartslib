@@ -6,16 +6,16 @@ import com.graphs.lib.graph.element.Rectangle;
 import com.graphs.lib.graph.element.Text;
 import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
-public class VerticalColumnChart extends ColumnChart{
+public class VerticalBarChart extends BarChart {
 
     double verticalStepRatio = 0;
 
-    public VerticalColumnChart(){
+    public VerticalBarChart(){
         super();
         setLabelFontSize(0.02f * height);
         setNumericLabelFontSize(0.015f * height);
     }
-    public VerticalColumnChart(int width, int height) throws InvalidWindowSizeException {
+    public VerticalBarChart(int width, int height) throws InvalidWindowSizeException {
         super(width,height);
         setLabelFontSize(0.02f * height);
         setNumericLabelFontSize(0.015f * height);

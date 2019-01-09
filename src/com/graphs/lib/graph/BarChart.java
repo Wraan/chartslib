@@ -7,7 +7,7 @@ import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class ColumnChart extends Graph
+abstract class BarChart extends Graph
 {
 
     protected List<Double> axisValues = new ArrayList();
@@ -28,11 +28,11 @@ abstract class ColumnChart extends Graph
     int thickness = 1;
 
 
-    public ColumnChart(){
+    BarChart(){
         this.width = 900;
         this.height = 600;
     }
-    public ColumnChart(int width, int height) throws InvalidWindowSizeException {
+    BarChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
     }
 
@@ -46,14 +46,14 @@ abstract class ColumnChart extends Graph
     public float getLabelFontSize() {
         return labelFontSize;
     }
-    public void setLabelFontSize(float labelFontSize) {
-        this.labelFontSize = labelFontSize;
+    public void setLabelFontSize(float fontSize) {
+        this.labelFontSize = fontSize;
     }
     public float getNumericLabelFontSize() {
         return numericLabelFontSize;
     }
-    public void setNumericLabelFontSize(float numericLabelFontSize) {
-        this.numericLabelFontSize = numericLabelFontSize;
+    public void setNumericLabelFontSize(float fontSize) {
+        this.numericLabelFontSize = fontSize;
     }
 
     public void insertData(List<ColumnData> data){
@@ -71,18 +71,18 @@ abstract class ColumnChart extends Graph
         stepAmount = step;
     }
 
-    protected void drawVerticalChartLine(double horizontalDistanceFromLeftBorder, double beginningOfLine, double endOfLine){
+    void drawVerticalChartLine(double horizontalDistanceFromLeftBorder, double beginningOfLine, double endOfLine){
         Line line = new Line(this, new Point(horizontalDistanceFromLeftBorder, beginningOfLine),
                 new Point(horizontalDistanceFromLeftBorder, endOfLine));
         line.draw();
     }
-    protected void drawHorizontalChartLine(double verticalPlacement, double beginningOfLine, double endOfLine) {
+    void drawHorizontalChartLine(double verticalPlacement, double beginningOfLine, double endOfLine) {
         Line line = new Line(this, new Point(beginningOfLine, verticalPlacement),
                 new Point(endOfLine, verticalPlacement));
         line.draw();
     }
 
-    protected void findLowestValue() {
+    void findLowestValue() {
         double minValue = data.get(0).getData();
         for (ColumnData data : data) {
             if(data.getData() < minValue)
@@ -90,7 +90,7 @@ abstract class ColumnChart extends Graph
         }
         this.minDataValue =  minValue;
     }
-    protected void findHighestValue() {
+    void findHighestValue() {
         double maxValue = data.get(0).getData();
         for (ColumnData data : data) {
             if(data.getData() > maxValue)
@@ -98,7 +98,7 @@ abstract class ColumnChart extends Graph
         }
         this.maxDataValue =  maxValue;
     }
-    public double roundNumber(double number){
+    private double roundNumber(double number){
         double calculatedNumber = number;
         if(number >= 1){
             if(number % 10 != 0 && number > 100)
@@ -115,13 +115,13 @@ abstract class ColumnChart extends Graph
 
 
     }
-    public double roundToNPlaces(double number, int n)
+    private double roundToNPlaces(double number, int n)
     {
         return Math.round(number * Math.pow(10,n)) / Math.pow(10,n);
     }
 
     //For non default step
-    protected void countNumberOfSteps(){
+    void countNumberOfSteps(){
         double counter = 0;
         while(counter < maxDataValue){
             counter += stepAmount;
@@ -135,14 +135,14 @@ abstract class ColumnChart extends Graph
             }
         }
     }
-    public int findNumberOfDecimalNumbers(double number){
+    private int findNumberOfDecimalNumbers(double number){
         String text = Double.toString(number);
         int integerPlaces = text.indexOf('.');
         int decimalPlaces = text.length() - integerPlaces ;
         return decimalPlaces;
     }
 
-    public void countNumericAxisValues(){
+    void countNumericAxisValues(){
         if(stepsAbove > 0 && stepsUnder == 0){
             maxAxisValue = stepsAbove * stepAmount;
             for(int i = stepsAbove; i >= 0;i--)
@@ -160,7 +160,7 @@ abstract class ColumnChart extends Graph
         else{
             maxAxisValue = stepsAbove * stepAmount;
             minAxisValue = stepsUnder * stepAmount;
-            if(this instanceof VerticalColumnChart)
+            if(this instanceof VerticalBarChart)
                 indexOfAxisZero = stepsAbove;
             else
                 indexOfAxisZero = stepsUnder;
@@ -172,7 +172,7 @@ abstract class ColumnChart extends Graph
             }
         }
     }
-    protected void countDefaultStepAmount(){
+    void countDefaultStepAmount(){
         int decimalNumbers;
         if(minDataValue < 0 && maxDataValue < 0){
             minAxisValue = -roundNumber(-minDataValue);
