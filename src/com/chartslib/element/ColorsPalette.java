@@ -24,7 +24,7 @@ public final class ColorsPalette {
     public static final Color LightBlue = new Color(76, 191, 255);
     public static final Color Blue = new Color(0, 127, 255);
     public static final Color DarkBlue = new Color(0, 29, 127);
-    public static final Color BackroundColor = new Color(204, 204, 204);
+    public static final Color DefaultBackground = new Color(204, 204, 204);
     public static final Color Black = new Color(0, 0, 0);
     public static final Color White = new Color(255, 255, 255);
 
