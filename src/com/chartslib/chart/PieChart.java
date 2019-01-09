@@ -16,7 +16,7 @@ public class PieChart extends Chart {
     public PieChart(){
         super();
     }
-    public PieChart(int width, int height) throws Exception {
+    public PieChart(int width, int height) {
         super(width, height);
     }
 
