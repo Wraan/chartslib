@@ -11,7 +11,7 @@ abstract class Chart extends PApplet {
 
     Boolean isLegendEnabled = true;
     Boolean isTitleEnabled = true;
-    private Color backgroundColor = new Color(204, 204, 204);
+    Color backgroundColor = new Color(204, 204, 204);
     private FileExtension fileExtension;
     private Boolean isSaveEnabled = false;
     private Boolean isSaveWithoutDrawingEnabled = false;
