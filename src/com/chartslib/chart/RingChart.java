@@ -115,7 +115,8 @@ public class RingChart extends Chart {
             createArcs(radius,ratios.get(i-1).getData());
             radius -= step;
         }
-        Circle circle = new Circle(this,center, radius/2, ColorsPalette.DefaultBackground);
+
+        Circle circle = new Circle(this,center, radius/2, backgroundColor);
         circle.draw();
         drawTitle();
     }

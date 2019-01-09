@@ -13,19 +13,19 @@ import java.util.List;
 abstract class BarChart extends Chart
 {
 
-    protected List<Double> axisValues = new ArrayList();
+    List<Double> axisValues = new ArrayList();
     protected List<BarData> data = new ArrayList();
-    protected double maxDataValue;
-    protected double minDataValue;
-    protected double maxAxisValue = 0;
-    protected double minAxisValue = 0;
-    protected int stepsAbove = 0;
-    protected int stepsUnder = 0;
+    private double maxDataValue;
+    private double minDataValue;
+    double maxAxisValue = 0;
+    double minAxisValue = 0;
+    int stepsAbove = 0;
+    int stepsUnder = 0;
     double verticalBeginningRatio = 0.1;
     double horizontalRatio = 0.95;
     double verticalRatio = 0.75;
-    protected int indexOfAxisZero = 0;
-    protected double stepAmount = 0;
+    int indexOfAxisZero = 0;
+    double stepAmount = 0;
     Color chartColor = ColorsPalette.Red;
     float labelFontSize,numericLabelFontSize;
     int thickness = 1;
@@ -70,7 +70,7 @@ abstract class BarChart extends Chart
         this.data.add(barData);
     }
 
-    public void setStepAmount(double step){
+    public void setStepDistance(double step){
         stepAmount = step;
     }
 
@@ -204,7 +204,7 @@ abstract class BarChart extends Chart
             minAxisValue = stepsUnder * stepAmount;
         }
     }
-    public void setChartBarBorderThickness(int thickness){
+    public void setBarOutlineThickness(int thickness){
         this.thickness = thickness;
     }
 }
