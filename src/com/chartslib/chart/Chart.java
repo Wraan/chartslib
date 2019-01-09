@@ -5,10 +5,12 @@ import com.chartslib.element.FileExtension;
 import com.chartslib.element.GraphTitle;
 import com.chartslib.element.Text;
 import com.chartslib.exceptions.InvalidWindowSizeException;
+import com.chartslib.exceptions.WindowException;
 import processing.core.PApplet;
 
 abstract class Chart extends PApplet {
 
+    private Boolean isDrawingStarted = false;
     Boolean isLegendEnabled = true;
     Boolean isTitleEnabled = true;
     Color backgroundColor = new Color(204, 204, 204);
@@ -74,8 +76,13 @@ abstract class Chart extends PApplet {
         title.draw();
     }
     protected abstract void createChart() throws Exception;
-    public void show() {
-        PApplet.runSketch(new String[] {Chart.class.getName()},this);
+    public void show(){
+        if(isDrawingStarted)
+            throw new WindowException("Only one window can be showed.");
+        else{
+            isDrawingStarted = true;
+            PApplet.runSketch(new String[] {Chart.class.getName()},this);
+        }
     }
     public void settings(){
 
@@ -86,7 +93,6 @@ abstract class Chart extends PApplet {
             String file = this.fileName + ".pdf";
             beginRecord(PDF, file);
         }
-
     }
     public void draw(){
         background(backgroundColor.getR(),backgroundColor.getG(),backgroundColor.getB());
@@ -121,14 +127,15 @@ abstract class Chart extends PApplet {
     public void disableTitle(){
         isTitleEnabled = false;
     }
-    public void saveChart(String fileName, FileExtension fileExtension){
+    public void enableSaving(String fileName, FileExtension fileExtension){
+        if(isDrawingStarted)
+            throw new WindowException("Cannot save after show method. Call this method before method show().");
         this.fileName = fileName;
         this.fileExtension = fileExtension;
         this.isSaveEnabled = true;
     }
-    public void saveChartWithoutDrawing(String fileName, FileExtension fileExtension) throws InterruptedException {
-
-        saveChart(fileName,fileExtension);
+    public void enableSavingWithoutDrawing(String fileName, FileExtension fileExtension) {
+        enableSaving(fileName,fileExtension);
         isSaveWithoutDrawingEnabled = true;
         show();
     }

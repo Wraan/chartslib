@@ -2,6 +2,7 @@ package com.chartslib.chart;
 
 import com.chartslib.data.PointData;
 import com.chartslib.element.*;
+import com.chartslib.exceptions.InvalidValueException;
 import com.chartslib.exceptions.InvalidWindowSizeException;
 
 import java.util.ArrayList;
@@ -70,21 +71,33 @@ public class PointChart extends Chart {
         pointChartAreaSettings.setStepType(stepType);
     }
     public void setHorizontalSeparatorsAmount(int horizontalSeparatorsAmount) {
+        if(horizontalSeparatorsAmount < 2)
+            throw new InvalidValueException("Separators amount have to be 2 or more.");
         pointChartAreaSettings.setHorizontalSeparatorsAmount(horizontalSeparatorsAmount);
     }
     public void setVerticalSeparatorsAmount(int verticalSeparatorsAmount) {
+        if(verticalSeparatorsAmount < 2)
+            throw new InvalidValueException("Separators amount have to be 2 or more.");
         pointChartAreaSettings.setVerticalSeparatorsAmount(verticalSeparatorsAmount);
     }
     public void setVerticalStepDistance(double vertStepDistance) {
+        if(vertStepDistance <= 0)
+            throw new InvalidValueException("Step distance must be greater than 0.");
         pointChartAreaSettings.setVertStepDistance(vertStepDistance);
     }
     public void setHorizontalStepDistance(double horStepDistance) {
+        if(horStepDistance <= 0)
+            throw new InvalidValueException("Step distance must be greater than 0.");
         pointChartAreaSettings.setHorStepDistance(horStepDistance);
     }
     public void setSeparatorFontSize(int separatorFontSize) {
+        if(separatorFontSize < 1)
+            throw new InvalidValueException("Font size must be greater than 0.");
         pointChartAreaSettings.setSeparatorFontSize(separatorFontSize);
     }
     public void setPointSize(int pointSize) {
+        if(pointSize < 1)
+            throw new InvalidValueException("Font size must be greater than 0.");
         pointChartAreaSettings.setPointSize(pointSize);
     }
     public void addGraphData(String label, List<Point> points){
