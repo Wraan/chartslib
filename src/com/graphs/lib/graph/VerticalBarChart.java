@@ -45,7 +45,7 @@ public class VerticalBarChart extends BarChart {
         verticalStepRatio = verticalRatio / (stepsAbove + stepsUnder);
         verticalAxisDelimitersDraw( stepsAbove + stepsUnder);
         verticalAxisValuesDraw();
-        createColumns(0.15);
+        createBars(0.15);
         horizontalAxisValuesDraw();
         horizontalAxisDelimitersDraw();
         drawTitle();
@@ -100,7 +100,7 @@ public class VerticalBarChart extends BarChart {
             text.draw();
         }
     }
-    private void createColumns(double ratioOfColumnSpaces){
+    private void createBars(double ratioOfColumnSpaces){
         Point pointStart, pointEnd;
         Rectangle rec;
         double ratioOfSpace,ratio;
