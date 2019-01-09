@@ -1,13 +1,13 @@
 package com.graphs.lib.graph.data;
 
-public class ColumnData {
+public class BarData {
     private double data;
     private String label;
 
-    public ColumnData() {
+    public BarData() {
     }
 
-    public ColumnData(String label,double data) {
+    public BarData(String label, double data) {
         this.data = data;
         this.label = label;
     }

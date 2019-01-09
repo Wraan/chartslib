@@ -1,6 +1,6 @@
 package com.graphs.lib.graph;
 
-import com.graphs.lib.graph.data.ColumnData;
+import com.graphs.lib.graph.data.BarData;
 import com.graphs.lib.graph.element.*;
 import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
 
@@ -11,7 +11,7 @@ abstract class BarChart extends Graph
 {
 
     protected List<Double> axisValues = new ArrayList();
-    protected List<ColumnData> data = new ArrayList();
+    protected List<BarData> data = new ArrayList();
     protected double maxDataValue;
     protected double minDataValue;
     protected double maxAxisValue = 0;
@@ -56,15 +56,15 @@ abstract class BarChart extends Graph
         this.numericLabelFontSize = fontSize;
     }
 
-    public void insertData(List<ColumnData> data){
+    public void insertData(List<BarData> data){
         this.data = data;
     }
     public void insertData(String label, double data){
-        ColumnData columnData = new ColumnData(label, data);
-        this.data.add(columnData);
+        BarData barData = new BarData(label, data);
+        this.data.add(barData);
     }
-    public void insertData(ColumnData columnData){
-        this.data.add(columnData);
+    public void insertData(BarData barData){
+        this.data.add(barData);
     }
 
     public void setStepAmount(double step){
@@ -84,7 +84,7 @@ abstract class BarChart extends Graph
 
     void findLowestValue() {
         double minValue = data.get(0).getData();
-        for (ColumnData data : data) {
+        for (BarData data : data) {
             if(data.getData() < minValue)
                 minValue = data.getData();
         }
@@ -92,7 +92,7 @@ abstract class BarChart extends Graph
     }
     void findHighestValue() {
         double maxValue = data.get(0).getData();
-        for (ColumnData data : data) {
+        for (BarData data : data) {
             if(data.getData() > maxValue)
                 maxValue = data.getData();
         }
