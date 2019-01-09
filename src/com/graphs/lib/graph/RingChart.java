@@ -3,17 +3,16 @@ package com.graphs.lib.graph;
 
 import com.graphs.lib.graph.data.PieData;
 import com.graphs.lib.graph.data.RingData;
-import com.graphs.lib.graph.element.Circle;
-import com.graphs.lib.graph.element.ColorsPalette;
-import com.graphs.lib.graph.element.Point;
+import com.graphs.lib.graph.element.*;
 import com.graphs.lib.graph.exceptions.InvalidDataException;
 import com.graphs.lib.graph.exceptions.InvalidInsertDataException;
+import processing.core.PConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RingChart extends PieChart{
+public class RingChart extends Graph{
 
     private List<RingData> values = new ArrayList<>();
     private List<RingData> ratios = new ArrayList<>();
@@ -24,6 +23,52 @@ public class RingChart extends PieChart{
     }
     public RingChart(int width, int height) throws Exception {
         super(width, height);
+    }
+
+    private List<PieData> countRatiosOfSeries(List<PieData> values){
+        List<Double> ratios = new ArrayList<>();
+        List<PieData> chartRatios = new ArrayList<>();
+
+        double sum = 0;
+
+        for (PieData element : values) {
+            sum += element.getData();
+        }
+        for (PieData element : values) {
+            ratios.add(element.getData()/sum);
+        }
+
+        for(int i = 0; i<values.size(); i++){
+            chartRatios.add(new PieData(values.get(i).getLabel(),ratios.get(i),values.get(i).getColor()));
+        }
+        return chartRatios;
+    }
+    private void createArcs(double radius, List<PieData> ratios){
+        List<Arc> arcs = new ArrayList<>();
+        float sum = 0;
+        Point center;
+        if(isLegendEnabled)
+            center = new Point(0.35*width,0.5*height);
+        else
+            center = new Point(0.5*width,0.5*height);
+
+        for(int i = 0; i < ratios.size();i++){
+            arcs.add(new Arc(this,center,radius,
+                    (sum * 2 * PConstants.PI) - (PConstants.PI/2),(float)(((sum + ratios.get(i).getData()) * PConstants.PI*2)) - (PConstants.PI/2),ratios.get(i).getColor(),ColorsPalette.Black,0,1));
+            sum+=ratios.get(i).getData();
+
+        }
+        for (Arc arc: arcs) {
+            arc.draw();
+        }
+    }
+    private void drawLegend(List<PieData> pieData){
+        List<LegendItem> legendItems = new ArrayList<>();
+        for(PieData pd : pieData){
+            legendItems.add(new LegendItem(pd.getLabel(),pd.getColor()));
+        }
+        LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.15*height)),legendItems);
+        legendArea.draw();
     }
 
     public void insertData(String title, List<PieData> data) throws Exception {

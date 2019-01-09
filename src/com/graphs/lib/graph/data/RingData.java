@@ -3,8 +3,8 @@ package com.graphs.lib.graph.data;
 import java.util.List;
 
 public class RingData {
-    List<PieData> data;
-    String title;
+    private List<PieData> data;
+    private String title;
 
     public RingData() {
     }
