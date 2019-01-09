@@ -23,6 +23,14 @@ public class Rectangle implements Drawable {
         this.color = color;
     }
 
+    public Rectangle(PApplet parent, Point leftUp, Point rightDown, Color color, int thickness){
+        this.parent = parent;
+        this.leftUp = leftUp;
+        this.rightDown = rightDown;
+        this.color = color;
+        this.thickness = thickness;
+    }
+
     public Rectangle(PApplet parent, Point leftUp, Point rightDown, Color color, int thickness, Color outColor){
         this.parent = parent;
         this.leftUp = leftUp;
