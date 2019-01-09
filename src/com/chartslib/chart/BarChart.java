@@ -1,13 +1,16 @@
-package com.graphs.lib.graph;
+package com.chartslib.chart;
 
-import com.graphs.lib.graph.data.BarData;
-import com.graphs.lib.graph.element.*;
-import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
+import com.chartslib.data.BarData;
+import com.chartslib.element.Color;
+import com.chartslib.element.ColorsPalette;
+import com.chartslib.element.Line;
+import com.chartslib.element.Point;
+import com.chartslib.exceptions.InvalidWindowSizeException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class BarChart extends Graph
+abstract class BarChart extends Chart
 {
 
     protected List<Double> axisValues = new ArrayList();

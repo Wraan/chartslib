@@ -1,10 +1,10 @@
-package com.graphs.lib.graph;
+package com.chartslib.chart;
 
-import com.graphs.lib.graph.element.Line;
-import com.graphs.lib.graph.element.Point;
-import com.graphs.lib.graph.element.Rectangle;
-import com.graphs.lib.graph.element.Text;
-import com.graphs.lib.graph.exceptions.InvalidWindowSizeException;
+import com.chartslib.element.Line;
+import com.chartslib.element.Point;
+import com.chartslib.element.Rectangle;
+import com.chartslib.element.Text;
+import com.chartslib.exceptions.InvalidWindowSizeException;
 
 public class VerticalBarChart extends BarChart {
 
@@ -126,5 +126,4 @@ public class VerticalBarChart extends BarChart {
             rec.draw();
         }
     }
-
 }

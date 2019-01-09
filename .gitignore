@@ -103,7 +103,7 @@ fabric.properties
 
 # Test class
 src/**/test
-src/com/graphs/test/Main.java
+src/com/chartslib/test/Main.java
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
