@@ -9,6 +9,8 @@ public class PointChartAreaSettings {
     private int separatorFontSize = 12;
     private int pointSize = 8;
     private int linesThickness = 3;
+    private String verticalLabel = "y";
+    private String horizontalLabel = "x";
 
     public StepType getStepType() {
         return stepType;
@@ -72,5 +74,21 @@ public class PointChartAreaSettings {
 
     public void setLinesThickness(int linesThickness) {
         this.linesThickness = linesThickness;
+    }
+
+    public String getVerticalLabel() {
+        return verticalLabel;
+    }
+
+    public void setVerticalLabel(String verticalLabel) {
+        this.verticalLabel = verticalLabel;
+    }
+
+    public String getHorizontalLabel() {
+        return horizontalLabel;
+    }
+
+    public void setHorizontalLabel(String horizontalLabel) {
+        this.horizontalLabel = horizontalLabel;
     }
 }

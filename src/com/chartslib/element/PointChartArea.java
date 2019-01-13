@@ -6,7 +6,7 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointChartArea implements Drawable{
+public class  PointChartArea implements Drawable{
     private PApplet parent;
     private Point start;
     private List<PointData> graphData;
@@ -26,6 +26,8 @@ public class PointChartArea implements Drawable{
     private int verticalSeparatorsAmount;
     private double vertStepDistance;
     private double horStepDistance;
+    private String verticalLabel;
+    private String horizontalLabel;
     private int separatorFontSize;
     private int pointSize;
     private Type type = Type.PointChart;
@@ -51,23 +53,28 @@ public class PointChartArea implements Drawable{
         this.separatorFontSize = settings.getSeparatorFontSize();
         this.pointSize = settings.getPointSize();
         this.linesThickness = settings.getLinesThickness();
+        this.verticalLabel = settings.getVerticalLabel();
+        this.horizontalLabel = settings.getHorizontalLabel();
     }
 
     @Override
     public void draw() {
+        getHighestAndLowestNumbers();
+        getVerticalAndHorizontalRatios();
+        getAxisCoordinates();
+
         if(type == Type.PointChart)
             drawPointChart();
         else if(type == Type.LineChart)
             drawLineChart();
         else if(type == Type.LayerChart)
             drawLayerChart();
+
+        drawEmptyChart();
+        drawSeparatorsWithLabels();
     }
 
     private void drawPointChart() {
-        getHighestAndLowestNumbers();
-        getVerticalAndHorizontalRatios();
-        drawEmptyChart();
-        drawSeparatorsWithLabels();
         insertPointsOnChart();
     }
     private void drawLineChart() {
@@ -75,12 +82,7 @@ public class PointChartArea implements Drawable{
         drawLinesBetweenPoints();
     }
     private void drawLayerChart() {
-        getHighestAndLowestNumbers();
-        getVerticalAndHorizontalRatios();
-        drawEmptyChart();
         drawLayers();
-        drawEmptyChart();
-        drawSeparatorsWithLabels();
     }
 
     private void getHighestAndLowestNumbers() {
@@ -137,7 +139,7 @@ public class PointChartArea implements Drawable{
         drawVerticalGraphLine();
         drawHorizontalGraphLine();
     }
-    private void drawHorizontalGraphLine() {
+    private void getAxisCoordinates(){
         if(highestV == 0 && lowestV == 0)
             yAxis = start.getY() + 0.5*areaHeight;
         else if(highestV > 0 && lowestV > 0)
@@ -147,11 +149,7 @@ public class PointChartArea implements Drawable{
         else{
             yAxis = start.getY() + 0.1*areaHeight + (verticalRatio * highestV);
         }
-        Line line = new Line(parent, new Point(start.getX() + 0.08*areaWidth, yAxis),
-                new Point(start.getX() + 0.92*areaWidth, yAxis));
-        line.draw();
-    }
-    private void drawVerticalGraphLine(){
+
         if(highestH == 0 && lowestH == 0)
             xAxis = start.getX() + 0.5*areaWidth;
         else if(highestH > 0 && lowestH > 0)
@@ -161,9 +159,28 @@ public class PointChartArea implements Drawable{
         else {
             xAxis = start.getX() + 0.1*areaWidth + (horizonalRatio * -lowestH);
         }
+    }
+    private void drawHorizontalGraphLine() {
+        Line line = new Line(parent, new Point(start.getX() + 0.08*areaWidth, yAxis),
+                new Point(start.getX() + 0.92*areaWidth, yAxis));
+        line.draw();
+        Text text = new Text(parent, horizontalLabel, new Rectangle(parent, new Point(start.getX() + 0.92*areaWidth, yAxis ),
+                new Point(start.getX() + areaWidth, start.getY() + areaHeight)));
+        text.setVerticalAlign(Text.Align.TOP);
+        text.setHorizontalAlign(Text.Align.LEFT);
+        text.setFontSize(separatorFontSize + 3);
+        text.draw();
+    }
+    private void drawVerticalGraphLine(){
         Line line = new Line(parent, new Point(xAxis, start.getY() + 0.08*areaHeight),
                 new Point(xAxis, start.getY() + 0.92*areaHeight));
         line.draw();
+        Text text = new Text(parent, verticalLabel, new Rectangle(parent, new Point(xAxis, start.getY()),
+                new Point(start.getX() + areaWidth, start.getY() + 0.08*areaHeight)));
+        text.setVerticalAlign(Text.Align.BOTTOM);
+        text.setHorizontalAlign(Text.Align.LEFT);
+        text.setFontSize(separatorFontSize + 3);
+        text.draw();
     }
     private void drawSeparatorsWithLabels() {
         drawVerticalSeparatorsWithLabels();
