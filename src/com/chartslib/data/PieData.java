@@ -1,6 +1,7 @@
 package com.chartslib.data;
 
 import com.chartslib.element.Color;
+import com.chartslib.element.ColorsPalette;
 
 public class PieData {
     private double data;
@@ -12,6 +13,7 @@ public class PieData {
     public PieData(String label, double value) {
         this.data = value;
         this.label = label;
+        this.color = ColorsPalette.Red;
     }
     public PieData(String label, double value, Color color){
         this.data = value;

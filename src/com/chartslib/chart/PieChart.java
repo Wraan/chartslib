@@ -45,7 +45,7 @@ public class PieChart extends Chart {
 
         for(int i = 0; i < ratios.size();i++){
             arcs.add(new Arc(this,center,radius,
-                    (sum * 2 * PConstants.PI) - (PConstants.PI/2),(float)(((sum + ratios.get(i).getData()) * PConstants.PI*2)) - (PConstants.PI/2),ratios.get(i).getColor(),ColorsPalette.Black,0,1));
+                    sum * 2 * PConstants.PI - (PConstants.PI/2),(float)(((sum + ratios.get(i).getData()) * PConstants.PI*2)) - (PConstants.PI/2),ratios.get(i).getColor(),ColorsPalette.Black,0,1));
             sum+=ratios.get(i).getData();
 
         }
@@ -62,7 +62,7 @@ public class PieChart extends Chart {
         legendArea.draw();
     }
     @Override
-    protected void createChart() throws InvalidDataException {
+    protected void createChart(){
         int minimum = min(width,height);
         int radius;
         if(values.size() == 0) {
@@ -70,13 +70,12 @@ public class PieChart extends Chart {
         }
         countRatiosOfSeries();
         if(isLegendEnabled){
-            radius = (int)(0.6 * minimum);
+            radius = (int)(0.75 * minimum);
             drawLegend();
         }
         else
             radius = (int)(0.80 * minimum);
         createArcs(radius);
-        drawTitle();
     }
     public void insertData(String label, double data){
         PieData pieData = new PieData(label, data, ColorsPalette.colorPallette.get(values.size()%20));
