@@ -22,7 +22,7 @@ public class HorizontalBarChart extends BarChart
     public HorizontalBarChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
         setLabelFontSize(0.015f * width);
-        setNumericLabelFontSize(0.015f * width);
+        setNumericLabelFontSize(15f);
     }
 
     @Override
