@@ -11,7 +11,7 @@ public class PointChart extends Chart {
 
     private List<PointData> graphData = new ArrayList<>();
 
-    private PointChartAreaSettings pointChartAreaSettings = new PointChartAreaSettings();
+    protected PointChartAreaSettings pointChartAreaSettings = new PointChartAreaSettings();
 
     public PointChart(int width, int height) throws InvalidWindowSizeException {
         super(width, height);
@@ -95,6 +95,13 @@ public class PointChart extends Chart {
     }
     public void addGraphData(PointData pointData){
         graphData.add(pointData);
+    }
+
+    public void setVerticalLabel(String label){
+        pointChartAreaSettings.setVerticalLabel(label);
+    }
+    public void setHorizontalLabel(String label){
+        pointChartAreaSettings.setHorizontalLabel(label);
     }
 
 }

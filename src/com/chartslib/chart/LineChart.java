@@ -22,4 +22,7 @@ public class LineChart extends PointChart {
         pointChartArea.setType(PointChartArea.Type.LineChart);
         pointChartArea.draw();
     }
+    public void setLinesThickness(int thickness){
+        pointChartAreaSettings.setLinesThickness(thickness);
+    }
 }
