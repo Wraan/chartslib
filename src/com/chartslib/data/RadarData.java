@@ -3,21 +3,25 @@ package com.chartslib.data;
 import com.chartslib.element.Color;
 
 public class RadarData {
-    private String label;
-    private double[] data;
-    private Color color;
-
+    //Fields
+    private String                  label;
+    private double[]                data;
+    private Color                   color;
+    //~Fields
+    //--------------------------------------------------------------------------------------------
+    //Constructors
     public RadarData(double[] data, String label, Color color) {
-        this(data, label);
+        this.data = data;
+        this.label = label;
         this.color = color;
     }
 
     public RadarData(double[] data, String label) {
-        this.data = data;
-        this.label = label;
+        this(data, label, null);
     }
-
-
+    //~Constructors
+    //--------------------------------------------------------------------------------------------
+    //Getter and Setter
     public String getLabel() {
         return label;
     }
@@ -37,4 +41,5 @@ public class RadarData {
     public Color getColor() {return color; }
 
     public void setColor(Color color) { this.color = color; }
+    //~Getter and Setter
 }

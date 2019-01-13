@@ -3,41 +3,46 @@ package com.chartslib.chart;
 
 import com.chartslib.data.RadarData;
 import com.chartslib.element.*;
-import com.chartslib.exceptions.InvalidWindowSizeException;
+import com.chartslib.exceptions.InvalidValueException;
 
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
+
 public class RadarChart extends Chart {
-    private String[]                                labels = null;
-    private ArrayList<RadarData>                    data = null;
-    private Contour                                 contour = Contour.Circle;
-    private double                                  step = 0.0;
-    private Color contourColor = new Color(101, 101, 101);
+    //Fields
+    private String[]                                labels              = null;
+    private ArrayList<RadarData>                    data                = null;
+    private ContourType                             contourType         = ContourType.Circle;
+    private double                                  step                = 0.0;
+    private Color                                   contourColor        = new Color(101, 101, 101);
     private float                                   radius;
-    private Point graphCenter;
-    private StepType stepType = StepType.STEP_AMMOUNT;
-    private double                                  maxValueOfSeries = -1;
-    //Constants
-    private final int                               maxContourNumber = 10;
-    private int                                     contourNumber = 10;
+    private Point                                   graphCenter;
+    private StepType                                stepType            = StepType.STEP_AMMOUNT;
+    private double                                  maxValueOfSeries    = -1;
+    private int                                     contourNumber       = 10;
     private double                                  radiusRatio;
+    //~Fields
+    //--------------------------------------------------------------------------------------------
+    //Constants
+    private final int                               maxContourNumber    = 10;
     //~Constants
-
-    public double getStep() {
-        return step;
+    //--------------------------------------------------------------------------------------------
+    //Internal DataType
+    public enum ContourType {
+        Circle, Polygon
     }
+    //~Internal DataType
+    //--------------------------------------------------------------------------------------------
+    //Getter and Setter
 
-    public void setStep(double step) {
+    public void setStepDistance(double step) {
+        if(step <= 0)
+            throw new InvalidValueException("step must to be greater then 0");
         this.step = step;
     }
-
-    public StepType getStepType() {
-        return stepType;
-    }
-
     public void setStepType(StepType stepType) {
         this.stepType = stepType;
         if(stepType == StepType.STEP_DISTANCE) {
@@ -45,18 +50,46 @@ public class RadarChart extends Chart {
         }
     }
 
-    public RadarChart(int width, int height) throws InvalidWindowSizeException {
+    public void setContourType(ContourType contourType) {
+        this.contourType = contourType;
+    }
+
+    public void setLabels(String[] labels) {
+        if(data == null) {
+            this.labels = labels;
+        }
+        else {
+            if(data.get(0).getData().length != labels.length) {
+                throw new InvalidValueException("Series_length="+data.get(0).getData().length+"; labels_length="+labels.length);
+            }
+            else {
+                this.labels = labels;
+            }
+        }
+    }
+    //~Getter and Setter
+    //--------------------------------------------------------------------------------------------
+    //Constructors
+    public RadarChart(int width, int height) {
         super(width, height);
     }
 
-    //TODO add custom exception of incorrect series length
+    public RadarChart() {
+        this(800, 600);
+    }
+    //~Constructors
+    //--------------------------------------------------------------------------------------------
+    //Public methods
     public void addSeries(RadarData series)  {
         if(data == null) {
             data = new ArrayList<RadarData>();
             data.add(series);
         } else {
             if(data.get(0).getData().length != series.getData().length) {
-                //TODO: throw new Exception("");
+                throw new InvalidValueException("New series_length="+series.getData().length+"; Previous series_length="+data.get(0).getData().length);
+            }
+            else if(labels != null && series.getData().length != labels.length) {
+                throw new InvalidValueException("New series_length="+series.getData().length+"; labels_length="+labels.length);
             }
             else {
                 data.add(series);
@@ -68,12 +101,14 @@ public class RadarChart extends Chart {
         RadarData newSeries = new RadarData(series, label);
         this.addSeries(newSeries);
     }
-
+    //~Public methods
+    //--------------------------------------------------------------------------------------------
+    //Inherited methods
     @Override
-    public void draw() {
+    protected void createChart() {
         prepareData();
         calculateProportion();
-        drawTitle();
+//        drawTitle();
         drawEmptyChart();
         drawContour();
         drawEmptyChart();
@@ -83,12 +118,9 @@ public class RadarChart extends Chart {
         drawLegends();
         noLoop();
     }
-
-    @Override
-    protected void createChart() {
-
-    }
-
+    //~Inherited methods
+    //--------------------------------------------------------------------------------------------
+    //Private methods
     private void calculateProportion() {
         graphCenter = new Point(1.0f*width/2, 1.0f*height/2);
         if(isLegendEnabled) {
@@ -102,7 +134,6 @@ public class RadarChart extends Chart {
     private void prepareData() {
         for(int i = 0; i < data.size(); i++) {
             if(data.get(i).getColor() == null) {
-                //TODO add picking color from ListColor
                 data.get(i).setColor(ColorsPalette.colorPallette.get(i % ColorsPalette.colorPallette.size()));
             }
             if(data.get(i).getLabel() == null) {
@@ -198,20 +229,16 @@ public class RadarChart extends Chart {
         }
         LegendArea legend = new LegendArea(this, new Point(2*width/3, 0.15*height), legendItems);
         legend.draw();
-
     }
 
     private void drawContour()   {
-        //TODO more Contour, Exception
         calculateStep();
 
-        switch(getContour()) {
+        switch(contourType) {
             case Circle:    drawCircleContour();            break;
             case Polygon:   drawPolygonContour();           break;
             default:
         }
-
-
     }
 
     private void drawStep() {
@@ -239,7 +266,6 @@ public class RadarChart extends Chart {
             step = maxValueOfSeries / maxContourNumber;
             contourNumber = maxContourNumber;
         } else {
-            //TODO throw exception if step<=0
             contourNumber = ceil((float)(maxValueOfSeries / step));
         }
 
@@ -280,31 +306,10 @@ public class RadarChart extends Chart {
         return maxValue;
     }
 
-    public Contour getContour() {
-        return contour;
-    }
-
-    public void setContour(Contour contour) {
-        this.contour = contour;
-    }
-
-    public String[] getLabels() {
-        return labels;
-    }
-
-    public void setLabels(String[] labels) {
-        //TODO add exception of incorrect labels length
-        this.labels = labels;
-    }
-
     private Point polarCoordinatesInGraph(float angle, float radius) {
         double x = graphCenter.getX() + cos(angle) * radius;
         double y = graphCenter.getY() + sin(angle) * radius;
         return new Point(x, y);
-    }
-
-    public enum Contour{
-        Circle, Polygon
     }
 
     private static String round(double value, int places) {
@@ -314,4 +319,5 @@ public class RadarChart extends Chart {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.toString();
     }
+    //~Private methods
 }
