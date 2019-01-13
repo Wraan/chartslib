@@ -75,7 +75,7 @@ abstract class Chart extends PApplet {
     void drawTitle(){
         title.draw();
     }
-    protected abstract void createChart() throws Exception;
+    protected abstract void createChart();
     public void show(){
         if(isDrawingStarted)
             throw new WindowException("Only one window can be showed.");

@@ -51,7 +51,6 @@ public class HorizontalBarChart extends BarChart
         createBars(0.15);
         verticalAxisValuesDraw();
         verticalAxisDelimitersDraw();
-        drawTitle();
     }
 
     private void horizontalAxisDelimitersDraw(int numberOfLines){

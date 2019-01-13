@@ -15,13 +15,20 @@ public class RingChart extends Chart {
 
     private List<RingData> values = new ArrayList<>();
     private List<RingData> ratios = new ArrayList<>();
-    private int uniqueColorsUsed = 0;
+    private boolean autoColor = false;
 
     public RingChart() {
         super();
     }
-    public RingChart(int width, int height) throws Exception {
+    public RingChart(int width, int height){
         super(width, height);
+    }
+
+    public void enableAutoColors(){
+        autoColor = true;
+    }
+    public void disableAutoColors(){
+        autoColor = false;
     }
 
     private List<PieData> countRatiosOfSeries(List<PieData> values){
@@ -70,16 +77,17 @@ public class RingChart extends Chart {
         legendArea.draw();
     }
 
-    public void insertData(String title, List<PieData> data) throws Exception {
+
+    public void insertData(String title, List<PieData> data){
         if(values.size() == 5)
             throw new InvalidInsertDataException(5);
-        if(values.size() == 0)
+        else if(values.size() == 0 && autoColor)
             for(int i = 0; i<data.size();i++)
                 data.get(i).setColor(ColorsPalette.colorPallette.get(i));
-        else if(data.size() != values.get(0).getData().size()){
+        else if(values.size() != 0 && data.size() != values.get(0).getData().size()){
             throw new InvalidInsertDataException(values.get(0).getData().size(),data.size());
         }
-        else{
+        else if(values.size() != 0 ){
             for(int i = 0; i<data.size(); i++){
                 if(data.get(i).getLabel().equals(values.get(0).getData().get(i).getLabel()))
                     data.get(i).setColor(values.get(0).getData().get(i).getColor());
@@ -90,7 +98,7 @@ public class RingChart extends Chart {
         values.add(new RingData(title,data));
     }
     @Override
-    protected void createChart() throws InvalidDataException {
+    protected void createChart(){
         int minimum = min(width,height);
         double radius,step;
         Point center;
@@ -102,7 +110,7 @@ public class RingChart extends Chart {
             this.ratios.add(new RingData(values.get(i).getTitle(),countRatiosOfSeries(this.values.get(i).getData())));
         if(isLegendEnabled){
             center = new Point(0.35*width,0.5*height);
-            radius = (int)(0.6 * minimum);
+            radius = (int)(0.75 * minimum);
             drawLegend(values.get(0).getData());
         }
         else{
