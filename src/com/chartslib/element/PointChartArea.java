@@ -251,7 +251,7 @@ public class  PointChartArea implements Drawable{
         }
         else{
             //up
-            for(int i = 1; yAxis + (i * vertStepDistance * verticalRatio) <= start.getY() + 0.9 * areaHeight; i++){
+            for(int i = 1; yAxis + (i * vertStepDistance * verticalRatio) <= start.getY() + 0.92 * areaHeight; i++){
                 line = new Line(parent, new Point(xAxis -0.005*areaWidth, yAxis + (i * vertStepDistance * verticalRatio)),
                         new Point(xAxis +0.005*areaWidth, yAxis + (i * vertStepDistance * verticalRatio)));
                 line.draw();
@@ -264,7 +264,7 @@ public class  PointChartArea implements Drawable{
                 text.draw();
             }
             //down
-            for(int i = 1; yAxis - (i * vertStepDistance * verticalRatio) >= start.getY() + 0.1 * areaHeight; i++) {
+            for(int i = 1; yAxis - (i * vertStepDistance * verticalRatio) >= start.getY() + 0.08 * areaHeight; i++) {
                 line = new Line(parent, new Point(xAxis - 0.005 * areaWidth, yAxis - (i * vertStepDistance * verticalRatio)),
                         new Point(xAxis + 0.005 * areaWidth, yAxis - (i * vertStepDistance * verticalRatio)));
                 line.draw();

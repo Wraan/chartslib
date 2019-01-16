@@ -19,6 +19,7 @@ abstract class Chart extends PApplet {
     private Boolean isSaveWithoutDrawingEnabled = false;
     private String fileName = "";
     private GraphTitle title = new GraphTitle(this, "no title", 24, Text.Align.TOP, Text.Align.CENTER, new Color(0,0,0));
+    protected int legendFontSize = 12;
 
 
     Chart() {
@@ -38,18 +39,18 @@ abstract class Chart extends PApplet {
     public Color getBackgroundColor() {
         return backgroundColor;
     }
-    public void setTitle(String title, float fontsize, Text.Align vAlign, Text.Align hAlign, Color color){
+    public void setTitle(String title, int fontsize, Text.Align vAlign, Text.Align hAlign, Color color){
         setTitle(title);
         setTitleFontSize(fontsize);
         setTitleVAlign(vAlign);
         setTitleHAlign(hAlign);
         setTitleColor(color);
     }
-    public void setTitle(String title, float fontsize ){
+    public void setTitle(String title, int fontsize ){
         setTitle(title);
         setTitleFontSize(fontsize);
     }
-    public void setTitle(String title, float fontsize, Text.Align vAlign, Text.Align hAlign){
+    public void setTitle(String title, int fontsize, Text.Align vAlign, Text.Align hAlign){
         setTitle(title);
         setTitleFontSize(fontsize);
         setTitleVAlign(vAlign);
@@ -61,7 +62,7 @@ abstract class Chart extends PApplet {
     public void setTitleColor(Color color){
         this.title.setColor(color);
     }
-    public void setTitleFontSize(float fontSize){
+    public void setTitleFontSize(int fontSize){
         this.title.setFontsize(fontSize);
     }
     public void setTitleVAlign(Text.Align vAlign){
@@ -138,5 +139,9 @@ abstract class Chart extends PApplet {
         enableSaving(fileName,fileExtension);
         isSaveWithoutDrawingEnabled = true;
         show();
+    }
+
+    public void setLegendFontSize(int legendFontSize) {
+        this.legendFontSize = legendFontSize;
     }
 }

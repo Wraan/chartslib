@@ -59,6 +59,7 @@ public class PieChart extends Chart {
             legendItems.add(new LegendItem(pd.getLabel(),pd.getColor()));
         }
         LegendArea legendArea = new LegendArea(this,new Point(0.67*width,(0.15*height)),legendItems);
+        legendArea.setFontSize(legendFontSize);
         legendArea.draw();
     }
     @Override
