@@ -80,7 +80,7 @@ public class RadarChart extends Chart {
     //~Constructors
     //--------------------------------------------------------------------------------------------
     //Public methods
-    public void addSeries(RadarData series)  {
+    public void insertData(RadarData series)  {
         if(data == null) {
             data = new ArrayList<RadarData>();
             data.add(series);
@@ -97,9 +97,9 @@ public class RadarChart extends Chart {
         }
     }
 
-    public void addSeries(double[] series, String label) {
+    public void insertData(double[] series, String label) {
         RadarData newSeries = new RadarData(series, label);
-        this.addSeries(newSeries);
+        this.insertData(newSeries);
     }
     //~Public methods
     //--------------------------------------------------------------------------------------------
@@ -228,6 +228,7 @@ public class RadarChart extends Chart {
             legendItems.add(item);
         }
         LegendArea legend = new LegendArea(this, new Point(2*width/3, 0.15*height), legendItems);
+        legend.setFontSize(legendFontSize);
         legend.draw();
     }
 

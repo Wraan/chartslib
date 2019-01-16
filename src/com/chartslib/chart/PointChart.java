@@ -56,6 +56,7 @@ public class PointChart extends Chart {
     private void drawLegend() {
         List<LegendItem> legendItems = getLegendItems(graphData);
         LegendArea legend = new LegendArea(this, new Point(0.8*width, 0.1*height), legendItems);
+        legend.setFontSize(legendFontSize);
         legend.draw();
     }
 
@@ -100,13 +101,13 @@ public class PointChart extends Chart {
             throw new InvalidValueException("Font size must be greater than 0.");
         pointChartAreaSettings.setPointSize(pointSize);
     }
-    public void addGraphData(String label, List<Point> points){
+    public void insertData(String label, List<Point> points){
         graphData.add(new PointData(label, points));
     }
-    public void addGraphData(String label, List<Point> points, Color color){
+    public void insertData(String label, List<Point> points, Color color){
         graphData.add(new PointData(label, points, color));
     }
-    public void addGraphData(PointData pointData){
+    public void insertData(PointData pointData){
         graphData.add(pointData);
     }
 
